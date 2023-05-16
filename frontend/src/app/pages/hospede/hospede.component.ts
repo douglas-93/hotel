@@ -88,7 +88,7 @@ export class HospedeComponent implements OnInit {
     this.popup = false;
   }
 
-  salvarHospede(e: SubmitEvent) {
+  salvarHospede() {
     console.log(this.novoHospede)
   }
 }

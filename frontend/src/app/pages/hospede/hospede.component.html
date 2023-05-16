@@ -82,20 +82,38 @@
       width="100%">
 
       <dx-form
-        (submit)="salvarHospede($event)"
+        (submit)="salvarHospede()"
         [colCount]="2"
         [formData]="novoHospede"
       >
         <dxi-item caption="Dados Pessoais" itemType="group">
-          <dxi-item [isRequired]="true" dataField="nome"></dxi-item>
-          <dxi-item [isRequired]="true" dataField="cpf"></dxi-item>
+          <dxi-item
+            [isRequired]="true"
+            dataField="nome">
+          </dxi-item>
+          <dxi-item
+            editorType="dxTextBox"
+            [editorOptions]="{
+              mask: '000.000.000-00',
+            }"
+            [isRequired]="true"
+            dataField="cpf">
+          </dxi-item>
           <dxi-item [isRequired]="true" dataField="nascimento"></dxi-item>
         </dxi-item>
         <dxi-item caption="Contato" itemType="group">
           <dxi-item itemType="tabbed">
             <dxi-tab title="Contato">
-              <dxi-item dataField="telefone"></dxi-item>
-              <dxi-item dataField="celular"></dxi-item>
+              <dxi-item dataField="telefone"
+                        editorType="dxTextBox"
+                        [editorOptions]="{
+              mask: '(00) 0000-0000',
+            }"></dxi-item>
+              <dxi-item dataField="celular"
+                        editorType="dxTextBox"
+                        [editorOptions]="{
+              mask: '(00) 00000-0000',
+            }"></dxi-item>
               <dxi-item dataField="email">
                 <dxi-validation-rule type="email">
                 </dxi-validation-rule>
@@ -105,26 +123,31 @@
               <dxi-item dataField="observacao"></dxi-item>
             </dxi-tab>
           </dxi-item>
-
-            <dxi-item
-              [buttonOptions]="{
-              text: 'Salvar',
-              type: 'success',
-              useSubmitBehavior: true
-            }"
-              itemType="button">
-            </dxi-item>
-
-            <dxi-item
-              [buttonOptions]="{
-            text: 'Cancelar',
-            type: 'danger',
-            }"
-              itemType="button" (click)="closePopup()">
-            </dxi-item>
         </dxi-item>
-      </dx-form>
 
+        <dxi-item colCount="2" itemType="group">
+          <dxi-item [label]="{visible: false}" [template]="'botaoSalvar'"></dxi-item>
+          <dxi-item [label]="{visible: false}" [template]="'botaoCancelar'"></dxi-item>
+        </dxi-item>
+
+        <div *dxTemplate="let data of 'botaoSalvar'">
+          <dx-button [useSubmitBehavior]="true"
+                     hint="Salvar Hospede"
+                     icon="save"
+                     text="Salvar"
+                     type="success"></dx-button>
+        </div>
+
+        <div *dxTemplate="let data of 'botaoCancelar'">
+          <dx-button (onClick)="closePopup()"
+                     hint="Voltar para Grid"
+                     icon="close"
+                     text="Cancelar"
+                     type="danger"
+          ></dx-button>
+        </div>
+
+      </dx-form>
     </dx-scroll-view>
 
   </dx-popup>
