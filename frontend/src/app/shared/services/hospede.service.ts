@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {HospedeModel} from "../models/hospede.model";
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class HospedeService {
 
-  url: string = 'http://localhost:8080/hospedes'
+	url: string = 'http://localhost:8080/hospedes'
 
-  constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient) {
+	}
 
-  getAll() {
-    return this.http.get<HospedeModel[]>(this.url);
-  }
+	getAll() {
+		return this.http.get<HospedeModel[]>(this.url);
+	}
 }

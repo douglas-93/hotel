@@ -53,8 +53,7 @@ public class HospedeService {
         hospede.setNome(hospedeAlterado.getNome());
         hospede.setNascimento(hospedeAlterado.getNascimento());
         hospede.setCpf(hospedeAlterado.getCpf());
-        hospede.setNomeMae(hospedeAlterado.getNomeMae());
-        hospede.setNomePai(hospedeAlterado.getNomePai());
+        hospede.setObservacao(hospedeAlterado.getObservacao());
         hospede.setTelefone(hospedeAlterado.getTelefone());
         hospede.setEmail(hospedeAlterado.getEmail());
         hospede.setCelular(hospedeAlterado.getCelular());

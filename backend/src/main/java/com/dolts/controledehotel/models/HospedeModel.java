@@ -17,13 +17,12 @@ public class HospedeModel implements Serializable {
     private String email;
     private String celular;
     private String telefone;
-    private String nomeMae;
-    private String nomePai;
+    private String observacao;
 
     public HospedeModel() {
     }
 
-    public HospedeModel(Long id, String nome, Date nascimento, String cpf, String email, String celular, String telefone, String nomeMae, String nomePai) {
+    public HospedeModel(Long id, String nome, Date nascimento, String cpf, String email, String celular, String telefone, String observacao) {
         this.id = id;
         this.nome = nome;
         this.nascimento = nascimento;
@@ -31,8 +30,7 @@ public class HospedeModel implements Serializable {
         this.email = email;
         this.celular = celular;
         this.telefone = telefone;
-        this.nomeMae = nomeMae;
-        this.nomePai = nomePai;
+        this.observacao = observacao;
     }
 
     public Long getId() {
@@ -67,20 +65,12 @@ public class HospedeModel implements Serializable {
         this.cpf = cpf;
     }
 
-    public String getNomeMae() {
-        return nomeMae;
+    public String getObservacao() {
+        return observacao;
     }
 
-    public void setNomeMae(String nomeMae) {
-        this.nomeMae = nomeMae;
-    }
-
-    public String getNomePai() {
-        return nomePai;
-    }
-
-    public void setNomePai(String nomePai) {
-        this.nomePai = nomePai;
+    public void setObservacao(String nomeMae) {
+        this.observacao = nomeMae;
     }
 
     public String getEmail() {

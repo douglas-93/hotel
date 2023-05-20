@@ -1,155 +1,107 @@
-<h2 class="content-block">Hospedes</h2>
 <div class="content-block">
 
-  <dx-data-grid (onExporting)="exportaGrid($event)"
-                (onSelectionChanged)="selecionaHospede($event)"
-                [columnAutoWidth]="true"
-                [dataSource]="hospedes"
-                id="dataGrid"
-                keyExpr="id"
-  >
-
-    <dxo-filter-row [visible]="true"></dxo-filter-row>
-    <dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
-    <dxo-load-panel [enabled]="true"></dxo-load-panel>
-    <dxo-export [enabled]="true" [formats]="['xlsx', 'pdf']"></dxo-export>
-    <dxo-selection mode="single"></dxo-selection>
-    <dxo-toolbar>
-      <!--      Atualiza Grid   -->
-      <dxi-item location="after">
-        <div *dxTemplate>
-          <dx-button (onClick)="atualizaGrid($event)" icon="refresh">
-          </dx-button>
-        </div>
-      </dxi-item>
-
-      <!--      Adiciona Hoospede   -->
-      <dxi-item location="after">
-        <div *dxTemplate>
-          <dx-button (onClick)="adicionaHospede($event)" icon="add">
-          </dx-button>
-        </div>
-      </dxi-item>
-
-      <!--      Edita Hoospede   -->
-      <dxi-item location="after">
-        <div *dxTemplate>
-          <dx-button (onClick)="editaHospede($event)" icon="edit">
-          </dx-button>
-        </div>
-      </dxi-item>
-
-      <!--      Deleta Hoospede   -->
-      <dxi-item location="after">
-        <div *dxTemplate>
-          <dx-button (onClick)="deletaHospede($event)" icon="trash">
-          </dx-button>
-        </div>
-      </dxi-item>
-      <dxi-item name="exportButton"></dxi-item>
-      <dxi-item name="searchPanel"></dxi-item>
-    </dxo-toolbar>
+	<h2 class="content-block">Hospedes</h2>
 
 
-    <dxi-column dataField="id" sortOrder="asc"></dxi-column>
-    <dxi-column dataField="nome"></dxi-column>
-    <dxi-column
-      dataField="nascimento"
-      dataType="date"
-      format="dd/MM/yyyy"
-    >
-    </dxi-column>
-    <dxi-column dataField="cpf"></dxi-column>
-    <dxi-column dataField="telefone"></dxi-column>
-    <dxi-column dataField="celular"></dxi-column>
-    <dxi-column dataField="email"></dxi-column>
+	<dx-data-grid #grid
+				  (onExporting)="exportaGrid($event)"
+				  (onSelectionChanged)="selecionaHospede($event)"
+				  [columnAutoWidth]="true"
+				  [dataSource]="hospedes"
+				  id="dataGrid"
+				  keyExpr="id"
+				  (onSaving)="salvaHospede()"
+				  [editing]="editing">
+
+		<dxo-editing>
+
+			<dxo-popup
+				[showTitle]="true"
+				title="Editar Cadastro do Hospede"
+			>
+			</dxo-popup>
+			<dxo-form>
+				<dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+					<dxi-item dataField="id"
+							  editorType="dxTextBox"
+							  [editorOptions]="{readOnly: true, width: '25%', disabled: true}">
+					</dxi-item>
+					<dxi-item dataField="nome"></dxi-item>
+					<dxi-item dataField="nascimento"
+							  editorType="dxDateBox"
+							  [editorOptions]="{format: 'date', formatString: 'dd/MM/yyyy', useMaskBehavior: true}">
+					</dxi-item>
+					<dxi-item dataField="cpf"
+							  editorType="dxTextBox"
+							  [editorOptions]="{mask: '000.000.000-00'}">
+					</dxi-item>
+					<dxi-item dataField="email"
+							  editorType="dxTextBox"
+							  [editorOptions]="{mode: 'email'}"></dxi-item>
+					<dxi-item dataField="telefone"
+							  editorType="dxTextBox"
+							  [editorOptions]="{mask: '(00) 0000-0000'}">
+					</dxi-item>
+					<dxi-item dataField="celular"
+							  editorType="dxTextBox"
+							  [editorOptions]="{mask: '(00) 00000-0000'}">
+					</dxi-item>
+					<dxi-item dataField="observacao"></dxi-item>
+				</dxi-item>
+			</dxo-form>
+		</dxo-editing>
 
 
-  </dx-data-grid>
+		<dxo-filter-row [visible]="true"></dxo-filter-row>
+		<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
+		<dxo-load-panel [enabled]="true"></dxo-load-panel>
+		<dxo-export [enabled]="true" [formats]="['xlsx', 'pdf']"></dxo-export>
+		<dxo-selection mode="single"></dxo-selection>
+		<dxo-toolbar>
+			<!--      Atualiza Grid   -->
+			<dxi-item location="after">
+				<div *dxTemplate>
+					<dx-button (onClick)="atualizaGrid($event)" icon="refresh">
+					</dx-button>
+				</div>
+			</dxi-item>
 
-  <dx-popup [(visible)]="popup"
-            [dragEnabled]="true"
-            [hideOnOutsideClick]="true"
-            [resizeEnabled]="true"
-            [showTitle]="true"
-            id="popup"
-            position="center"
-            title="Cadastro de Hospede"
-  >
+			<dxi-item name="addRowButton" showText="always"></dxi-item>
+			<dxi-item name="exportButton"></dxi-item>
+			<dxi-item name="searchPanel"></dxi-item>
+		</dxo-toolbar>
 
-    <dx-scroll-view
-      height="100%"
-      width="100%">
 
-      <dx-form
-        (submit)="salvarHospede()"
-        [colCount]="2"
-        [formData]="novoHospede"
-      >
-        <dxi-item caption="Dados Pessoais" itemType="group">
-          <dxi-item
-            [isRequired]="true"
-            dataField="nome">
-          </dxi-item>
-          <dxi-item
-            editorType="dxTextBox"
-            [editorOptions]="{
-              mask: '000.000.000-00',
-            }"
-            [isRequired]="true"
-            dataField="cpf">
-          </dxi-item>
-          <dxi-item [isRequired]="true" dataField="nascimento"></dxi-item>
-        </dxi-item>
-        <dxi-item caption="Contato" itemType="group">
-          <dxi-item itemType="tabbed">
-            <dxi-tab title="Contato">
-              <dxi-item dataField="telefone"
-                        editorType="dxTextBox"
-                        [editorOptions]="{
-              mask: '(00) 0000-0000',
-            }"></dxi-item>
-              <dxi-item dataField="celular"
-                        editorType="dxTextBox"
-                        [editorOptions]="{
-              mask: '(00) 00000-0000',
-            }"></dxi-item>
-              <dxi-item dataField="email">
-                <dxi-validation-rule type="email">
-                </dxi-validation-rule>
-              </dxi-item>
-            </dxi-tab>
-            <dxi-tab title="Observação">
-              <dxi-item dataField="observacao"></dxi-item>
-            </dxi-tab>
-          </dxi-item>
-        </dxi-item>
+		<dxi-column dataField="id" sortOrder="asc"></dxi-column>
+		<dxi-column dataField="nome"></dxi-column>
+		<dxi-column
+			dataField="nascimento"
+			dataType="date"
+			format="dd/MM/yyyy"
+		>
+		</dxi-column>
+		<dxi-column dataField="cpf"
+					cellTemplate="cpfTemplate">
+		</dxi-column>
+		<dxi-column dataField="telefone"
+					cellTemplate="telefoneTemplate">
+		</dxi-column>
+		<dxi-column dataField="celular"
+					cellTemplate="celularTemplate">
+		</dxi-column>
+		<dxi-column dataField="email"></dxi-column>
+		<dxi-column dataField="observacao" [visible]="false"> </dxi-column>
 
-        <dxi-item colCount="2" itemType="group">
-          <dxi-item [label]="{visible: false}" [template]="'botaoSalvar'"></dxi-item>
-          <dxi-item [label]="{visible: false}" [template]="'botaoCancelar'"></dxi-item>
-        </dxi-item>
-
-        <div *dxTemplate="let data of 'botaoSalvar'">
-          <dx-button [useSubmitBehavior]="true"
-                     hint="Salvar Hospede"
-                     icon="save"
-                     text="Salvar"
-                     type="success"></dx-button>
-        </div>
-
-        <div *dxTemplate="let data of 'botaoCancelar'">
-          <dx-button (onClick)="closePopup()"
-                     hint="Voltar para Grid"
-                     icon="close"
-                     text="Cancelar"
-                     type="danger"
-          ></dx-button>
-        </div>
-
-      </dx-form>
-    </dx-scroll-view>
-
-  </dx-popup>
+<!--		TEMPLATES-->
+		<div *dxTemplate="let data of 'cpfTemplate'">
+			{{ cpfFormatado(data.data.cpf) }}
+		</div>
+		<div *dxTemplate="let data of 'celularTemplate'">
+			{{ celularFormatado(data.data.celular) }}
+		</div>
+		<div *dxTemplate="let data of 'telefoneTemplate'">
+			{{ telefoneFormatado(data.data.telefone) }}
+		</div>
+	</dx-data-grid>
 
 </div>
