@@ -1,107 +1,114 @@
 <div class="content-block">
 
-	<h2 class="content-block">Hospedes</h2>
+	<h2 class="content-block">Listagem de Hospedes</h2>
+
+	<div id="container">
+
+		<app-toolbar
+			(filtrar)="pegaHospedes()"
+			(novoCad)="direcionaForm()"
+			[cad]="false">
+		</app-toolbar>
+		<dx-data-grid #grid
+					  (onExporting)="exportaGrid($event)"
+					  (onSaving)="salvaHospede()"
+					  (onSelectionChanged)="selecionaHospede($event)"
+					  [columnAutoWidth]="true"
+					  [dataSource]="hospedes"
+					  [editing]="editing"
+					  id="dataGrid"
+					  keyExpr="id">
+
+			<dxo-editing>
+
+				<dxo-popup
+					[showTitle]="true"
+					title="Editar Cadastro do Hospede"
+				>
+				</dxo-popup>
+				<dxo-form>
+					<dxi-item [colCount]="2" [colSpan]="2" itemType="group">
+						<dxi-item [editorOptions]="{readOnly: true, width: '25%', disabled: true}"
+								  dataField="id"
+								  editorType="dxTextBox">
+						</dxi-item>
+						<dxi-item dataField="nome"></dxi-item>
+						<dxi-item [editorOptions]="{format: 'date', formatString: 'dd/MM/yyyy', useMaskBehavior: true}"
+								  dataField="nascimento"
+								  editorType="dxDateBox">
+						</dxi-item>
+						<dxi-item [editorOptions]="{mask: '000.000.000-00'}"
+								  dataField="cpf"
+								  editorType="dxTextBox">
+						</dxi-item>
+						<dxi-item [editorOptions]="{mode: 'email'}"
+								  dataField="email"
+								  editorType="dxTextBox"></dxi-item>
+						<dxi-item [editorOptions]="{mask: '(00) 0000-0000'}"
+								  dataField="telefone"
+								  editorType="dxTextBox">
+						</dxi-item>
+						<dxi-item [editorOptions]="{mask: '(00) 00000-0000'}"
+								  dataField="celular"
+								  editorType="dxTextBox">
+						</dxi-item>
+						<dxi-item dataField="observacao"></dxi-item>
+					</dxi-item>
+				</dxo-form>
+			</dxo-editing>
 
 
-	<dx-data-grid #grid
-				  (onExporting)="exportaGrid($event)"
-				  (onSelectionChanged)="selecionaHospede($event)"
-				  [columnAutoWidth]="true"
-				  [dataSource]="hospedes"
-				  id="dataGrid"
-				  keyExpr="id"
-				  (onSaving)="salvaHospede()"
-				  [editing]="editing">
-
-		<dxo-editing>
-
-			<dxo-popup
-				[showTitle]="true"
-				title="Editar Cadastro do Hospede"
-			>
-			</dxo-popup>
-			<dxo-form>
-				<dxi-item itemType="group" [colCount]="2" [colSpan]="2">
-					<dxi-item dataField="id"
-							  editorType="dxTextBox"
-							  [editorOptions]="{readOnly: true, width: '25%', disabled: true}">
-					</dxi-item>
-					<dxi-item dataField="nome"></dxi-item>
-					<dxi-item dataField="nascimento"
-							  editorType="dxDateBox"
-							  [editorOptions]="{format: 'date', formatString: 'dd/MM/yyyy', useMaskBehavior: true}">
-					</dxi-item>
-					<dxi-item dataField="cpf"
-							  editorType="dxTextBox"
-							  [editorOptions]="{mask: '000.000.000-00'}">
-					</dxi-item>
-					<dxi-item dataField="email"
-							  editorType="dxTextBox"
-							  [editorOptions]="{mode: 'email'}"></dxi-item>
-					<dxi-item dataField="telefone"
-							  editorType="dxTextBox"
-							  [editorOptions]="{mask: '(00) 0000-0000'}">
-					</dxi-item>
-					<dxi-item dataField="celular"
-							  editorType="dxTextBox"
-							  [editorOptions]="{mask: '(00) 00000-0000'}">
-					</dxi-item>
-					<dxi-item dataField="observacao"></dxi-item>
+			<dxo-filter-row [visible]="true"></dxo-filter-row>
+			<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
+			<dxo-load-panel [enabled]="true"></dxo-load-panel>
+			<dxo-export [enabled]="true" [formats]="['xlsx', 'pdf']"></dxo-export>
+			<dxo-selection mode="single"></dxo-selection>
+			<dxo-toolbar>
+				<!--      Atualiza Grid   -->
+				<dxi-item location="after">
+					<div *dxTemplate>
+						<dx-button (onClick)="atualizaGrid($event)" icon="refresh">
+						</dx-button>
+					</div>
 				</dxi-item>
-			</dxo-form>
-		</dxo-editing>
+
+				<dxi-item name="addRowButton" showText="always"></dxi-item>
+				<dxi-item name="exportButton"></dxi-item>
+				<dxi-item name="searchPanel"></dxi-item>
+			</dxo-toolbar>
 
 
-		<dxo-filter-row [visible]="true"></dxo-filter-row>
-		<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
-		<dxo-load-panel [enabled]="true"></dxo-load-panel>
-		<dxo-export [enabled]="true" [formats]="['xlsx', 'pdf']"></dxo-export>
-		<dxo-selection mode="single"></dxo-selection>
-		<dxo-toolbar>
-			<!--      Atualiza Grid   -->
-			<dxi-item location="after">
-				<div *dxTemplate>
-					<dx-button (onClick)="atualizaGrid($event)" icon="refresh">
-					</dx-button>
-				</div>
-			</dxi-item>
+			<dxi-column dataField="id" sortOrder="asc"></dxi-column>
+			<dxi-column dataField="nome"></dxi-column>
+			<dxi-column
+				dataField="nascimento"
+				dataType="date"
+				format="dd/MM/yyyy"
+			>
+			</dxi-column>
+			<dxi-column cellTemplate="cpfTemplate"
+						dataField="cpf">
+			</dxi-column>
+			<dxi-column cellTemplate="telefoneTemplate"
+						dataField="telefone">
+			</dxi-column>
+			<dxi-column cellTemplate="celularTemplate"
+						dataField="celular">
+			</dxi-column>
+			<dxi-column dataField="email"></dxi-column>
+			<dxi-column [visible]="false" dataField="observacao"></dxi-column>
 
-			<dxi-item name="addRowButton" showText="always"></dxi-item>
-			<dxi-item name="exportButton"></dxi-item>
-			<dxi-item name="searchPanel"></dxi-item>
-		</dxo-toolbar>
+			<!--		TEMPLATES-->
+			<div *dxTemplate="let data of 'cpfTemplate'">
+				{{ cpfFormatado(data.data.cpf) }}
+			</div>
+			<div *dxTemplate="let data of 'celularTemplate'">
+				{{ celularFormatado(data.data.celular) }}
+			</div>
+			<div *dxTemplate="let data of 'telefoneTemplate'">
+				{{ telefoneFormatado(data.data.telefone) }}
+			</div>
+		</dx-data-grid>
 
-
-		<dxi-column dataField="id" sortOrder="asc"></dxi-column>
-		<dxi-column dataField="nome"></dxi-column>
-		<dxi-column
-			dataField="nascimento"
-			dataType="date"
-			format="dd/MM/yyyy"
-		>
-		</dxi-column>
-		<dxi-column dataField="cpf"
-					cellTemplate="cpfTemplate">
-		</dxi-column>
-		<dxi-column dataField="telefone"
-					cellTemplate="telefoneTemplate">
-		</dxi-column>
-		<dxi-column dataField="celular"
-					cellTemplate="celularTemplate">
-		</dxi-column>
-		<dxi-column dataField="email"></dxi-column>
-		<dxi-column dataField="observacao" [visible]="false"> </dxi-column>
-
-<!--		TEMPLATES-->
-		<div *dxTemplate="let data of 'cpfTemplate'">
-			{{ cpfFormatado(data.data.cpf) }}
-		</div>
-		<div *dxTemplate="let data of 'celularTemplate'">
-			{{ celularFormatado(data.data.celular) }}
-		</div>
-		<div *dxTemplate="let data of 'telefoneTemplate'">
-			{{ telefoneFormatado(data.data.telefone) }}
-		</div>
-	</dx-data-grid>
-
+	</div>
 </div>

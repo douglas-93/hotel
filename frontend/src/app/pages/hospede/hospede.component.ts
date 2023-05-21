@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HospedeService} from "../../shared/services/hospede.service";
 import {HospedeModel} from "../../shared/models/hospede.model";
 import {Workbook} from 'exceljs';
@@ -7,6 +7,7 @@ import {exportDataGrid} from 'devextreme/excel_exporter';
 import {exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter';
 import {jsPDF} from 'jspdf';
 import {DxDataGridComponent} from "devextreme-angular";
+import {Router} from "@angular/router";
 
 @Component({
 	selector: 'app-hospede',
@@ -31,8 +32,8 @@ export class HospedeComponent implements OnInit {
 		}
 	};
 
-	constructor(private hospService: HospedeService) {
-		this.pegaHospedes();
+	constructor(private hospService: HospedeService,
+				private router: Router) {
 		this.salvaHospede = this.salvaHospede.bind(this);
 	}
 
@@ -71,7 +72,7 @@ export class HospedeComponent implements OnInit {
 		this.pegaHospedes()
 	}
 	pegaHospedes() {
-		this.hospService.getAll().subscribe(
+		this.hospService.getHospedes().subscribe(
 			data => {
 				this.hospedes = data
 			}
@@ -110,7 +111,9 @@ export class HospedeComponent implements OnInit {
 		}
 	}
 
-	teste(event: any) {
-		console.log(event)
+	direcionaForm() {
+		console.log('Clicou')
+		this.router.navigate(['pages', 'hospedes', 'cad'])
+	// 	pages/hospedes/cad
 	}
 }

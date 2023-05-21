@@ -1,0 +1,91 @@
+<div class="content-block">
+
+	<h2 class="content-block">Cadastro de Hospede</h2>
+
+	<app-toolbar
+		(salvar)="criarHopede()"
+		[cad]="true">
+	</app-toolbar>
+
+	<div class="container">
+		<div class="item">
+			<!--			<dx-number-box-->
+			<!--				[(value)]="novoHospede.id!"-->
+			<!--				[disabled]="true"-->
+			<!--				[showClearButton]="true"-->
+			<!--				label="ID"-->
+			<!--				labelMode="floating"-->
+			<!--				width="4rem">-->
+			<!--			</dx-number-box>-->
+
+			<dx-text-box
+				[(value)]="novoHospede.nome"
+				[showClearButton]="true"
+				class="margem"
+				label="Nome Completo"
+				labelMode="floating"
+				width="25rem">
+			</dx-text-box>
+
+			<dx-date-box #data
+				[useMaskBehavior]="true"
+				class="margem"
+				displayFormat="dd/MM/yyyy"
+				label="Nascimento"
+				labelMode="floating"
+				type="date"
+				width="15rem">
+			</dx-date-box>
+
+			<dx-text-box
+				[(value)]="novoHospede.cpf"
+				[showClearButton]="true"
+				class="margem"
+				label="CPF"
+				labelMode="floating"
+				mask="000.000.000-00"
+				width="15rem">
+			</dx-text-box>
+		</div>
+		<div class="item">
+			<dx-text-box
+				[(value)]="novoHospede.email"
+				[showClearButton]="true"
+				class="margem"
+				label="E-mail"
+				labelMode="floating"
+				width="25rem">
+			</dx-text-box>
+
+			<dx-text-box
+				[(value)]="novoHospede.telefone"
+				[showClearButton]="true"
+				class="margem"
+				label="Telefone"
+				labelMode="floating"
+				mask="(00) 0000-0000"
+				width="15rem">
+			</dx-text-box>
+
+			<dx-text-box
+				[(value)]="novoHospede.celular"
+				[showClearButton]="true"
+				class="margem"
+				label="Celular"
+				labelMode="floating"
+				mask="(00) 00000-0000"
+				width="15rem">
+			</dx-text-box>
+		</div>
+		<div class="item">
+			<dx-text-area
+				[(value)]="novoHospede.observacao"
+				class="margem"
+				height="10rem"
+				label="Observações"
+				labelMode="floating"
+				width="100%">
+			</dx-text-area>
+		</div>
+	</div>
+</div>

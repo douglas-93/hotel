@@ -1,0 +1,29 @@
+<div class="container" *ngIf="!cad">
+	<dx-button
+		icon="refresh"
+		text="Buscar"
+		(onClick)="filtrarEnv($event)">
+	</dx-button>
+	<dx-button
+		icon="add"
+		text="Novo"
+		(onClick)="novoCadEnv($event)">
+	</dx-button>
+	<dx-button
+		icon="close"
+		text="Fechar"
+		(onClick)="voltar()">
+	</dx-button>
+</div>
+<div class="container" *ngIf="cad">
+	<dx-button
+		icon="save"
+		text="Salvar"
+		(onClick)="salvaEnv($event)">
+	</dx-button>
+	<dx-button
+		icon="close"
+		text="Fechar"
+		(onClick)="voltar()">
+	</dx-button>
+</div>

@@ -14,6 +14,8 @@ import {AppInfoService, AuthService, ScreenService} from './shared/services';
 import {UnauthenticatedContentModule} from './unauthenticated-content';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from "@angular/common/http";
+import {HospedeFormModule} from './shared/components/hospede-form/hospede-form.component';
+import {DevExtremeModule} from "devextreme-angular";
 
 @NgModule({
 	declarations: [
@@ -31,12 +33,16 @@ import {HttpClientModule} from "@angular/common/http";
 		LoginFormModule,
 		UnauthenticatedContentModule,
 		AppRoutingModule,
-		HttpClientModule
+		HttpClientModule,
+		HospedeFormModule,
+		DevExtremeModule
 	],
 	providers: [
 		AuthService,
 		ScreenService,
 		AppInfoService
+	],
+	exports: [
 	],
 	bootstrap: [AppComponent]
 })

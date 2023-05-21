@@ -16,7 +16,7 @@ import {
 	DxDataGridModule,
 	DxDateBoxModule,
 	DxFormModule,
-	DxLoadIndicatorModule, DxNumberBoxModule,
+	DxLoadIndicatorModule, DxMenuModule, DxNumberBoxModule,
 	DxPopupModule,
 	DxScrollViewModule,
 	DxTextAreaModule,
@@ -24,11 +24,18 @@ import {
 } from 'devextreme-angular';
 import {HospedeComponent} from './pages/hospede/hospede.component';
 import {FormsModule} from "@angular/forms";
+import {HospedeFormComponent} from "./shared/components/hospede-form/hospede-form.component";
+import {ToolbarModule} from "./shared/components/toolbar/toolbar.component";
 
 const routes: Routes = [
 	{
 		path: 'pages/hospedes',
 		component: HospedeComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/hospedes/cad',
+		component: HospedeFormComponent,
 		canActivate: [AuthGuardService]
 	},
 	{
@@ -73,7 +80,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule],
+	imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule],
 	providers: [AuthGuardService],
 	exports: [RouterModule],
 	declarations: [
