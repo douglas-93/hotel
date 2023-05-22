@@ -25,6 +25,10 @@ public class HotelService {
         return hotel.get();
     }
 
+    public Integer lastId() {
+        return hotelRepository.findLastId();
+    }
+
     public HotelModel insert(HotelModel novoHotel) {
         return hotelRepository.save(novoHotel);
     }

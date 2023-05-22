@@ -26,8 +26,14 @@ import {HospedeComponent} from './pages/hospede/hospede.component';
 import {FormsModule} from "@angular/forms";
 import {HospedeFormComponent} from "./shared/components/hospede-form/hospede-form.component";
 import {ToolbarModule} from "./shared/components/toolbar/toolbar.component";
+import { HotelComponent } from './pages/hotel/hotel.component';
 
 const routes: Routes = [
+  {
+    path: 'pages/hotel',
+    component: HotelComponent,
+    canActivate: [ AuthGuardService ]
+  },
 	{
 		path: 'pages/hospedes',
 		component: HospedeComponent,
@@ -92,7 +98,8 @@ const routes: Routes = [
 		HomeComponent,
 		ProfileComponent,
 		TasksComponent,
-		HospedeComponent
+		HospedeComponent,
+  HotelComponent
 	]
 })
 export class AppRoutingModule {

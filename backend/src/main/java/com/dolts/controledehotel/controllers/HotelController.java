@@ -23,6 +23,13 @@ public class HotelController {
         return ResponseEntity.ok().body(hoteis);
     }
 
+    @GetMapping(value = "/get/last")
+    public ResponseEntity<HotelModel> findLast() {
+        Integer id = hotelService.lastId();
+        HotelModel hotel = hotelService.findById(id);
+        return ResponseEntity.ok().body(hotel);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<HotelModel> findById(@PathVariable Integer id) {
         HotelModel hotel = hotelService.findById(id);
