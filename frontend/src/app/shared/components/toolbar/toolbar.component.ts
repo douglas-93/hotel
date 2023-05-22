@@ -11,6 +11,7 @@ export class ToolbarComponent {
 	@Output() filtrar = new EventEmitter();
 	@Output() novoCad = new EventEmitter();
 	@Output() salvar = new EventEmitter();
+	@Output() deletar = new EventEmitter();
 
 	@Input()
 	cad: boolean;
@@ -23,6 +24,9 @@ export class ToolbarComponent {
 	}
 	salvaEnv(e: any) {
 		this.salvar.emit(e)
+	}
+	deleteEnv(e: any) {
+		this.deletar.emit(e)
 	}
 	voltar() {
 		window.history.back()

@@ -3,14 +3,15 @@
 	<h2 class="content-block">Cadastro de Hospede</h2>
 
 	<app-toolbar
-		(salvar)="criarHopede()"
+		(salvar)="salvar()"
+		(deletar)="deletaHospede()"
 		[cad]="true">
 	</app-toolbar>
 
 	<div class="container">
 		<div class="item">
 			<!--			<dx-number-box-->
-			<!--				[(value)]="novoHospede.id!"-->
+			<!--				[(value)]="hospede.id!"-->
 			<!--				[disabled]="true"-->
 			<!--				[showClearButton]="true"-->
 			<!--				label="ID"-->
@@ -19,7 +20,7 @@
 			<!--			</dx-number-box>-->
 
 			<dx-text-box
-				[(value)]="novoHospede.nome"
+				[(value)]="hospede.nome"
 				[showClearButton]="true"
 				class="margem"
 				label="Nome Completo"
@@ -28,17 +29,17 @@
 			</dx-text-box>
 
 			<dx-date-box #data
-				[useMaskBehavior]="true"
-				class="margem"
-				displayFormat="dd/MM/yyyy"
-				label="Nascimento"
-				labelMode="floating"
-				type="date"
-				width="15rem">
+						 [useMaskBehavior]="true"
+						 class="margem"
+						 displayFormat="dd/MM/yyyy"
+						 label="Nascimento"
+						 labelMode="floating"
+						 type="date"
+						 width="15rem">
 			</dx-date-box>
 
 			<dx-text-box
-				[(value)]="novoHospede.cpf"
+				[(value)]="hospede.cpf"
 				[showClearButton]="true"
 				class="margem"
 				label="CPF"
@@ -49,7 +50,7 @@
 		</div>
 		<div class="item">
 			<dx-text-box
-				[(value)]="novoHospede.email"
+				[(value)]="hospede.email"
 				[showClearButton]="true"
 				class="margem"
 				label="E-mail"
@@ -58,7 +59,7 @@
 			</dx-text-box>
 
 			<dx-text-box
-				[(value)]="novoHospede.telefone"
+				[(value)]="hospede.telefone"
 				[showClearButton]="true"
 				class="margem"
 				label="Telefone"
@@ -68,7 +69,7 @@
 			</dx-text-box>
 
 			<dx-text-box
-				[(value)]="novoHospede.celular"
+				[(value)]="hospede.celular"
 				[showClearButton]="true"
 				class="margem"
 				label="Celular"
@@ -79,7 +80,7 @@
 		</div>
 		<div class="item">
 			<dx-text-area
-				[(value)]="novoHospede.observacao"
+				[(value)]="hospede.observacao"
 				class="margem"
 				height="10rem"
 				label="Observações"

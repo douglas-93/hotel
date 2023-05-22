@@ -5,80 +5,33 @@
 	<div id="container">
 
 		<app-toolbar
-			(filtrar)="pegaHospedes()"
+			(filtrar)="buscaHospedes()"
 			(novoCad)="direcionaForm()"
 			[cad]="false">
 		</app-toolbar>
 		<dx-data-grid #grid
-					  (onExporting)="exportaGrid($event)"
-					  (onSaving)="salvaHospede()"
 					  (onSelectionChanged)="selecionaHospede($event)"
+					  (onRowDblClick)="editar($event)"
 					  [columnAutoWidth]="true"
 					  [dataSource]="hospedes"
-					  [editing]="editing"
 					  id="dataGrid"
 					  keyExpr="id">
-
-			<dxo-editing>
-
-				<dxo-popup
-					[showTitle]="true"
-					title="Editar Cadastro do Hospede"
-				>
-				</dxo-popup>
-				<dxo-form>
-					<dxi-item [colCount]="2" [colSpan]="2" itemType="group">
-						<dxi-item [editorOptions]="{readOnly: true, width: '25%', disabled: true}"
-								  dataField="id"
-								  editorType="dxTextBox">
-						</dxi-item>
-						<dxi-item dataField="nome"></dxi-item>
-						<dxi-item [editorOptions]="{format: 'date', formatString: 'dd/MM/yyyy', useMaskBehavior: true}"
-								  dataField="nascimento"
-								  editorType="dxDateBox">
-						</dxi-item>
-						<dxi-item [editorOptions]="{mask: '000.000.000-00'}"
-								  dataField="cpf"
-								  editorType="dxTextBox">
-						</dxi-item>
-						<dxi-item [editorOptions]="{mode: 'email'}"
-								  dataField="email"
-								  editorType="dxTextBox"></dxi-item>
-						<dxi-item [editorOptions]="{mask: '(00) 0000-0000'}"
-								  dataField="telefone"
-								  editorType="dxTextBox">
-						</dxi-item>
-						<dxi-item [editorOptions]="{mask: '(00) 00000-0000'}"
-								  dataField="celular"
-								  editorType="dxTextBox">
-						</dxi-item>
-						<dxi-item dataField="observacao"></dxi-item>
-					</dxi-item>
-				</dxo-form>
-			</dxo-editing>
-
 
 			<dxo-filter-row [visible]="true"></dxo-filter-row>
 			<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
 			<dxo-load-panel [enabled]="true"></dxo-load-panel>
-			<dxo-export [enabled]="true" [formats]="['xlsx', 'pdf']"></dxo-export>
 			<dxo-selection mode="single"></dxo-selection>
-			<dxo-toolbar>
-				<!--      Atualiza Grid   -->
-				<dxi-item location="after">
-					<div *dxTemplate>
-						<dx-button (onClick)="atualizaGrid($event)" icon="refresh">
-						</dx-button>
-					</div>
-				</dxi-item>
+			<dxo-paging
+				[pageSize]="10"
+				[pageIndex]="0">
+			</dxo-paging>
+			<dxo-pager
+				[showPageSizeSelector]="true"
+				[allowedPageSizes]="[10, 20, 50]"
+				[showNavigationButtons]="true">
+			</dxo-pager>
 
-				<dxi-item name="addRowButton" showText="always"></dxi-item>
-				<dxi-item name="exportButton"></dxi-item>
-				<dxi-item name="searchPanel"></dxi-item>
-			</dxo-toolbar>
-
-
-			<dxi-column dataField="id" sortOrder="asc"></dxi-column>
+			<dxi-column dataField="id"></dxi-column>
 			<dxi-column dataField="nome"></dxi-column>
 			<dxi-column
 				dataField="nascimento"

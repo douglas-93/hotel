@@ -14,34 +14,16 @@ import {Router} from "@angular/router";
 	templateUrl: './hospede.component.html',
 	styleUrls: ['./hospede.component.scss']
 })
-export class HospedeComponent implements OnInit {
+export class HospedeComponent {
 
 	@ViewChild('grid')
 	grid: DxDataGridComponent;
 	hospedes: HospedeModel[];
 	hospedeSelecinado: HospedeModel;
 
-	editing = {
-		mode:"popup",
-        allowUpdating: true,
-		allowDeleting: true,
-		allowAdding: true,
-		onChanges: (e) => {
-			// lógica após o salvamento bem-sucedido
-			console.log('Dados salvos:', e.data);
-		}
-	};
 
 	constructor(private hospService: HospedeService,
 				private router: Router) {
-		this.salvaHospede = this.salvaHospede.bind(this);
-	}
-
-	ngOnInit(): void {
-	}
-
-	salvaHospede() {
-		console.log()
 	}
 
 	exportaGrid(e: any) {
@@ -68,10 +50,7 @@ export class HospedeComponent implements OnInit {
 		}
 	}
 
-	atualizaGrid(e: any) {
-		this.pegaHospedes()
-	}
-	pegaHospedes() {
+	buscaHospedes() {
 		this.hospService.getHospedes().subscribe(
 			data => {
 				this.hospedes = data
@@ -112,8 +91,10 @@ export class HospedeComponent implements OnInit {
 	}
 
 	direcionaForm() {
-		console.log('Clicou')
 		this.router.navigate(['pages', 'hospedes', 'cad'])
-	// 	pages/hospedes/cad
+	}
+
+	editar(e: MouseEvent) {
+		this.router.navigate(['pages', 'hospedes', 'cad', this.hospedeSelecinado.id])
 	}
 }

@@ -39,6 +39,11 @@ const routes: Routes = [
 		canActivate: [AuthGuardService]
 	},
 	{
+		path: 'pages/hospedes/cad/:id',
+		component: HospedeFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
 		path: 'tasks',
 		component: TasksComponent,
 		canActivate: [AuthGuardService]
