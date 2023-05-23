@@ -12,7 +12,7 @@ export class HotelService {
 	constructor(private http: HttpClient) {
 	}
 
-	getLastHotel() {
+	getLastHotelVersion() {
 		return this.http.get<HotelModel>(this.url)
 	}
 }
