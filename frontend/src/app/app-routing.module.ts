@@ -14,11 +14,11 @@ import {
 	DxBoxModule,
 	DxButtonModule,
 	DxDataGridModule,
-	DxDateBoxModule,
-	DxFormModule,
-	DxLoadIndicatorModule, DxMenuModule, DxNumberBoxModule,
+	DxDateBoxModule, DxDropDownBoxModule,
+	DxFormModule, DxListModule,
+	DxLoadIndicatorModule, DxLoadPanelModule, DxMenuModule, DxNumberBoxModule,
 	DxPopupModule,
-	DxScrollViewModule,
+	DxScrollViewModule, DxSelectBoxModule,
 	DxTextAreaModule,
 	DxTextBoxModule
 } from 'devextreme-angular';
@@ -27,6 +27,7 @@ import {FormsModule} from "@angular/forms";
 import {HospedeFormComponent} from "./shared/components/hospede-form/hospede-form.component";
 import {ToolbarModule} from "./shared/components/toolbar/toolbar.component";
 import { HotelComponent } from './pages/hotel/hotel.component';
+import {NgIf} from "@angular/common";
 
 const routes: Routes = [
   {
@@ -91,7 +92,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule],
+	imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule, NgIf, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxLoadPanelModule],
 	providers: [AuthGuardService],
 	exports: [RouterModule],
 	declarations: [

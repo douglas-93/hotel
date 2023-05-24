@@ -1,4 +1,73 @@
 <h2 class="content-block">Hotel</h2>
 <div class="content-block">
-    <div class="dx-card responsive-paddings">Put your content here</div>
+	<div class="container-toolbar">
+		<dx-button
+			(onClick)="salvar()"
+			icon="save"
+			text="Salvar">
+		</dx-button>
+		<dx-button
+			(onClick)="voltar()"
+			icon="close"
+			text="Fechar">
+		</dx-button>
+	</div>
+
+	<div class="container">
+
+		<dx-load-panel
+			[hideOnOutsideClick]="false"
+			[(visible)]="iscarregando">
+		</dx-load-panel>
+
+		<div class="row">
+			<dx-text-box
+				[(value)]="hotel.nome"
+				label="Nome"
+				labelMode="floating">
+			</dx-text-box>
+			<dx-text-box
+				[(value)]="hotel.cnpj"
+				label="CNPJ"
+				labelMode="floating"
+				mask="##.###.###/####-##">
+			</dx-text-box>
+			<dx-text-box
+				[(value)]="hotel.logradouro"
+				label="Logradouro"
+				labelMode="floating">
+			</dx-text-box>
+			<dx-text-box
+				[(value)]="hotel.numero"
+				label="Número"
+				labelMode="floating">
+			</dx-text-box>
+
+
+			<dx-select-box
+				[dataSource]="estados"
+				valueExpr="ufId"
+				displayExpr="ufSigla"
+			(onSelectionChanged)="defineIdEstado($event)">
+			</dx-select-box>
+
+
+			<dx-text-box
+				[(value)]="hotel.cidade"
+				label="Cidade"
+				labelMode="floating">
+			</dx-text-box>
+			<dx-text-box
+				[(value)]="hotel.estado"
+				label="Estado"
+				labelMode="floating">
+			</dx-text-box>
+			<dx-text-box
+				[(value)]="hotel.pais"
+				label="Pais"
+				labelMode="floating">
+			</dx-text-box>
+		</div>
+	</div>
+
 </div>

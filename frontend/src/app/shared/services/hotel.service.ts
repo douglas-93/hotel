@@ -7,12 +7,16 @@ import {HotelModel} from "../models/hotel.model";
 })
 export class HotelService {
 
-	url: string = 'http://localhost:8080/hoteis/get/last';
+	url: string = 'http://localhost:8080/hoteis';
 
 	constructor(private http: HttpClient) {
 	}
 
 	getLastHotelVersion() {
-		return this.http.get<HotelModel>(this.url)
+		return this.http.get<HotelModel>(`${this.url}/get/last`, {observe: 'response'})
+	}
+
+	createHotel(hotel: HotelModel) {
+		return this.http.post(this.url, hotel, {observe: 'response'})
 	}
 }
