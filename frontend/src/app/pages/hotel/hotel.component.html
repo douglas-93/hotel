@@ -16,8 +16,12 @@
 	<div class="container">
 
 		<dx-load-panel
+			[(visible)]="iscarregando"
 			[hideOnOutsideClick]="false"
-			[(visible)]="iscarregando">
+			[shading]="true"
+			[showIndicator]="true"
+			[showPane]="true"
+			shadingColor="rgba(0,0,0,0.4)">
 		</dx-load-panel>
 
 		<div class="row">
@@ -45,10 +49,10 @@
 
 
 			<dx-select-box
+				(onSelectionChanged)="defineIdEstado($event)"
 				[dataSource]="estados"
-				valueExpr="ufId"
 				displayExpr="ufSigla"
-			(onSelectionChanged)="defineIdEstado($event)">
+				valueExpr="ufId">
 			</dx-select-box>
 
 
