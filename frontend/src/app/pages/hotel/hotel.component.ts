@@ -3,7 +3,6 @@ import {HotelModel} from "../../shared/models/hotel.model";
 import {HotelService} from "../../shared/services/hotel.service";
 import notify from "devextreme/ui/notify";
 import {EstadoModel} from "../../shared/models/estado.model";
-import {CidadeModel} from "../../shared/models/cidade.model";
 import {EstadoService} from "../../shared/services/estado.service";
 import {CidadeService} from "../../shared/services/cidade.service";
 
@@ -17,8 +16,7 @@ export class HotelComponent implements OnInit {
 
 	hotel: HotelModel = new HotelModel();
 	estados: EstadoModel[];
-	cidades: CidadeModel[];
-	idCidade: number;
+	cidades: string[];
 	idEstado: number;
 	iscarregando: boolean = false;
 
@@ -28,12 +26,15 @@ export class HotelComponent implements OnInit {
 		this.iscarregando = true
 		hotelService.getLastHotelVersion().subscribe(
 			data => {
-				this.hotel = data.body!
+				if (data.status === 200) {
+					this.hotel = data.body!
+				} else if (data.status === 204) {
+					this.mostraMensagem('info', 'Favor fazer o cadastro inicial')
+				}
 				this.iscarregando = false
 			}
 		)
 		this.carregaEstados()
-		this.carregaCidades()
 	}
 
 	ngOnInit(): void {
@@ -43,27 +44,15 @@ export class HotelComponent implements OnInit {
 		this.iscarregando = true
 		this.estadoService.getEstados().subscribe(
 			data => {
-				let estadosParsed: EstadoModel[] = []
-				if (data.length > 0) {
-					data.forEach(e => {
-						let estado: EstadoModel = new EstadoModel();
-						this.parseRespostaEstado(e, estado)
-						estadosParsed.push(estado)
-					})
-				}
-				this.estados = estadosParsed.sort(this.ordenaSiglas)
+				this.estados = data.map(e => {
+					let estado: EstadoModel = new EstadoModel()
+					estado.ufId = e['UF-id']
+					estado.ufSigla = e['UF-sigla']
+					return estado
+				}).sort(this.ordenaSiglas)
 				this.iscarregando = false
 			}
 		)
-	}
-
-	parseRespostaEstado(estadoResp, estadoParsed) {
-		estadoParsed.ufId = estadoResp['UF-id'];
-		estadoParsed.ufSigla = estadoResp['UF-sigla'];
-		estadoParsed.ufNome = estadoResp['UF-nome'];
-		estadoParsed.regiaoId = estadoResp['regiao-id'];
-		estadoParsed.regiaoSigla = estadoResp['regiao-sigla'];
-		estadoParsed.regiaoNome = estadoResp['regiao-nome'];
 	}
 
 	ordenaSiglas(a, b) {
@@ -84,9 +73,10 @@ export class HotelComponent implements OnInit {
 			this.iscarregando = true
 			this.cidadeService.getCidades(this.idEstado).subscribe(
 				data => {
-					this.cidades = data
-					console.log(data)
-					this.iscarregando = false
+					let listaCidades: string[];
+					listaCidades = data.map(e => e['distrito-nome']);
+					this.cidades = listaCidades;
+					this.iscarregando = false;
 				}
 			)
 		}
@@ -129,5 +119,6 @@ export class HotelComponent implements OnInit {
 		let estado: EstadoModel = e.selectedItem
 		this.idEstado = estado.ufId
 		this.carregaCidades()
+		this.hotel.cidade = ''
 	}
 }

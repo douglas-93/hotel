@@ -11,16 +11,17 @@ import {HomeComponent} from './pages/home/home.component';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {TasksComponent} from './pages/tasks/tasks.component';
 import {
-	DxBoxModule,
-	DxButtonModule,
-	DxDataGridModule,
-	DxDateBoxModule, DxDropDownBoxModule,
-	DxFormModule, DxListModule,
-	DxLoadIndicatorModule, DxLoadPanelModule, DxMenuModule, DxNumberBoxModule,
-	DxPopupModule,
-	DxScrollViewModule, DxSelectBoxModule,
-	DxTextAreaModule,
-	DxTextBoxModule
+    DxAutocompleteModule,
+    DxBoxModule,
+    DxButtonModule,
+    DxDataGridModule,
+    DxDateBoxModule, DxDropDownBoxModule,
+    DxFormModule, DxListModule,
+    DxLoadIndicatorModule, DxLoadPanelModule, DxMenuModule, DxNumberBoxModule,
+    DxPopupModule,
+    DxScrollViewModule, DxSelectBoxModule,
+    DxTextAreaModule,
+    DxTextBoxModule
 } from 'devextreme-angular';
 import {HospedeComponent} from './pages/hospede/hospede.component';
 import {FormsModule} from "@angular/forms";
@@ -92,7 +93,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule, NgIf, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxLoadPanelModule],
+    imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule, NgIf, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxLoadPanelModule, DxAutocompleteModule],
 	providers: [AuthGuardService],
 	exports: [RouterModule],
 	declarations: [

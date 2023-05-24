@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {CidadeModel} from "../models/cidade.model";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +11,6 @@ export class CidadeService {
   constructor(private http: HttpClient) { }
 
 	getCidades(id) {
-		return this.http.get<CidadeModel[]>(this.url.replace('{UF}', id))
+		return this.http.get<any[]>(this.url.replace('{UF}', id))
 	}
 }

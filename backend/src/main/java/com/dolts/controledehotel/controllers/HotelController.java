@@ -26,8 +26,13 @@ public class HotelController {
     @GetMapping(value = "/get/last")
     public ResponseEntity<HotelModel> findLast() {
         Integer id = hotelService.lastId();
-        HotelModel hotel = hotelService.findById(id);
-        return ResponseEntity.ok().body(hotel);
+        if (id != null) {
+            HotelModel hotel = hotelService.findById(id);
+            return ResponseEntity.ok().body(hotel);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+
     }
 
     @GetMapping(value = "/{id}")

@@ -1,4 +1,4 @@
-<h2 class="content-block">Hotel</h2>
+<h2 class="content-block">Cadastro do Hotel</h2>
 <div class="content-block">
 	<div class="container-toolbar">
 		<dx-button
@@ -27,51 +27,65 @@
 		<div class="row">
 			<dx-text-box
 				[(value)]="hotel.nome"
+				class="margem"
 				label="Nome"
-				labelMode="floating">
+				labelMode="floating"
+			width="40rem">
 			</dx-text-box>
 			<dx-text-box
 				[(value)]="hotel.cnpj"
+				class="margem"
 				label="CNPJ"
 				labelMode="floating"
 				mask="##.###.###/####-##">
 			</dx-text-box>
+		</div>
+		<div class="row">
 			<dx-text-box
 				[(value)]="hotel.logradouro"
+				class="margem"
 				label="Logradouro"
-				labelMode="floating">
+				labelMode="floating"
+				width="40rem">
 			</dx-text-box>
 			<dx-text-box
 				[(value)]="hotel.numero"
+				class="margem"
 				label="Número"
 				labelMode="floating">
 			</dx-text-box>
 
+		</div>
+		<div class="row">
 
 			<dx-select-box
 				(onSelectionChanged)="defineIdEstado($event)"
+				[(value)]="hotel.estado"
 				[dataSource]="estados"
+				[searchEnabled]="true"
+				class="margem"
 				displayExpr="ufSigla"
+				label="Estado"
+				labelMode="floating"
 				valueExpr="ufId">
 			</dx-select-box>
 
+			<dx-autocomplete
+				[(value)]="hotel.cidade"
+				[dataSource]="cidades"
+				[showClearButton]="true"
+				class="margem"
+				label="Cidade"
+				labelMode="floating"
+				width="24rem">
+			</dx-autocomplete>
 
 			<dx-text-box
-				[(value)]="hotel.cidade"
-				label="Cidade"
-				labelMode="floating">
-			</dx-text-box>
-			<dx-text-box
-				[(value)]="hotel.estado"
-				label="Estado"
-				labelMode="floating">
-			</dx-text-box>
-			<dx-text-box
 				[(value)]="hotel.pais"
+				class="margem"
 				label="Pais"
 				labelMode="floating">
 			</dx-text-box>
 		</div>
 	</div>
-
 </div>
