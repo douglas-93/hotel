@@ -1,0 +1,8 @@
+export enum TiposQuartoEnum {
+	SOLTEIRO,
+	DUPLO_SOLTEIRO,
+	TRIPLO_SOLTEIRO,
+	CASAL,
+	DORMITORIO,
+	APARTAMENTO,
+}

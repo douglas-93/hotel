@@ -27,5 +27,10 @@ export const navigation = [
 		text: 'Hospedes',
 		path: '/pages/hospedes',
 		icon: 'group'
-	}
+	},
+  {
+    text: 'Quartos',
+    path: '/pages/quartos',
+    icon: 'lock'
+  }
 ];

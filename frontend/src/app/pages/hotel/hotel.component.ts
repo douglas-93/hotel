@@ -28,6 +28,9 @@ export class HotelComponent implements OnInit {
 			data => {
 				if (data.status === 200) {
 					this.hotel = data.body!
+					if (data.body?.estado) {
+						this.idEstado = Number.parseInt(data.body?.estado)
+					}
 				} else if (data.status === 204) {
 					this.mostraMensagem('info', 'Favor fazer o cadastro inicial')
 				}
@@ -50,6 +53,7 @@ export class HotelComponent implements OnInit {
 					estado.ufSigla = e['UF-sigla']
 					return estado
 				}).sort(this.ordenaSiglas)
+
 				this.iscarregando = false
 			}
 		)

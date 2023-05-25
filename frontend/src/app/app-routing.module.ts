@@ -11,26 +11,32 @@ import {HomeComponent} from './pages/home/home.component';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {TasksComponent} from './pages/tasks/tasks.component';
 import {
-    DxAutocompleteModule,
-    DxBoxModule,
-    DxButtonModule,
-    DxDataGridModule,
-    DxDateBoxModule, DxDropDownBoxModule,
-    DxFormModule, DxListModule,
-    DxLoadIndicatorModule, DxLoadPanelModule, DxMenuModule, DxNumberBoxModule,
-    DxPopupModule,
-    DxScrollViewModule, DxSelectBoxModule,
-    DxTextAreaModule,
-    DxTextBoxModule
+	DxAutocompleteModule,
+	DxBoxModule,
+	DxButtonModule, DxCheckBoxModule,
+	DxDataGridModule,
+	DxDateBoxModule, DxDropDownBoxModule,
+	DxFormModule, DxListModule,
+	DxLoadIndicatorModule, DxLoadPanelModule, DxMenuModule, DxNumberBoxModule,
+	DxPopupModule,
+	DxScrollViewModule, DxSelectBoxModule, DxTabPanelModule,
+	DxTextAreaModule,
+	DxTextBoxModule
 } from 'devextreme-angular';
 import {HospedeComponent} from './pages/hospede/hospede.component';
 import {FormsModule} from "@angular/forms";
 import {HospedeFormComponent} from "./shared/components/hospede-form/hospede-form.component";
 import {ToolbarModule} from "./shared/components/toolbar/toolbar.component";
 import { HotelComponent } from './pages/hotel/hotel.component';
-import {NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
+import { QuartosComponent } from './pages/quartos/quartos.component';
 
 const routes: Routes = [
+  {
+    path: 'pages/quartos',
+    component: QuartosComponent,
+    canActivate: [ AuthGuardService ]
+  },
   {
     path: 'pages/hotel',
     component: HotelComponent,
@@ -93,7 +99,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule, NgIf, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxLoadPanelModule, DxAutocompleteModule],
+	imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule, NgIf, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxLoadPanelModule, DxAutocompleteModule, DxTabPanelModule, DxCheckBoxModule, NgForOf],
 	providers: [AuthGuardService],
 	exports: [RouterModule],
 	declarations: [
@@ -101,7 +107,8 @@ const routes: Routes = [
 		ProfileComponent,
 		TasksComponent,
 		HospedeComponent,
-  HotelComponent
+  HotelComponent,
+  QuartosComponent
 	]
 })
 export class AppRoutingModule {
