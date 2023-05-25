@@ -1,0 +1,66 @@
+<h2 class="content-block">Listagem de Quartos</h2>
+<div class="content-block">
+	<app-toolbar
+		(filtrar)="buscaQuartos()"
+		[cad]="false">
+	</app-toolbar>
+
+	<ng-container *ngIf="quartos">
+		<div class="container-full">
+			<ng-container *ngFor="let quarto of quartos">
+				<dx-tab-panel class="card">
+					<dxi-item icon="edit" title="Cadastro">
+						<div *dxTemplate>
+							<div class="row">
+								<dx-check-box [(value)]="quarto.ativo"
+											  [readOnly]="isReadOnly"
+											  class="margem"
+											  text="Ativo">
+								</dx-check-box>
+							</div>
+
+
+							<dx-text-box [(value)]="quarto.nome"
+										 [readOnly]="isReadOnly"
+										 class="margem"
+										 label="Nome"
+										 labelMode="floating">
+							</dx-text-box>
+
+
+							<dx-select-box [(value)]="quarto.tipo"
+										   [dataSource]="tiposQuartos"
+										   [readOnly]="isReadOnly"
+										   class="margem"
+										   displayExpr="text"
+										   label="Tipo"
+										   labelMode="floating"
+										   valueExpr="value">
+							</dx-select-box>
+
+							<dx-select-box [(value)]="quarto.categoria"
+										   [dataSource]="categorias"
+										   [readOnly]="isReadOnly"
+										   class="margem"
+										   displayExpr="text"
+										   label="Categoria"
+										   labelMode="floating"
+										   valueExpr="value">
+							</dx-select-box>
+
+							<div class="row">
+								<dx-button *ngIf="!isReadOnly"
+								text="Salvar"></dx-button>
+								<dx-button *ngIf="isReadOnly"
+								text="Editar"></dx-button>
+							</div>
+						</div>
+					</dxi-item>
+					<dxi-item icon="clock" title="Reservas">
+						<!--					 ... -->
+					</dxi-item>
+				</dx-tab-panel>
+			</ng-container>
+		</div>
+	</ng-container>
+</div>

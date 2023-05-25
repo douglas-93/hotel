@@ -1,0 +1,30 @@
+.container-full {
+	display: flex;
+	flex-direction: row !important;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.container {
+
+}
+
+.card {
+	display: flex;
+	width: 20vw;
+	//padding: 1rem;
+	flex-direction: row !important;
+	margin: 1rem;
+	flex-wrap: wrap;
+}
+
+.row {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	justify-content: end;
+}
+
+.margem {
+	margin: 0.5rem;
+}
