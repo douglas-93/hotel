@@ -3,6 +3,7 @@ import {QuartoService} from "../../shared/services/quarto.service";
 import {QuartoModel} from "../../shared/models/quarto.model";
 import {TiposQuartoEnum} from "../../shared/enums/tipos-quartos.enum";
 import {CategoriasEnum} from "../../shared/enums/categorias.enum";
+import {Router} from "@angular/router";
 
 @Component({
 	selector: 'app-quartos',
@@ -13,18 +14,10 @@ export class QuartosComponent implements OnInit {
 
 	isReadOnly: boolean = true;
 	quartos: QuartoModel[];
-	tiposQuartos = Object.values(TiposQuartoEnum).filter(f => isNaN(Number(f))).map(valor => ({
-		value: valor,
-		// @ts-ignore
-		text: valor.replace('_', ' ')
-	}));
-	categorias = Object.values(CategoriasEnum).filter(f => isNaN(Number(f))).map(valor => ({
-		value: valor,
-		// @ts-ignore
-		text: valor.replace('_', ' ')
-	}));
+	quartoSelecionado: QuartoModel;
 
-	constructor(private quartoService: QuartoService) {
+	constructor(private quartoService: QuartoService,
+				private router: Router) {
 	}
 
 	ngOnInit(): void {
@@ -36,5 +29,21 @@ export class QuartosComponent implements OnInit {
 				this.quartos = resp.body!
 			}
 		})
+	}
+
+	selecionaQuarto(e) {
+		e.component.byKey(e.currentSelectedRowKeys[0]).done(quarto => {
+			if (quarto) {
+				this.quartoSelecionado = quarto;
+			}
+		});
+	}
+
+	novo() {
+		this.router.navigate(['pages', 'quartos', 'cad'])
+	}
+
+	editar(e: MouseEvent) {
+		this.router.navigate(['pages', 'quartos', 'cad', this.quartoSelecionado.id])
 	}
 }

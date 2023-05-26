@@ -73,10 +73,6 @@ export class HospedeFormComponent {
 		}
 	}
 
-	excluirHospede() {
-
-	}
-
 	deletaHospede() {
 		let myDialog = custom({
 			title: "Confirmação",

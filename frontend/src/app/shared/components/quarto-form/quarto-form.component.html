@@ -1,0 +1,40 @@
+<div class="content-block">
+
+	<h2 class="content-block">Cadastro de Quarto</h2>
+
+	<app-toolbar
+		(deletar)="deletaQuarto()"
+		(salvar)="salvar()"
+		[cad]="true">
+	</app-toolbar>
+
+	<div class="dx-card responsive-paddings">
+		<div class="container">
+			<dx-check-box [(value)]="quarto.ativo"
+						  class="margem"
+						  text="Ativo">
+			</dx-check-box>
+			<dx-text-box [(value)]="quarto.nome"
+						 class="margem"
+						 label="Nome"
+						 labelMode="floating">
+			</dx-text-box>
+			<dx-select-box [(value)]="quarto.tipo"
+						   [dataSource]="tiposQuartos"
+						   class="margem"
+						   displayExpr="text"
+						   label="Tipo"
+						   labelMode="floating"
+						   valueExpr="value">
+			</dx-select-box>
+			<dx-select-box [(value)]="quarto.categoria"
+						   [dataSource]="categorias"
+						   class="margem"
+						   displayExpr="text"
+						   label="Nome"
+						   labelMode="floating"
+						   valueExpr="value">
+			</dx-select-box>
+		</div>
+	</div>
+</div>

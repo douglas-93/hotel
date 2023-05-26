@@ -13,79 +13,81 @@
 		</dx-button>
 	</div>
 
-	<div class="container">
+	<div class="dx-card responsive-paddings">
+		<div class="container">
 
-		<dx-load-panel
-			[(visible)]="iscarregando"
-			[hideOnOutsideClick]="false"
-			[shading]="true"
-			[showIndicator]="true"
-			[showPane]="true"
-			shadingColor="rgba(0,0,0,0.4)">
-		</dx-load-panel>
+			<dx-load-panel
+				[(visible)]="iscarregando"
+				[hideOnOutsideClick]="false"
+				[shading]="true"
+				[showIndicator]="true"
+				[showPane]="true"
+				shadingColor="rgba(0,0,0,0.4)">
+			</dx-load-panel>
 
-		<div class="row">
-			<dx-text-box
-				[(value)]="hotel.nome"
-				class="margem"
-				label="Nome"
-				labelMode="floating"
-			width="40rem">
-			</dx-text-box>
-			<dx-text-box
-				[(value)]="hotel.cnpj"
-				class="margem"
-				label="CNPJ"
-				labelMode="floating"
-				mask="##.###.###/####-##">
-			</dx-text-box>
-		</div>
-		<div class="row">
-			<dx-text-box
-				[(value)]="hotel.logradouro"
-				class="margem"
-				label="Logradouro"
-				labelMode="floating"
-				width="40rem">
-			</dx-text-box>
-			<dx-text-box
-				[(value)]="hotel.numero"
-				class="margem"
-				label="Número"
-				labelMode="floating">
-			</dx-text-box>
+			<div class="row">
+				<dx-text-box
+					[(value)]="hotel.nome"
+					class="margem"
+					label="Nome"
+					labelMode="floating"
+					width="40rem">
+				</dx-text-box>
+				<dx-text-box
+					[(value)]="hotel.cnpj"
+					class="margem"
+					label="CNPJ"
+					labelMode="floating"
+					mask="##.###.###/####-##">
+				</dx-text-box>
+			</div>
+			<div class="row">
+				<dx-text-box
+					[(value)]="hotel.logradouro"
+					class="margem"
+					label="Logradouro"
+					labelMode="floating"
+					width="40rem">
+				</dx-text-box>
+				<dx-text-box
+					[(value)]="hotel.numero"
+					class="margem"
+					label="Número"
+					labelMode="floating">
+				</dx-text-box>
 
-		</div>
-		<div class="row">
+			</div>
+			<div class="row">
 
-			<dx-select-box
-				(onSelectionChanged)="defineIdEstado($event)"
-				[(value)]="hotel.estado"
-				[dataSource]="estados"
-				[searchEnabled]="true"
-				class="margem"
-				displayExpr="ufSigla"
-				label="Estado"
-				labelMode="floating"
-				valueExpr="ufId">
-			</dx-select-box>
+				<dx-select-box
+					(onSelectionChanged)="defineIdEstado($event)"
+					[(value)]="hotel.estado"
+					[dataSource]="estados"
+					[searchEnabled]="true"
+					class="margem"
+					displayExpr="ufSigla"
+					label="Estado"
+					labelMode="floating"
+					valueExpr="ufId">
+				</dx-select-box>
 
-			<dx-autocomplete
-				[(value)]="hotel.cidade"
-				[dataSource]="cidades"
-				[showClearButton]="true"
-				class="margem"
-				label="Cidade"
-				labelMode="floating"
-				width="24rem">
-			</dx-autocomplete>
+				<dx-autocomplete
+					[(value)]="hotel.cidade"
+					[dataSource]="cidades"
+					[showClearButton]="true"
+					class="margem"
+					label="Cidade"
+					labelMode="floating"
+					width="24rem">
+				</dx-autocomplete>
 
-			<dx-text-box
-				[(value)]="hotel.pais"
-				class="margem"
-				label="Pais"
-				labelMode="floating">
-			</dx-text-box>
+				<dx-text-box
+					[(value)]="hotel.pais"
+					class="margem"
+					label="Pais"
+					labelMode="floating">
+				</dx-text-box>
+			</div>
 		</div>
 	</div>
 </div>

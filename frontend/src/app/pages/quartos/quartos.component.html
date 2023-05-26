@@ -2,65 +2,50 @@
 <div class="content-block">
 	<app-toolbar
 		(filtrar)="buscaQuartos()"
+		(novoCad)="novo()"
 		[cad]="false">
 	</app-toolbar>
 
-	<ng-container *ngIf="quartos">
-		<div class="container-full">
-			<ng-container *ngFor="let quarto of quartos">
-				<dx-tab-panel class="card">
-					<dxi-item icon="edit" title="Cadastro">
-						<div *dxTemplate>
-							<div class="row">
-								<dx-check-box [(value)]="quarto.ativo"
-											  [readOnly]="isReadOnly"
-											  class="margem"
-											  text="Ativo">
-								</dx-check-box>
-							</div>
+	<dx-data-grid #grid
+				  (onRowDblClick)="editar($event)"
+				  (onSelectionChanged)="selecionaQuarto($event)"
+				  [columnAutoWidth]="true"
+				  [dataSource]="quartos"
+				  id="dataGrid"
+				  keyExpr="id">
 
+		<dxo-filter-row [visible]="true"></dxo-filter-row>
+		<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
+		<dxo-load-panel [enabled]="true"></dxo-load-panel>
+		<dxo-selection mode="single"></dxo-selection>
+		<dxo-paging
+			[pageIndex]="0"
+			[pageSize]="10">
+		</dxo-paging>
+		<dxo-pager
+			[allowedPageSizes]="[10, 20, 50]"
+			[showNavigationButtons]="true"
+			[showPageSizeSelector]="true">
+		</dxo-pager>
 
-							<dx-text-box [(value)]="quarto.nome"
-										 [readOnly]="isReadOnly"
-										 class="margem"
-										 label="Nome"
-										 labelMode="floating">
-							</dx-text-box>
+		<dxi-column dataField="id"></dxi-column>
+		<dxi-column dataField="nome"></dxi-column>
+		<dxi-column cellTemplate="tipoTemplate"
+			dataField="tipo"></dxi-column>
+		<dxi-column dataField="categoria"></dxi-column>
+		<dxi-column cellTemplate="ativoTemplate"
+					dataField="ativo">
+		</dxi-column>
 
-
-							<dx-select-box [(value)]="quarto.tipo"
-										   [dataSource]="tiposQuartos"
-										   [readOnly]="isReadOnly"
-										   class="margem"
-										   displayExpr="text"
-										   label="Tipo"
-										   labelMode="floating"
-										   valueExpr="value">
-							</dx-select-box>
-
-							<dx-select-box [(value)]="quarto.categoria"
-										   [dataSource]="categorias"
-										   [readOnly]="isReadOnly"
-										   class="margem"
-										   displayExpr="text"
-										   label="Categoria"
-										   labelMode="floating"
-										   valueExpr="value">
-							</dx-select-box>
-
-							<div class="row">
-								<dx-button *ngIf="!isReadOnly"
-								text="Salvar"></dx-button>
-								<dx-button *ngIf="isReadOnly"
-								text="Editar"></dx-button>
-							</div>
-						</div>
-					</dxi-item>
-					<dxi-item icon="clock" title="Reservas">
-						<!--					 ... -->
-					</dxi-item>
-				</dx-tab-panel>
-			</ng-container>
+		<!--		TEMPLATES-->
+		<div *dxTemplate="let data of 'ativoTemplate'">
+			<dx-check-box
+				[readOnly]="true"
+				[value]="data.data.ativo">
+			</dx-check-box>
 		</div>
-	</ng-container>
+		<div *dxTemplate="let data of 'tipoTemplate'">
+			{{data.data.tipo.replace('_', ' ')}}
+		</div>
+	</dx-data-grid>
 </div>
