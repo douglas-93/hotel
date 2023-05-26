@@ -5,9 +5,10 @@ import {QuartoModel} from "../../models/quarto.model";
 import notify from "devextreme/ui/notify";
 import {custom} from "devextreme/ui/dialog";
 import {ToolbarModule} from "../toolbar/toolbar.component";
-import {DxCheckBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {DxCheckBoxModule, DxFileUploaderModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {TiposQuartoEnum} from "../../enums/tipos-quartos.enum";
 import {CategoriasEnum} from "../../enums/categorias.enum";
+import {NgIf} from "@angular/common";
 
 @Component({
 	selector: 'app-quarto-form',
@@ -28,6 +29,9 @@ export class QuartoFormComponent {
 		// @ts-ignore
 		text: valor.replace('_', ' ')
 	}));
+
+	selectedFile: File | null = null;
+	imageUrl: string | null = null;
 
 	constructor(private quartoService: QuartoService,
 				private router: Router) {
@@ -123,6 +127,16 @@ export class QuartoFormComponent {
 	voltar() {
 		window.history.back()
 	}
+
+	handleFileChange(e: any) {
+		this.selectedFile = e.value[0];
+
+		const reader = new FileReader();
+		reader.onloadend = () => {
+			this.imageUrl = reader.result as string;
+		};
+		reader.readAsDataURL(this.selectedFile!);
+	}
 }
 
 @NgModule({
@@ -130,7 +144,9 @@ export class QuartoFormComponent {
 		ToolbarModule,
 		DxCheckBoxModule,
 		DxTextBoxModule,
-		DxSelectBoxModule
+		DxSelectBoxModule,
+		DxFileUploaderModule,
+		NgIf
 	],
 	declarations: [QuartoFormComponent],
 	exports: [QuartoFormComponent]

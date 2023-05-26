@@ -31,10 +31,22 @@
 						   [dataSource]="categorias"
 						   class="margem"
 						   displayExpr="text"
-						   label="Nome"
+						   label="Categoria"
 						   labelMode="floating"
 						   valueExpr="value">
 			</dx-select-box>
+		</div>
+		<div class="container-foto">
+			<div  class="dx-card" id="foto">
+				<img [src]="imageUrl"/>
+			</div>
+
+			<dx-file-uploader
+				[selectButtonText]="'Selecione a foto'"
+				[accept]="'image/*'"
+				[uploadMode]="'useForm'"
+				(onValueChanged)="handleFileChange($event)">
+			</dx-file-uploader>
 		</div>
 	</div>
 </div>

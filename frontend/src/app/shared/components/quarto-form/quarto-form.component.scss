@@ -6,7 +6,30 @@
 	width: 50%;
 }
 
+.container-foto{
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 .dx-card{
 	display: flex;
 	justify-content: center;
+}
+
+#foto {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 80%;
+	height: 20rem;
+	padding: 5px;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
 }
