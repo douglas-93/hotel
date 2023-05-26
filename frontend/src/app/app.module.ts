@@ -18,7 +18,7 @@ import {HospedeFormModule} from './shared/components/hospede-form/hospede-form.c
 import {DevExtremeModule} from "devextreme-angular";
 import {CommonModule} from "@angular/common";
 import {QuartoFormModule} from "./shared/components/quarto-form/quarto-form.component";
-import {ReservaFormComponent, ReservaFormModule} from './shared/components/reserva-form/reserva-form.component';
+import {ReservaFormModule} from './shared/components/reserva-form/reserva-form.component';
 
 @NgModule({
 	declarations: [

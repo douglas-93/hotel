@@ -92,7 +92,7 @@ export class HospedeFormComponent {
 			},
 				{
 					text: "Cancelar",
-					onClick: (e) => {
+					onClick: () => {
 						myDialog.hide()
 					}
 				},

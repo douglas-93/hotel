@@ -93,7 +93,7 @@ export class QuartoFormComponent {
 			},
 				{
 					text: "Cancelar",
-					onClick: (e) => {
+					onClick: () => {
 						myDialog.hide()
 					}
 				},

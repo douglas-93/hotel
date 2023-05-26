@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {QuartoService} from "../../shared/services/quarto.service";
 import {QuartoModel} from "../../shared/models/quarto.model";
-import {TiposQuartoEnum} from "../../shared/enums/tipos-quartos.enum";
-import {CategoriasEnum} from "../../shared/enums/categorias.enum";
 import {Router} from "@angular/router";
 
 @Component({
