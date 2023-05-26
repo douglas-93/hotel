@@ -5,7 +5,7 @@ import {
 	DxButtonModule,
 	DxDataGridModule,
 	DxDateBoxModule,
-	DxSelectBoxModule
+	DxSelectBoxModule, DxTextAreaModule
 } from "devextreme-angular";
 import {HospedeModel} from "../../models/hospede.model";
 import notify from "devextreme/ui/notify";
@@ -119,7 +119,8 @@ export class ReservaFormComponent {
 		DatePipe,
 		DxSelectBoxModule,
 		DxAutocompleteModule,
-		FormsModule
+		FormsModule,
+		DxTextAreaModule
 	],
 	declarations: [ReservaFormComponent],
 	exports: [ReservaFormComponent]
