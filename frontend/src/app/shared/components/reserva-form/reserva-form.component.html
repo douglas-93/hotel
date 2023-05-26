@@ -1,8 +1,95 @@
 <h2 class="content-block">Cadastro de Reserva</h2>
 <div class="content-block">
-	<app-toolbar [cad]="true"
-				 ></app-toolbar>
+	<app-toolbar
+		(salvar)="salvaReserva()"
+		[cad]="true">
+	</app-toolbar>
 	<div class="dx-card responsive-paddings">
-		<p>Formulário</p>
+
+		<div class="box">
+			<div style="width: 40%">
+
+				<div class="container-buttons">
+					<dx-autocomplete #autComp
+									 [items]="hospedes"
+									 [showClearButton]="true"
+									 label="Nome do hospede"
+									 labelMode="floating"
+									 valueExpr="nome"
+									 width="100%">
+					</dx-autocomplete>
+					<dx-button
+						(onClick)="adicionarHospede()"
+						icon="add">
+					</dx-button>
+					<dx-button
+						(onClick)="removerHospede()"
+						icon="minus">
+					</dx-button>
+				</div>
+				<dx-data-grid
+					(onSelectionChanged)="selecionaHospede($event)"
+					[dataSource]="hospedesNaReserva"
+					keyExpr="id">
+					<dxo-selection mode="single"></dxo-selection>
+					<dxo-paging
+						[pageIndex]="0"
+						[pageSize]="10">
+					</dxo-paging>
+					<dxo-pager
+						[allowedPageSizes]="[10, 20, 50]"
+						[showNavigationButtons]="true"
+						[showPageSizeSelector]="true">
+					</dxo-pager>
+
+
+					<dxi-column [visible]="false" dataField="id"></dxi-column>
+					<dxi-column dataField="nome"></dxi-column>
+					<dxi-column [visible]="false" dataField="nascimento"></dxi-column>
+					<dxi-column caption="CPF"
+								cellTemplate="cpfTemplate"
+								dataField="cpf">
+					</dxi-column>
+					<dxi-column [visible]="false" dataField="telefone"></dxi-column>
+					<dxi-column [visible]="false" dataField="celular"></dxi-column>
+					<dxi-column [visible]="false" dataField="email"></dxi-column>
+					<dxi-column [visible]="false" dataField="observacao"></dxi-column>
+
+					<div *dxTemplate="let data of 'cpfTemplate'">
+						{{ cpfFormatado(data.data.cpf) }}
+					</div>
+				</dx-data-grid>
+			</div>
+
+			<div style="width: 40%;">
+				<dx-date-box
+					(valueChange)="defineDataInicial($event)"
+					[showClearButton]="true"
+					[useMaskBehavior]="true"
+					[value]="reserva.inicio"
+					displayFormat="dd/MM/yyyy HH:mm"
+					label="Data Inicial"
+					labelMode="floating"
+					type="datetime">
+				</dx-date-box>
+				<dx-date-box
+					(valueChange)="defineDataFinal($event)"
+					[showClearButton]="true"
+					[useMaskBehavior]="true"
+					[value]="reserva.fim"
+					displayFormat="dd/MM/yyyy HH:mm"
+					label="Data Final"
+					labelMode="floating"
+					type="datetime">
+				</dx-date-box>
+				<dx-select-box
+					[(value)]="reserva.quarto"
+					[dataSource]="quartos"
+					displayExpr="nome"
+					label="Quarto"
+					labelMode="floating">
+				</dx-select-box>
+			</div>
+		</div>
 	</div>
 </div>

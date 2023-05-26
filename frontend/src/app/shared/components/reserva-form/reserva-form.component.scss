@@ -1,0 +1,18 @@
+.container-buttons {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+}
+
+.header-title {
+	margin-right: auto;
+}
+
+dx-button, dx-date-box, dx-select-box, dx-autocomplete {
+	margin: 0.5rem;
+}
+
+.box {
+	display: flex;
+	justify-content: space-around;
+}
