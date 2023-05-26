@@ -13,13 +13,21 @@ import {TasksComponent} from './pages/tasks/tasks.component';
 import {
 	DxAutocompleteModule,
 	DxBoxModule,
-	DxButtonModule, DxCheckBoxModule,
+	DxButtonModule,
+	DxCheckBoxModule,
 	DxDataGridModule,
-	DxDateBoxModule, DxDropDownBoxModule,
-	DxFormModule, DxListModule,
-	DxLoadIndicatorModule, DxLoadPanelModule, DxMenuModule, DxNumberBoxModule,
+	DxDateBoxModule,
+	DxDropDownBoxModule,
+	DxFormModule,
+	DxListModule,
+	DxLoadIndicatorModule,
+	DxLoadPanelModule,
+	DxMenuModule,
+	DxNumberBoxModule,
 	DxPopupModule,
-	DxScrollViewModule, DxSelectBoxModule, DxTabPanelModule,
+	DxScrollViewModule,
+	DxSelectBoxModule,
+	DxTabPanelModule,
 	DxTextAreaModule,
 	DxTextBoxModule
 } from 'devextreme-angular';
@@ -27,21 +35,29 @@ import {HospedeComponent} from './pages/hospede/hospede.component';
 import {FormsModule} from "@angular/forms";
 import {HospedeFormComponent} from "./shared/components/hospede-form/hospede-form.component";
 import {ToolbarModule} from "./shared/components/toolbar/toolbar.component";
-import { HotelComponent } from './pages/hotel/hotel.component';
+import {HotelComponent} from './pages/hotel/hotel.component';
 import {NgForOf, NgIf} from "@angular/common";
-import { QuartosComponent } from './pages/quartos/quartos.component';
+import {QuartosComponent} from './pages/quartos/quartos.component';
+import {QuartoFormComponent} from "./shared/components/quarto-form/quarto-form.component";
+import { ReservaComponent } from './pages/reserva/reserva.component';
+import {ReservaFormComponent} from "./shared/components/reserva-form/reserva-form.component";
 
 const routes: Routes = [
   {
-    path: 'pages/quartos',
-    component: QuartosComponent,
+    path: 'pages/reserva',
+    component: ReservaComponent,
     canActivate: [ AuthGuardService ]
   },
-  {
-    path: 'pages/hotel',
-    component: HotelComponent,
-    canActivate: [ AuthGuardService ]
-  },
+	{
+		path: 'pages/quartos',
+		component: QuartosComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/hotel',
+		component: HotelComponent,
+		canActivate: [AuthGuardService]
+	},
 	{
 		path: 'pages/hospedes',
 		component: HospedeComponent,
@@ -55,6 +71,26 @@ const routes: Routes = [
 	{
 		path: 'pages/hospedes/cad/:id',
 		component: HospedeFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/quartos/cad',
+		component: QuartoFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/quartos/cad/:id',
+		component: QuartoFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/reservas/cad',
+		component: ReservaFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/reservas/cad/:id',
+		component: ReservaFormComponent,
 		canActivate: [AuthGuardService]
 	},
 	{
@@ -107,8 +143,9 @@ const routes: Routes = [
 		ProfileComponent,
 		TasksComponent,
 		HospedeComponent,
-  HotelComponent,
-  QuartosComponent
+		HotelComponent,
+		QuartosComponent,
+  ReservaComponent
 	]
 })
 export class AppRoutingModule {

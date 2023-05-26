@@ -17,6 +17,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {HospedeFormModule} from './shared/components/hospede-form/hospede-form.component';
 import {DevExtremeModule} from "devextreme-angular";
 import {CommonModule} from "@angular/common";
+import {QuartoFormModule} from "./shared/components/quarto-form/quarto-form.component";
+import {ReservaFormComponent, ReservaFormModule} from './shared/components/reserva-form/reserva-form.component';
 
 @NgModule({
 	declarations: [
@@ -37,7 +39,9 @@ import {CommonModule} from "@angular/common";
 		HttpClientModule,
 		HospedeFormModule,
 		DevExtremeModule,
-		CommonModule
+		CommonModule,
+		QuartoFormModule,
+		ReservaFormModule
 	],
 	providers: [
 		AuthService,

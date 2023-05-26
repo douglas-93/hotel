@@ -32,5 +32,10 @@ export const navigation = [
     text: 'Quartos',
     path: '/pages/quartos',
     icon: 'lock'
+  },
+  {
+    text: 'Reserva',
+    path: '/pages/reserva',
+    icon: 'clock'
   }
 ];
