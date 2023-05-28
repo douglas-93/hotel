@@ -1,8 +1,56 @@
 <h2 class="content-block">Reserva</h2>
 <div class="content-block">
-	<app-toolbar [cad]="false"
-	(novoCad)="novo()"></app-toolbar>
-    <div class="dx-card responsive-paddings">
-		<p>DataGrid</p>
+	<app-toolbar
+		(filtrar)="buscarReservas()"
+		(novoCad)="novo()"
+		[cad]="false">
+	</app-toolbar>
+	<div class="dx-card responsive-paddings">
+
+		<dx-data-grid #grid
+					  (onRowDblClick)="editar($event)"
+					  (onSelectionChanged)="selecionaReserva($event)"
+					  [columnAutoWidth]="true"
+					  [dataSource]="reservas"
+					  id="dataGrid"
+					  keyExpr="id">
+
+			<dxo-filter-row [visible]="true"></dxo-filter-row>
+			<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
+			<dxo-load-panel [enabled]="true"></dxo-load-panel>
+			<dxo-selection mode="single"></dxo-selection>
+			<dxo-paging
+				[pageIndex]="0"
+				[pageSize]="10">
+			</dxo-paging>
+			<dxo-pager
+				[allowedPageSizes]="[10, 20, 50]"
+				[showNavigationButtons]="true"
+				[showPageSizeSelector]="true">
+			</dxo-pager>
+
+			<dxi-column [visible]="false" dataField="id"></dxi-column>
+			<dxi-column dataField="hospedes" cellTemplate="hospTemplate"></dxi-column>
+			<dxi-column
+				dataField="dataEntrada"
+				dataType="date"
+				format="dd/MM/yyyy HH:mm">
+			</dxi-column>
+			<dxi-column
+				dataField="dataSaida"
+				dataType="date"
+				format="dd/MM/yyyy HH:mm">
+			</dxi-column>
+			<dxi-column dataField="quarto.nome"></dxi-column>
+			<dxi-column [visible]="false" dataField="observacao"></dxi-column>
+
+<!--			TEMPLATE	-->
+			<div *dxTemplate="let data of 'hospTemplate'">
+				<div *ngFor="let h of data.data.hospedes">
+					<i class="dx-icon-user"></i> {{h.nome}}
+				</div>
+			</div>
+		</dx-data-grid>
+
 	</div>
 </div>

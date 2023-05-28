@@ -1,11 +1,15 @@
-import {Component, NgModule, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, NgModule, SimpleChanges, ViewChild} from '@angular/core';
 import {ToolbarModule} from "../toolbar/toolbar.component";
 import {
-	DxAccordionModule, DxAutocompleteComponent, DxAutocompleteModule,
+	DxAccordionModule,
+	DxAutocompleteComponent,
+	DxAutocompleteModule,
 	DxButtonModule,
 	DxDataGridModule,
-	DxDateBoxModule, DxSelectBoxComponent,
-	DxSelectBoxModule, DxTextAreaModule
+	DxDateBoxModule,
+	DxSelectBoxComponent,
+	DxSelectBoxModule,
+	DxTextAreaModule
 } from "devextreme-angular";
 import {HospedeModel} from "../../models/hospede.model";
 import notify from "devextreme/ui/notify";
@@ -16,6 +20,7 @@ import {HospedeService} from "../../services/hospede.service";
 import {QuartoService} from "../../services/quarto.service";
 import {ReservaService} from "../../services/reserva.service";
 import {FormsModule} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
 	selector: 'app-reserva-form',
@@ -33,10 +38,13 @@ export class ReservaFormComponent {
 	quartos: QuartoModel[] = [];
 	hospedeSelecinado: HospedeModel;
 	hospedes: HospedeModel[];
+	isUpdate: boolean = false;
 
 	constructor(private hospService: HospedeService,
 				private quartSerice: QuartoService,
-				private reservService: ReservaService) {
+				private reservService: ReservaService,
+				private router: Router,
+				private cdr: ChangeDetectorRef) {
 		this.quartSerice.getQuartos().subscribe(resp => {
 			if (resp.status === 200) {
 				this.quartos = resp.body!.filter(q => q.ativo === true)
@@ -45,8 +53,21 @@ export class ReservaFormComponent {
 
 		this.hospService.getHospedes().subscribe(resp => {
 			this.hospedes = resp
-			console.log(this.hospedes)
 		})
+
+		let id = router.url.split('/').pop()
+		if (id?.match(/[0-9]+/)) {
+			this.isUpdate = true
+			reservService.getReserva(Number.parseInt(id)).subscribe(resp => {
+				if (resp.status === 200) {
+					this.reserva = resp.body!
+					this.hospedesNaReserva = this.reserva.hospedes
+					setTimeout(() => {
+						this.quarto.selectedItem = this.reserva.quarto
+					}, 500)
+				}
+			})
+		}
 	}
 
 	adicionarHospede() {
@@ -100,20 +121,42 @@ export class ReservaFormComponent {
 		if (this.reserva.dataSaida < this.reserva.dataEntrada) {
 			this.mostraMensagem('error', 'Data final não pode ser menor que data incial')
 		} else {
-			this.reservService.createReserva(this.reserva).subscribe(resp => {
-				if (resp.status === 201) {
-					this.mostraMensagem('success', 'Reserva realizada com sucesso')
-					setTimeout(this.voltar, 1000)
-				}
-			})
+			if (this.isUpdate) {
+				this.atualiza()
+			} else {
+				this.cria()
+			}
 		}
+	}
+
+	cria() {
+		this.reservService.createReserva(this.reserva).subscribe(resp => {
+			if (resp.status === 201) {
+				this.mostraMensagem('success', 'Reserva realizada com sucesso')
+				setTimeout(this.voltar, 1000)
+			}
+		})
+	}
+
+	atualiza() {
+		this.reservService.updateReserva(this.reserva).subscribe(resp => {
+			if (resp.status === 200) {
+				this.mostraMensagem('success', 'Reserva atualizada com sucesso')
+				setTimeout(this.voltar, 1000)
+			}
+		})
 	}
 
 	defineDataInicial(e: Date | number | string) {
 		this.reserva.dataEntrada = <Date>e
 	}
+
 	defineDataFinal(e: Date | number | string) {
 		this.reserva.dataSaida = <Date>e
+	}
+
+	defineQuarto() {
+		this.reserva.quarto = this.quarto.selectedItem
 	}
 
 	private voltar() {

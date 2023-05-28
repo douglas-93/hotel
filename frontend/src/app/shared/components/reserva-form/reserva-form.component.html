@@ -84,7 +84,9 @@
 					type="datetime">
 				</dx-date-box>
 				<dx-select-box
-					[(value)]="reserva.quarto"
+					#quarto
+					(onSelectionChanged)="defineQuarto()"
+					[value]="reserva.quarto"
 					[dataSource]="quartos"
 					displayExpr="nome"
 					label="Quarto"
