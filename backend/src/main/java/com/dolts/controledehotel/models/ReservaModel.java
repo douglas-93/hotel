@@ -1,42 +1,43 @@
 package com.dolts.controledehotel.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "reservas")
-public class ReservaModel {
+public class ReservaModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<HospedeModel> hospede;
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<QuartoModel> quarto;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime dataDeRealizacaoDaReserva = LocalDateTime.now();
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime inicio;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime fim;
+    private Date dataEntrada;
+    private Date dataSaida;
+    private String observacao;
+
+    @OneToOne
+    private QuartoModel quarto;
+
+    @ManyToMany
+    @JoinTable(
+            name = "reserva_hospede",
+            joinColumns = @JoinColumn(name = "reserva_id"),
+            inverseJoinColumns = @JoinColumn(name = "hospede_id")
+    )
+    private List<HospedeModel> hospedes;
 
     public ReservaModel() {
+        this.hospedes = new ArrayList<>();
     }
 
-    public ReservaModel(Long id, List<HospedeModel> hospede, List<QuartoModel> quarto, LocalDateTime dataDeRealizacaoDaReserva, LocalDateTime inicio, LocalDateTime fim) {
+    public ReservaModel(Long id, Date dataEntrada, Date dataSaida, QuartoModel quarto) {
         this.id = id;
-        this.hospede = hospede;
+        this.dataEntrada = dataEntrada;
+        this.dataSaida = dataSaida;
         this.quarto = quarto;
-        this.dataDeRealizacaoDaReserva = dataDeRealizacaoDaReserva;
-        this.inicio = inicio;
-        this.fim = fim;
+        this.hospedes = new ArrayList<>();
     }
 
     public Long getId() {
@@ -47,43 +48,51 @@ public class ReservaModel {
         this.id = id;
     }
 
-    public List<HospedeModel> getHospede() {
-        return hospede;
+    public Date getDataEntrada() {
+        return dataEntrada;
     }
 
-    public void setHospede(List<HospedeModel> hospede) {
-        this.hospede = hospede;
+    public void setDataEntrada(Date dataEntrada) {
+        this.dataEntrada = dataEntrada;
     }
 
-    public List<QuartoModel> getQuarto() {
+    public Date getDataSaida() {
+        return dataSaida;
+    }
+
+    public void setDataSaida(Date dataSaida) {
+        this.dataSaida = dataSaida;
+    }
+
+    public QuartoModel getQuarto() {
         return quarto;
     }
 
-    public void setQuarto(List<QuartoModel> quarto) {
+    public void setQuarto(QuartoModel quarto) {
         this.quarto = quarto;
     }
 
-    public LocalDateTime getDataDeRealizacaoDaReserva() {
-        return dataDeRealizacaoDaReserva;
+    public List<HospedeModel> getHospedes() {
+        return hospedes;
     }
 
-    public void setDataDeRealizacaoDaReserva(LocalDateTime dataDeRealizacaoDaReserva) {
-        this.dataDeRealizacaoDaReserva = dataDeRealizacaoDaReserva;
+    public void setHospedes(List<HospedeModel> hospedes) {
+        this.hospedes = hospedes;
     }
 
-    public LocalDateTime getInicio() {
-        return inicio;
+    public void adicionarHospede(HospedeModel hospede) {
+        hospedes.add(hospede);
     }
 
-    public void setInicio(LocalDateTime inicio) {
-        this.inicio = inicio;
+    public void removerHospede(HospedeModel hospede) {
+        hospedes.remove(hospede);
     }
 
-    public LocalDateTime getFim() {
-        return fim;
+    public String getObservacao() {
+        return observacao;
     }
 
-    public void setFim(LocalDateTime fim) {
-        this.fim = fim;
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 }

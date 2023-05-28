@@ -11,6 +11,7 @@
 
 				<div class="container-buttons">
 					<dx-autocomplete #autComp
+									 (onEnterKey)="adicionarHospede()"
 									 [items]="hospedes"
 									 [showClearButton]="true"
 									 label="Nome do hospede"
@@ -66,7 +67,7 @@
 					(valueChange)="defineDataInicial($event)"
 					[showClearButton]="true"
 					[useMaskBehavior]="true"
-					[value]="reserva.inicio"
+					[value]="reserva.dataEntrada"
 					displayFormat="dd/MM/yyyy HH:mm"
 					label="Data Inicial"
 					labelMode="floating"
@@ -76,7 +77,7 @@
 					(valueChange)="defineDataFinal($event)"
 					[showClearButton]="true"
 					[useMaskBehavior]="true"
-					[value]="reserva.fim"
+					[value]="reserva.dataSaida"
 					displayFormat="dd/MM/yyyy HH:mm"
 					label="Data Final"
 					labelMode="floating"
@@ -90,10 +91,11 @@
 					labelMode="floating">
 				</dx-select-box>
 				<dx-text-area
-				width="96%"
-				height="10rem"
-				label="Observação"
-				labelMode="floating">
+					[(value)]="reserva.observacao"
+					height="10rem"
+					label="Observação"
+					labelMode="floating"
+					width="96%">
 				</dx-text-area>
 			</div>
 		</div>

@@ -48,10 +48,10 @@ public class ReservaService {
     }
 
     private void updateData(ReservaModel reserva, ReservaModel reservaAlterada) {
-        reserva.setHospede(reservaAlterada.getHospede());
-        reserva.setInicio(reservaAlterada.getInicio());
-        reserva.setFim(reservaAlterada.getFim());
-        reserva.setDataDeRealizacaoDaReserva(reservaAlterada.getDataDeRealizacaoDaReserva());
+        reserva.setHospedes(reservaAlterada.getHospedes());
+        reserva.setDataEntrada(reservaAlterada.getDataEntrada());
+        reserva.setDataSaida(reservaAlterada.getDataSaida());
+        reserva.setObservacao(reservaAlterada.getObservacao());
         reserva.setQuarto(reservaAlterada.getQuarto());
     }
 }

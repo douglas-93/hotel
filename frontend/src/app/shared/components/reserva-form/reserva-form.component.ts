@@ -4,7 +4,7 @@ import {
 	DxAccordionModule, DxAutocompleteComponent, DxAutocompleteModule,
 	DxButtonModule,
 	DxDataGridModule,
-	DxDateBoxModule,
+	DxDateBoxModule, DxSelectBoxComponent,
 	DxSelectBoxModule, DxTextAreaModule
 } from "devextreme-angular";
 import {HospedeModel} from "../../models/hospede.model";
@@ -26,6 +26,8 @@ export class ReservaFormComponent {
 
 	@ViewChild('autComp')
 	autComp: DxAutocompleteComponent
+	@ViewChild('quarto')
+	quarto: DxSelectBoxComponent
 	reserva: ReservaModel = new ReservaModel();
 	hospedesNaReserva: HospedeModel[] = [];
 	quartos: QuartoModel[] = [];
@@ -37,7 +39,7 @@ export class ReservaFormComponent {
 				private reservService: ReservaService) {
 		this.quartSerice.getQuartos().subscribe(resp => {
 			if (resp.status === 200) {
-				this.quartos = resp.body!
+				this.quartos = resp.body!.filter(q => q.ativo === true)
 			}
 		})
 
@@ -94,18 +96,28 @@ export class ReservaFormComponent {
 	}
 
 	salvaReserva() {
-		this.reserva.hospede = this.hospedesNaReserva
-		if (this.reserva.fim < this.reserva.inicio) {
+		this.reserva.hospedes = this.hospedesNaReserva
+		if (this.reserva.dataSaida < this.reserva.dataEntrada) {
 			this.mostraMensagem('error', 'Data final não pode ser menor que data incial')
+		} else {
+			this.reservService.createReserva(this.reserva).subscribe(resp => {
+				if (resp.status === 201) {
+					this.mostraMensagem('success', 'Reserva realizada com sucesso')
+					setTimeout(this.voltar, 1000)
+				}
+			})
 		}
-		console.log(this.reserva)
 	}
 
 	defineDataInicial(e: Date | number | string) {
-		this.reserva.inicio = <Date>e
+		this.reserva.dataEntrada = <Date>e
 	}
 	defineDataFinal(e: Date | number | string) {
-		this.reserva.fim = <Date>e
+		this.reserva.dataSaida = <Date>e
+	}
+
+	private voltar() {
+		window.history.back()
 	}
 }
 
