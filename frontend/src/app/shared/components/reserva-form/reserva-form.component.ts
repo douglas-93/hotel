@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, NgModule, SimpleChanges, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, NgModule, ViewChild} from '@angular/core';
 import {ToolbarModule} from "../toolbar/toolbar.component";
 import {
 	DxAccordionModule,
@@ -31,7 +31,7 @@ export class ReservaFormComponent {
 
 	@ViewChild('autComp')
 	autComp: DxAutocompleteComponent
-	@ViewChild('quarto')
+	@ViewChild('quarto', { static: false })
 	quarto: DxSelectBoxComponent
 	reserva: ReservaModel = new ReservaModel();
 	hospedesNaReserva: HospedeModel[] = [];
@@ -44,7 +44,9 @@ export class ReservaFormComponent {
 				private quartSerice: QuartoService,
 				private reservService: ReservaService,
 				private router: Router,
-				private cdr: ChangeDetectorRef) {
+				private cdr: ChangeDetectorRef) {}
+
+	ngOnInit() {
 		this.quartSerice.getQuartos().subscribe(resp => {
 			if (resp.status === 200) {
 				this.quartos = resp.body!.filter(q => q.ativo === true)
@@ -55,15 +57,20 @@ export class ReservaFormComponent {
 			this.hospedes = resp
 		})
 
-		let id = router.url.split('/').pop()
+		let id = this.router.url.split('/').pop()
 		if (id?.match(/[0-9]+/)) {
 			this.isUpdate = true
-			reservService.getReserva(Number.parseInt(id)).subscribe(resp => {
+			this.reservService.getReserva(Number.parseInt(id)).subscribe(resp => {
 				if (resp.status === 200) {
 					this.reserva = resp.body!
 					this.hospedesNaReserva = this.reserva.hospedes
 					setTimeout(() => {
-						this.quarto.selectedItem = this.reserva.quarto
+						const quartoItem = this.quartos.find(q => q.id === this.reserva.quarto.id);
+						if (quartoItem) {
+							this.quarto.instance.option('value', quartoItem);
+							this.cdr.detectChanges();
+							console.log(this.quarto.instance.option('value'));
+						}
 					}, 500)
 				}
 			})
