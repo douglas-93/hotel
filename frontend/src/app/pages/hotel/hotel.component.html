@@ -60,6 +60,7 @@
 			<div class="row">
 
 				<dx-select-box
+					#estado
 					(onSelectionChanged)="defineIdEstado($event)"
 					[(value)]="hotel.estado"
 					[dataSource]="estados"
@@ -72,6 +73,7 @@
 				</dx-select-box>
 
 				<dx-autocomplete
+					#cidade
 					[(value)]="hotel.cidade"
 					[dataSource]="cidades"
 					[showClearButton]="true"

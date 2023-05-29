@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HotelModel} from "../../shared/models/hotel.model";
 import {HotelService} from "../../shared/services/hotel.service";
 import notify from "devextreme/ui/notify";
 import {EstadoModel} from "../../shared/models/estado.model";
 import {EstadoService} from "../../shared/services/estado.service";
 import {CidadeService} from "../../shared/services/cidade.service";
+import {DxAutocompleteComponent, DxSelectBoxComponent} from "devextreme-angular";
 
 
 @Component({
@@ -13,6 +14,9 @@ import {CidadeService} from "../../shared/services/cidade.service";
 	styleUrls: ['./hotel.component.scss']
 })
 export class HotelComponent implements OnInit {
+
+	@ViewChild('estado', {static: false}) estadoSelectBox: DxSelectBoxComponent;
+	@ViewChild('cidade', {static: false}) cidadeAutocomplete: DxAutocompleteComponent;
 
 	hotel: HotelModel = new HotelModel();
 	estados: EstadoModel[];
@@ -27,9 +31,12 @@ export class HotelComponent implements OnInit {
 		hotelService.getLastHotelVersion().subscribe(
 			data => {
 				if (data.status === 200) {
+					const c = data.body?.cidade
 					this.hotel = data.body!
 					if (data.body?.estado) {
-						this.idEstado = Number.parseInt(data.body?.estado)
+						this.idEstado = Number.parseInt(data.body?.estado!)
+						this.estadoSelectBox.instance.option('value', this.idEstado)
+						this.carregaCidades(c)
 					}
 				} else if (data.status === 204) {
 					this.mostraMensagem('info', 'Favor fazer o cadastro inicial')
@@ -44,7 +51,6 @@ export class HotelComponent implements OnInit {
 	}
 
 	carregaEstados() {
-		this.iscarregando = true
 		this.estadoService.getEstados().subscribe(
 			data => {
 				this.estados = data.map(e => {
@@ -53,8 +59,6 @@ export class HotelComponent implements OnInit {
 					estado.ufSigla = e['UF-sigla']
 					return estado
 				}).sort(this.ordenaSiglas)
-
-				this.iscarregando = false
 			}
 		)
 	}
@@ -72,14 +76,14 @@ export class HotelComponent implements OnInit {
 		return 0; // Retorna 0 se forem iguais
 	}
 
-	carregaCidades() {
+	carregaCidades(c?: string) {
 		if (this.idEstado) {
-			this.iscarregando = true
 			this.cidadeService.getCidades(this.idEstado).subscribe(
 				data => {
 					let listaCidades: string[];
 					listaCidades = data.map(e => e['distrito-nome']);
 					this.cidades = listaCidades;
+					this.cidadeAutocomplete.value = <string>c
 					this.iscarregando = false;
 				}
 			)

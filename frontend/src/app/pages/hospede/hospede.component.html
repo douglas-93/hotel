@@ -31,16 +31,16 @@
 				[showNavigationButtons]="true">
 			</dxo-pager>
 
-			<dxi-column dataField="id"></dxi-column>
+			<dxi-column dataField="id" caption="ID"></dxi-column>
 			<dxi-column dataField="nome"></dxi-column>
 			<dxi-column
 				dataField="nascimento"
 				dataType="date"
-				format="dd/MM/yyyy"
-			>
+				format="dd/MM/yyyy">
 			</dxi-column>
 			<dxi-column cellTemplate="cpfTemplate"
-						dataField="cpf">
+						dataField="cpf"
+						caption="CPF">
 			</dxi-column>
 			<dxi-column cellTemplate="telefoneTemplate"
 						dataField="telefone">
@@ -48,7 +48,7 @@
 			<dxi-column cellTemplate="celularTemplate"
 						dataField="celular">
 			</dxi-column>
-			<dxi-column dataField="email"></dxi-column>
+			<dxi-column dataField="email" caption="E-mail"></dxi-column>
 			<dxi-column [visible]="false" dataField="observacao"></dxi-column>
 
 			<!--		TEMPLATES-->
