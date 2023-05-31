@@ -69,7 +69,6 @@ export class ReservaFormComponent {
 						if (quartoItem) {
 							this.quarto.instance.option('value', quartoItem);
 							this.cdr.detectChanges();
-							console.log(this.quarto.instance.option('value'));
 						}
 					}, 500)
 				}
