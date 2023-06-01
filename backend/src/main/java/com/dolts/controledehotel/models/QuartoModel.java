@@ -18,6 +18,10 @@ public class QuartoModel implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private CategoriasEnum categoria;
     private boolean ativo = true;
+    @Lob
+    private byte[] imagem;
+
+    private String imagemURL;
 
     public QuartoModel() {
     }
@@ -27,6 +31,22 @@ public class QuartoModel implements Serializable {
         this.nome = nome;
         this.tipo = tipo;
         this.categoria = categoria;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
+
+    public String getImagemURL() {
+        return imagemURL;
+    }
+
+    public void setImagemURL(String imagemURL) {
+        this.imagemURL = imagemURL;
     }
 
     public Long getId() {

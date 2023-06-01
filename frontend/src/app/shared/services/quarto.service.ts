@@ -20,7 +20,15 @@ export class QuartoService {
 	}
 
 	createQuarto(quarto: QuartoModel){
-		return this.http.post(this.urlEndPoint, quarto, {observe: 'response'});
+		// return this.http.post(this.urlEndPoint, quarto, {observe: 'response'});
+		const formData = new FormData();
+		formData.append('nome', quarto.nome!);
+		formData.append('tipo', quarto.tipo!.toString());
+		formData.append('categoria', quarto.categoria!.toString());
+		formData.append('ativo', quarto.ativo!.toString());
+		formData.append('imagem', quarto.imagem!);
+
+		return this.http.post<QuartoModel>(this.urlEndPoint, formData, {observe: 'response'});
 	}
 
 	updateQuarto(quarto: QuartoModel){

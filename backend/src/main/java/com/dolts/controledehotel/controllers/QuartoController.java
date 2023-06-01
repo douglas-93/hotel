@@ -5,14 +5,16 @@ import com.dolts.controledehotel.services.QuartoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/quartos")
+@RequestMapping(value = "/quartos", consumes = {"multipart/form-data"})
 public class QuartoController {
     @Autowired
     private QuartoService quartoService;
@@ -30,7 +32,10 @@ public class QuartoController {
     }
 
     @PostMapping
-    public ResponseEntity<QuartoModel> insert(@RequestBody QuartoModel novoQuarto) {
+    public ResponseEntity<QuartoModel> insert(@RequestParam("imagem") MultipartFile imagem, @ModelAttribute QuartoModel novoQuarto) throws IOException {
+        if (!imagem.isEmpty()) {
+            novoQuarto.setImagem(imagem.getBytes());
+        }
         novoQuarto = quartoService.insert(novoQuarto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoQuarto.getId()).toUri();
         return ResponseEntity.created(uri).body(novoQuarto);

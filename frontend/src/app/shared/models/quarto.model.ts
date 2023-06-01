@@ -7,4 +7,6 @@ export class QuartoModel {
 	tipo: TiposQuartoEnum;
 	categoria: CategoriasEnum;
 	ativo: boolean | undefined | null = true;
+	imagem: File | null;
+	imagemURL: string | null;
 }

@@ -129,13 +129,16 @@ export class QuartoFormComponent {
 	}
 
 	handleFileChange(e: any) {
-		this.selectedFile = e.value[0];
+		this.quarto.imagem = e.value[0];
+		this.lerArquivo()
+	}
 
+	lerArquivo(arquivo?) {
 		const reader = new FileReader();
 		reader.onloadend = () => {
-			this.imageUrl = reader.result as string;
+			this.quarto.imagemURL = reader.result as string;
 		};
-		reader.readAsDataURL(this.selectedFile!);
+		return reader.readAsDataURL(this.quarto.imagem!);
 	}
 }
 
