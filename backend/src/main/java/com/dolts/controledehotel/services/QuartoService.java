@@ -26,7 +26,17 @@ public class QuartoService {
     }
 
     public QuartoModel insert(QuartoModel novoQuarto) {
-        return quartoRepository.save(novoQuarto);
+        byte[] imagem = novoQuarto.getImagem();
+        novoQuarto.setImagem(null); // Limpa o atributo imagem para evitar problemas na serialização
+
+        QuartoModel quartoSalvo = quartoRepository.save(novoQuarto);
+
+        if (imagem != null) {
+            quartoSalvo.setImagem(imagem);
+            quartoRepository.save(quartoSalvo);
+        }
+
+        return quartoSalvo;
     }
 
     public List<QuartoModel> insertMany(List<QuartoModel> novosQuartos) {
@@ -52,5 +62,7 @@ public class QuartoService {
         quarto.setCategoria(quartoAlterado.getCategoria());
         quarto.setTipo(quartoAlterado.getTipo());
         quarto.setAtivo(quartoAlterado.isAtivo());
+        quarto.setImagem(quarto.getImagem());
+        quarto.setImagemURL(quarto.getImagemURL());
     }
 }

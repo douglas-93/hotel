@@ -1,12 +1,17 @@
 package com.dolts.controledehotel.controllers;
 
+import com.dolts.controledehotel.enumerators.CategoriasEnum;
+import com.dolts.controledehotel.enumerators.TiposEnum;
 import com.dolts.controledehotel.models.QuartoModel;
 import com.dolts.controledehotel.services.QuartoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -29,8 +34,20 @@ public class QuartoController {
         return ResponseEntity.ok().body(quarto);
     }
 
-    @PostMapping
-    public ResponseEntity<QuartoModel> insert(@RequestBody QuartoModel novoQuarto) {
+    @PostMapping(consumes = { "multipart/mixed", "multipart/form-data" }, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<QuartoModel> insert(@RequestPart("imagem") MultipartFile imagem,
+                                              @RequestPart("nome") String nome,
+                                              @RequestPart("tipo") String tipo,
+                                              @RequestPart("categoria") String categoria,
+                                              @RequestPart("ativo") String ativo) throws IOException {
+        QuartoModel novoQuarto = new QuartoModel();
+        novoQuarto.setNome(nome);
+        novoQuarto.setTipo(TiposEnum.valueOf(tipo));
+        novoQuarto.setCategoria(CategoriasEnum.valueOf(categoria));
+        novoQuarto.setAtivo(Boolean.parseBoolean(ativo));
+        if (!imagem.isEmpty()) {
+            novoQuarto.setImagem(imagem.getBytes());
+        }
         novoQuarto = quartoService.insert(novoQuarto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoQuarto.getId()).toUri();
         return ResponseEntity.created(uri).body(novoQuarto);
