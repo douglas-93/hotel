@@ -42,6 +42,7 @@ export class QuartoFormComponent {
 				resp => {
 					if (resp.status === 200) {
 						this.quarto = resp.body!
+						this.lerArquivo(this.quarto.imagem)
 					}
 				}
 			)
@@ -134,11 +135,19 @@ export class QuartoFormComponent {
 	}
 
 	lerArquivo(arquivo?) {
-		const reader = new FileReader();
-		reader.onloadend = () => {
-			this.quarto.imagemURL = reader.result as string;
-		};
-		return reader.readAsDataURL(this.quarto.imagem!);
+		if (arquivo) {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				const blob: Blob = new Blob([reader.result as ArrayBuffer], {type: this.quarto.imagem?.type});
+			};
+			reader.readAsArrayBuffer(this.quarto.imagem!);
+		} else {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				this.quarto.imagemURL = reader.result as string;
+			};
+			return reader.readAsDataURL(this.quarto.imagem!);
+		}
 	}
 }
 
