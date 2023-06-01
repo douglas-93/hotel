@@ -1,13 +1,16 @@
 package com.dolts.controledehotel.services;
 
+import com.dolts.controledehotel.models.QuartoModel;
 import com.dolts.controledehotel.models.ReservaModel;
 import com.dolts.controledehotel.repositories.ReservaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +20,8 @@ public class ReservaService {
     private ReservaRepository reservaRepository;
 
     public List<ReservaModel> findAll() {
-        return reservaRepository.findAll();
+        Sort sortById = Sort.by(Sort.Direction.DESC, "id");
+        return reservaRepository.findAll(sortById);
     }
 
     public ReservaModel findById(Long id) {
@@ -53,5 +57,14 @@ public class ReservaService {
         reserva.setDataSaida(reservaAlterada.getDataSaida());
         reserva.setObservacao(reservaAlterada.getObservacao());
         reserva.setQuarto(reservaAlterada.getQuarto());
+    }
+
+    public boolean isQuartoOcupado(QuartoModel quarto, Date dataEntrada) {
+        List<ReservaModel> reservas = this.findByQuartoAndDataEntrada(quarto, dataEntrada);
+        return !reservas.isEmpty();
+    }
+
+    public List<ReservaModel> findByQuartoAndDataEntrada(QuartoModel quarto, Date dataEntrada) {
+        return this.reservaRepository.findAllByQuartoAndDataEntrada(quarto, dataEntrada);
     }
 }

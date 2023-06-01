@@ -143,7 +143,7 @@ export class QuartoFormComponent {
 				this.quarto.imagemURL = <string>reader.result;
 			};
 			reader.readAsDataURL(blob);
-		} else {
+		} else if (this.quarto.imagem) {
 			const reader = new FileReader();
 			reader.onloadend = () => {
 				this.quarto.imagemURL = reader.result as string;

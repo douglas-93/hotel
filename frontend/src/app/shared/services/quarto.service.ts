@@ -32,7 +32,14 @@ export class QuartoService {
 	}
 
 	updateQuarto(quarto: QuartoModel){
-		return this.http.put(`${this.urlEndPoint}/${quarto.id}`, quarto, {observe: 'response'});
+		const formData = new FormData();
+		formData.append('nome', quarto.nome!);
+		formData.append('tipo', quarto.tipo!.toString());
+		formData.append('categoria', quarto.categoria!.toString());
+		formData.append('ativo', quarto.ativo!.toString());
+		formData.append('imagem', quarto.imagem!);
+
+		return this.http.put(`${this.urlEndPoint}/${quarto.id}`, formData, {observe: 'response'});
 	}
 
 

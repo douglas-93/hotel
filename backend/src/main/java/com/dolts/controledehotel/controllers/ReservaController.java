@@ -1,13 +1,17 @@
 package com.dolts.controledehotel.controllers;
 
+import com.dolts.controledehotel.models.QuartoModel;
 import com.dolts.controledehotel.models.ReservaModel;
 import com.dolts.controledehotel.services.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -31,6 +35,14 @@ public class ReservaController {
 
     @PostMapping
     public ResponseEntity<ReservaModel> insert(@RequestBody ReservaModel novaReserva) {
+
+        QuartoModel quarto = novaReserva.getQuarto();
+        Date data = novaReserva.getDataEntrada();
+
+        if (reservaService.isQuartoOcupado(quarto, data)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Quarto já ocupado");
+        }
+
         novaReserva = reservaService.insert(novaReserva);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novaReserva.getId()).toUri();
         return ResponseEntity.created(uri).body(novaReserva);

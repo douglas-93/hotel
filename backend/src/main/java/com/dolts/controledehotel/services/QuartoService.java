@@ -5,6 +5,7 @@ import com.dolts.controledehotel.repositories.QuartoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,8 @@ public class QuartoService {
     private QuartoRepository quartoRepository;
 
     public List<QuartoModel> findAll() {
-        return quartoRepository.findAll();
+        Sort sortById = Sort.by(Sort.Direction.ASC, "id");
+        return quartoRepository.findAll(sortById);
     }
 
     public QuartoModel findById(Long id) {
@@ -52,9 +54,20 @@ public class QuartoService {
     }
 
     public QuartoModel update(Long id, QuartoModel quartoAlterado) {
+
+        byte[] imagem = quartoAlterado.getImagem();
+        quartoAlterado.setImagem(null); // Limpa o atributo imagem para evitar problemas na serialização
+
         QuartoModel quarto = quartoRepository.getReferenceById(id);
         updateData(quarto, quartoAlterado);
-        return quartoRepository.save(quarto);
+        QuartoModel quartoSalvo = quartoRepository.save(quarto);
+
+        if (imagem != null) {
+            quartoSalvo.setImagem(imagem);
+            quartoRepository.save(quartoSalvo);
+        }
+
+        return quartoSalvo;
     }
 
     private void updateData(QuartoModel quarto, QuartoModel quartoAlterado) {
@@ -62,7 +75,5 @@ public class QuartoService {
         quarto.setCategoria(quartoAlterado.getCategoria());
         quarto.setTipo(quartoAlterado.getTipo());
         quarto.setAtivo(quartoAlterado.isAtivo());
-        quarto.setImagem(quarto.getImagem());
-        quarto.setImagemURL(quarto.getImagemURL());
     }
 }

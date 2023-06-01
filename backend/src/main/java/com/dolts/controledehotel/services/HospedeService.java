@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -19,7 +20,8 @@ public class HospedeService {
     private HospedeRepository hospedeRepository;
 
     public List<HospedeModel> findAll() {
-        return hospedeRepository.findAll();
+        Sort sortById = Sort.by(Sort.Direction.ASC, "id");
+        return hospedeRepository.findAll(sortById);
     }
 
     public HospedeModel findById(Long id) {

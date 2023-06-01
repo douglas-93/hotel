@@ -13,7 +13,11 @@ public class ReservaModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
+    @Temporal(TemporalType.DATE)
     private Date dataEntrada;
+    @Column
+    @Temporal(TemporalType.DATE)
     private Date dataSaida;
     private String observacao;
 

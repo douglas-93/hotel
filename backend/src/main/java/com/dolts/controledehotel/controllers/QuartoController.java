@@ -59,8 +59,20 @@ public class QuartoController {
         return ResponseEntity.ok().body(novosQuartos);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<QuartoModel> update(@PathVariable Long id, @RequestBody QuartoModel quartoAlterado) {
+    @PutMapping(value = "/{id}", consumes = { "multipart/mixed", "multipart/form-data" }, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<QuartoModel> update(@PathVariable Long id, @RequestPart("imagem") MultipartFile imagem,
+                                              @RequestPart("nome") String nome,
+                                              @RequestPart("tipo") String tipo,
+                                              @RequestPart("categoria") String categoria,
+                                              @RequestPart("ativo") String ativo) throws IOException {
+        QuartoModel quartoAlterado = new QuartoModel();
+        quartoAlterado.setNome(nome);
+        quartoAlterado.setTipo(TiposEnum.valueOf(tipo));
+        quartoAlterado.setCategoria(CategoriasEnum.valueOf(categoria));
+        quartoAlterado.setAtivo(Boolean.parseBoolean(ativo));
+        if (!imagem.isEmpty()) {
+            quartoAlterado.setImagem(imagem.getBytes());
+        }
         quartoAlterado = quartoService.update(id, quartoAlterado);
         return ResponseEntity.ok().body(quartoAlterado);
     }
