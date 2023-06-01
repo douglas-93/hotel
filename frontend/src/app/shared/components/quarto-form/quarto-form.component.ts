@@ -136,11 +136,13 @@ export class QuartoFormComponent {
 
 	lerArquivo(arquivo?) {
 		if (arquivo) {
+			const arrayBuffer = this.base64ToBuffer(arquivo);
+			const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
 			const reader = new FileReader();
 			reader.onloadend = () => {
-				const blob: Blob = new Blob([reader.result as ArrayBuffer], {type: this.quarto.imagem?.type});
+				this.quarto.imagemURL = <string>reader.result;
 			};
-			reader.readAsArrayBuffer(this.quarto.imagem!);
+			reader.readAsDataURL(blob);
 		} else {
 			const reader = new FileReader();
 			reader.onloadend = () => {
@@ -148,6 +150,18 @@ export class QuartoFormComponent {
 			};
 			return reader.readAsDataURL(this.quarto.imagem!);
 		}
+	}
+
+	base64ToBuffer(base64) {
+		const binaryString = window.atob(base64);
+		const length = binaryString.length;
+		const bytes = new Uint8Array(length);
+
+		for (let i = 0; i < length; i++) {
+			bytes[i] = binaryString.charCodeAt(i);
+		}
+
+		return bytes.buffer;
 	}
 }
 
