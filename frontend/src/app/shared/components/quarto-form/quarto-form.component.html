@@ -35,9 +35,16 @@
 						   labelMode="floating"
 						   valueExpr="value">
 			</dx-select-box>
+			<dx-text-box
+				#valorDiaria
+				class="margem"
+				label="Valor da Diária"
+				labelMode="floating"
+				(onValueChanged)="formataValorDiaria($event)">
+			</dx-text-box>
 		</div>
 		<div class="container-foto">
-			<div  class="dx-card" id="foto">
+			<div class="dx-card" id="foto">
 				<img [src]="quarto.imagemURL"/>
 			</div>
 

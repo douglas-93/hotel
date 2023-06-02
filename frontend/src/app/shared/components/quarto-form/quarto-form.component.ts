@@ -1,11 +1,18 @@
-import {Component, NgModule} from '@angular/core';
+import {Component, NgModule, ViewChild} from '@angular/core';
 import {QuartoService} from "../../services/quarto.service";
 import {Router} from "@angular/router";
 import {QuartoModel} from "../../models/quarto.model";
 import notify from "devextreme/ui/notify";
 import {custom} from "devextreme/ui/dialog";
 import {ToolbarModule} from "../toolbar/toolbar.component";
-import {DxCheckBoxModule, DxFileUploaderModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {
+	DxCheckBoxModule,
+	DxFileUploaderModule,
+	DxNumberBoxModule,
+	DxSelectBoxModule,
+	DxTextBoxComponent,
+	DxTextBoxModule
+} from "devextreme-angular";
 import {TiposQuartoEnum} from "../../enums/tipos-quartos.enum";
 import {CategoriasEnum} from "../../enums/categorias.enum";
 import {NgIf} from "@angular/common";
@@ -17,6 +24,7 @@ import {NgIf} from "@angular/common";
 })
 export class QuartoFormComponent {
 
+	@ViewChild('valorDiaria') valorDiaria: DxTextBoxComponent;
 	isUpdate: boolean;
 	quarto: QuartoModel = new QuartoModel();
 	tiposQuartos = Object.values(TiposQuartoEnum).filter(f => isNaN(Number(f))).map(valor => ({
@@ -29,9 +37,6 @@ export class QuartoFormComponent {
 		// @ts-ignore
 		text: valor.replace('_', ' ')
 	}));
-
-	selectedFile: File | null = null;
-	imageUrl: string | null = null;
 
 	constructor(private quartoService: QuartoService,
 				private router: Router) {
@@ -163,6 +168,22 @@ export class QuartoFormComponent {
 
 		return bytes.buffer;
 	}
+
+	formataValorDiaria(e: any) {
+		let valorDigitado = e.value;
+		console.log(valorDigitado)
+		const valorNumerico = valorDigitado.replace(/\D/g, "");
+		// Formatar valor monetário
+
+		console.log(valorNumerico)
+		const valorFormatado = Number(valorNumerico).toLocaleString('pt-BR', {
+			style: 'currency',
+			currency: 'BRL',
+			minimumFractionDigits: 2,
+		});
+
+		this.valorDiaria.instance.option('value', valorFormatado);
+	}
 }
 
 @NgModule({
@@ -172,7 +193,8 @@ export class QuartoFormComponent {
 		DxTextBoxModule,
 		DxSelectBoxModule,
 		DxFileUploaderModule,
-		NgIf
+		NgIf,
+		DxNumberBoxModule
 	],
 	declarations: [QuartoFormComponent],
 	exports: [QuartoFormComponent]
