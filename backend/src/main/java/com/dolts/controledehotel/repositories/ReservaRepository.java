@@ -10,5 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<ReservaModel, Long> {
-    public List<ReservaModel> findAllByQuartoAndDataEntrada(QuartoModel quarto, Date dataEntrada);
+    List<ReservaModel> findAllByQuartoAndDataEntrada(QuartoModel quarto, Date dataEntrada);
+
+    List<ReservaModel> findByQuartoAndDataEntradaBetween(QuartoModel quarto, Date dataInicio, Date dataFim);
 }

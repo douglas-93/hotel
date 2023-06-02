@@ -21,6 +21,7 @@ import {QuartoService} from "../../services/quarto.service";
 import {ReservaService} from "../../services/reserva.service";
 import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
+import {catchError} from "rxjs";
 
 @Component({
 	selector: 'app-reserva-form',
@@ -127,21 +128,31 @@ export class ReservaFormComponent {
 		if (this.reserva.dataSaida < this.reserva.dataEntrada) {
 			this.mostraMensagem('error', 'Data final não pode ser menor que data incial')
 		} else {
-			if (this.isUpdate) {
-				this.atualiza()
-			} else {
-				this.cria()
+			if (this.validaReserva()) {
+				if (this.isUpdate) {
+					this.atualiza()
+				} else {
+					this.cria()
+				}
 			}
 		}
 	}
 
 	cria() {
-		this.reservService.createReserva(this.reserva).subscribe(resp => {
-			if (resp.status === 201) {
-				this.mostraMensagem('success', 'Reserva realizada com sucesso')
-				setTimeout(this.voltar, 1000)
-			}
-		})
+		this.reservService.createReserva(this.reserva)
+			.subscribe(
+				resp => {
+					if (resp.status === 201) {
+						this.mostraMensagem('success', 'Reserva realizada com sucesso');
+						setTimeout(this.voltar, 1000);
+					}
+				},
+				error => {
+					if (error.status === 409) {
+						this.mostraMensagem('error', 'O quarto já está reservado para esse dia');
+					}
+				}
+			);
 	}
 
 	atualiza() {
@@ -165,8 +176,29 @@ export class ReservaFormComponent {
 		this.reserva.quarto = this.quarto.selectedItem
 	}
 
-	private voltar() {
+	voltar() {
 		window.history.back()
+	}
+
+	validaReserva() {
+		let erros = 0;
+
+		if (this.reserva.hospedes === null || this.reserva.hospedes.length === 0) {
+			erros++;
+            this.mostraMensagem('error', 'Adicione pelo menos um hospede');
+        }
+
+		if (this.reserva.dataEntrada === null || this.reserva.dataSaida === null) {
+			erros++;
+            this.mostraMensagem('error', 'Defina a data de entrada e saída');
+		}
+
+		if (this.reserva.quarto === null) {
+            erros++;
+            this.mostraMensagem('error', 'Defina um quarto');
+        }
+
+		return erros === 0;
 	}
 }
 

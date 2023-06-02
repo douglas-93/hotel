@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -37,10 +38,13 @@ public class ReservaController {
     public ResponseEntity<ReservaModel> insert(@RequestBody ReservaModel novaReserva) {
 
         QuartoModel quarto = novaReserva.getQuarto();
-        Date data = novaReserva.getDataEntrada();
+        Date entrada = novaReserva.getDataEntrada();
+        Date saida = novaReserva.getDataSaida();
 
-        if (reservaService.isQuartoOcupado(quarto, data)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Quarto já ocupado");
+        List<ReservaModel> reservas = reservaService.findByQuartoAndData(quarto, entrada, saida);
+
+        if (!reservas.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Quarto ocupado nesse dia");
         }
 
         novaReserva = reservaService.insert(novaReserva);

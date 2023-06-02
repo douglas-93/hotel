@@ -4,12 +4,14 @@ import com.dolts.controledehotel.models.QuartoModel;
 import com.dolts.controledehotel.models.ReservaModel;
 import com.dolts.controledehotel.repositories.ReservaRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -59,12 +61,8 @@ public class ReservaService {
         reserva.setQuarto(reservaAlterada.getQuarto());
     }
 
-    public boolean isQuartoOcupado(QuartoModel quarto, Date dataEntrada) {
-        List<ReservaModel> reservas = this.findByQuartoAndDataEntrada(quarto, dataEntrada);
-        return !reservas.isEmpty();
-    }
-
-    public List<ReservaModel> findByQuartoAndDataEntrada(QuartoModel quarto, Date dataEntrada) {
-        return this.reservaRepository.findAllByQuartoAndDataEntrada(quarto, dataEntrada);
+    @Transactional
+    public List<ReservaModel> findByQuartoAndData(QuartoModel quarto, Date dataEntrada, Date dataSaida) {
+        return reservaRepository.findByQuartoAndDataEntradaBetween(quarto, dataEntrada, dataSaida);
     }
 }
