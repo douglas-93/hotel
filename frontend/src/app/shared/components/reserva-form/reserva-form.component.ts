@@ -188,12 +188,13 @@ export class ReservaFormComponent {
             this.mostraMensagem('error', 'Adicione pelo menos um hospede');
         }
 
-		if (this.reserva.dataEntrada === null || this.reserva.dataSaida === null) {
-			erros++;
+		if (this.reserva.dataEntrada === null || this.reserva.dataEntrada === undefined
+            || this.reserva.dataSaida === undefined || this.reserva.dataSaida === null) {
+            erros++;
             this.mostraMensagem('error', 'Defina a data de entrada e saída');
 		}
 
-		if (this.reserva.quarto === null) {
+		if (this.reserva.quarto === null || this.reserva.quarto === undefined) {
             erros++;
             this.mostraMensagem('error', 'Defina um quarto');
         }
