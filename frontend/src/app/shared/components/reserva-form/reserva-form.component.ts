@@ -9,7 +9,8 @@ import {
 	DxDateBoxModule,
 	DxSelectBoxComponent,
 	DxSelectBoxModule,
-	DxTextAreaModule
+	DxTextAreaModule,
+	DxToastModule
 } from "devextreme-angular";
 import {HospedeModel} from "../../models/hospede.model";
 import notify from "devextreme/ui/notify";
@@ -21,7 +22,6 @@ import {QuartoService} from "../../services/quarto.service";
 import {ReservaService} from "../../services/reserva.service";
 import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
-import {catchError} from "rxjs";
 
 @Component({
 	selector: 'app-reserva-form',
@@ -32,7 +32,7 @@ export class ReservaFormComponent {
 
 	@ViewChild('autComp')
 	autComp: DxAutocompleteComponent
-	@ViewChild('quarto', { static: false })
+	@ViewChild('quarto', {static: false})
 	quarto: DxSelectBoxComponent
 	reserva: ReservaModel = new ReservaModel();
 	hospedesNaReserva: HospedeModel[] = [];
@@ -45,7 +45,8 @@ export class ReservaFormComponent {
 				private quartSerice: QuartoService,
 				private reservService: ReservaService,
 				private router: Router,
-				private cdr: ChangeDetectorRef) {}
+				private cdr: ChangeDetectorRef) {
+	}
 
 	ngOnInit() {
 		this.quartSerice.getQuartos().subscribe(resp => {
@@ -107,12 +108,12 @@ export class ReservaFormComponent {
 		}
 	}
 
-	mostraMensagem(tipo: string, mensagem: string) {
+	mostraMensagem(tipo: string, mensagem: string, tempo = 3500) {
 		notify({
 				message: `${mensagem}`,
 				icon: 'clear',
 				type: tipo,
-				displayTime: 3500,
+				displayTime: tempo,
 				animation: {
 					show: {
 						type: 'fade', duration: 400, from: 0, to: 1,
@@ -149,7 +150,7 @@ export class ReservaFormComponent {
 				},
 				error => {
 					if (error.status === 409) {
-						this.mostraMensagem('error', 'O quarto já está reservado para esse dia');
+						this.mostraMensagem('warning', error.error.message, 5000);
 					}
 				}
 			);
@@ -185,19 +186,19 @@ export class ReservaFormComponent {
 
 		if (this.reserva.hospedes === null || this.reserva.hospedes.length === 0) {
 			erros++;
-            this.mostraMensagem('error', 'Adicione pelo menos um hospede');
-        }
+			this.mostraMensagem('error', 'Adicione pelo menos um hospede');
+		}
 
 		if (this.reserva.dataEntrada === null || this.reserva.dataEntrada === undefined
-            || this.reserva.dataSaida === undefined || this.reserva.dataSaida === null) {
-            erros++;
-            this.mostraMensagem('error', 'Defina a data de entrada e saída');
+			|| this.reserva.dataSaida === undefined || this.reserva.dataSaida === null) {
+			erros++;
+			this.mostraMensagem('error', 'Defina a data de entrada e saída');
 		}
 
 		if (this.reserva.quarto === null || this.reserva.quarto === undefined) {
-            erros++;
-            this.mostraMensagem('error', 'Defina um quarto');
-        }
+			erros++;
+			this.mostraMensagem('error', 'Defina um quarto');
+		}
 
 		return erros === 0;
 	}
@@ -214,7 +215,8 @@ export class ReservaFormComponent {
 		DxSelectBoxModule,
 		DxAutocompleteModule,
 		FormsModule,
-		DxTextAreaModule
+		DxTextAreaModule,
+		DxToastModule
 	],
 	declarations: [ReservaFormComponent],
 	exports: [ReservaFormComponent]

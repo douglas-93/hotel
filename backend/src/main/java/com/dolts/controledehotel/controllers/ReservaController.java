@@ -11,6 +11,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +46,12 @@ public class ReservaController {
         List<ReservaModel> reservas = reservaService.findByQuartoAndData(quarto, entrada, saida);
 
         if (!reservas.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Quarto ocupado nesse dia");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            List<String> datasReservadas = new ArrayList<>();
+            reservas.forEach(reserva -> datasReservadas.add("Reserva: " + reserva.getId() +
+                    " Quarto: " + reserva.getQuarto().getNome() + " Entrada: " + formatter.format(reserva.getDataEntrada()) +
+                    " Saida: " + formatter.format(reserva.getDataSaida())));
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Quarto ocupado nesse(s) dia(s): " + datasReservadas);
         }
 
         novaReserva = reservaService.insert(novaReserva);
