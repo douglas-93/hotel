@@ -8,7 +8,8 @@ import {ToolbarModule} from "../toolbar/toolbar.component";
 import {
 	DxButtonModule,
 	DxCheckBoxModule,
-	DxFileUploaderModule, DxListModule,
+	DxFileUploaderModule,
+	DxListModule,
 	DxNumberBoxModule,
 	DxSelectBoxModule,
 	DxTextBoxComponent,
@@ -56,10 +57,15 @@ export class QuartoFormComponent {
 	}
 
 	salvar() {
-		if (this.isUpdate) {
-			this.atualizaQuarto()
-		} else {
-			this.criarQuarto()
+		if (this.quarto.itens.length === undefined) {
+			this.quarto.itens = []
+		}
+		if (this.verificaDados()) {
+			if (this.isUpdate) {
+				this.atualizaQuarto()
+			} else {
+				this.criarQuarto()
+			}
 		}
 	}
 
@@ -143,7 +149,7 @@ export class QuartoFormComponent {
 	lerArquivo(arquivo?) {
 		if (arquivo) {
 			const arrayBuffer = this.base64ToBuffer(arquivo);
-			const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+			const blob = new Blob([arrayBuffer], {type: 'application/octet-stream'});
 			const reader = new FileReader();
 			reader.onloadend = () => {
 				this.quarto.imagemURL = <string>reader.result;
@@ -173,7 +179,32 @@ export class QuartoFormComponent {
 	adicionaItem() {
 		let item = this.itemQuarto.value.split(' ').map(e => e.charAt(0).toUpperCase() + e.slice(1)).join(' ')
 		this.quarto.itens.push(item)
-        this.itemQuarto.value = ''
+		this.itemQuarto.value = ''
+	}
+
+	verificaDados() {
+		let erros = 0;
+		if (this.quarto.nome === '' || this.quarto.nome === null || this.quarto.nome === undefined) {
+			erros++
+			this.mostraMensagem('error', 'O nome do quarto é obrigatário')
+		}
+
+		if (this.quarto.valor === null || this.quarto.valor === undefined || this.quarto.valor === 0) {
+			erros++
+			this.mostraMensagem('error', 'O valor do quarto é obrigatário')
+		}
+
+		if (this.quarto.tipo === null || this.quarto.tipo === undefined) {
+			erros++
+			this.mostraMensagem('error', 'O tipo do quarto é obrigatário')
+		}
+
+		if (this.quarto.categoria === null || this.quarto.categoria === undefined) {
+			erros++
+			this.mostraMensagem('error', 'A categoria do quarto é obrigatário')
+		}
+
+		return erros === 0;
 	}
 }
 

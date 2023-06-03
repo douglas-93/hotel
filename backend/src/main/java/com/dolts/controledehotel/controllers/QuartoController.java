@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -35,16 +36,15 @@ public class QuartoController {
         return ResponseEntity.ok().body(quarto);
     }
 
-    @PostMapping(consumes = { "multipart/mixed", "multipart/form-data" }, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<QuartoModel> insert(@RequestPart("imagem") MultipartFile imagem,
+    @PostMapping(consumes = {"multipart/mixed", "multipart/form-data"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<QuartoModel> insert(@RequestPart("imagem") Optional<MultipartFile> imagem,
                                               @RequestPart("nome") String nome,
                                               @RequestPart("tipo") String tipo,
                                               @RequestPart("categoria") String categoria,
                                               @RequestPart("valor") String valor,
-                                              @RequestPart("itens") String itens,
+                                              @RequestPart("itens") Optional<String> itens,
                                               @RequestPart("ativo") String ativo) throws IOException {
 
-        List<String> itensList = Arrays.stream(itens.split(",")).toList();
 
         QuartoModel novoQuarto = new QuartoModel();
         novoQuarto.setNome(nome);
@@ -53,11 +53,12 @@ public class QuartoController {
         novoQuarto.setAtivo(Boolean.parseBoolean(ativo));
         novoQuarto.setValor(Double.parseDouble(valor));
 
-        if (!itensList.isEmpty()) {
+        if (itens.isPresent()) {
+            List<String> itensList = Arrays.stream(itens.get().split(",")).toList();
             novoQuarto.setItens(itensList);
         }
-        if (!imagem.isEmpty()) {
-            novoQuarto.setImagem(imagem.getBytes());
+        if (imagem.isPresent()) {
+            novoQuarto.setImagem(imagem.get().getBytes());
         }
         novoQuarto = quartoService.insert(novoQuarto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoQuarto.getId()).toUri();
@@ -70,13 +71,13 @@ public class QuartoController {
         return ResponseEntity.ok().body(novosQuartos);
     }
 
-    @PutMapping(value = "/{id}", consumes = { "multipart/mixed", "multipart/form-data" }, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<QuartoModel> update(@PathVariable Long id, @RequestPart("imagem") MultipartFile imagem,
+    @PutMapping(value = "/{id}", consumes = {"multipart/mixed", "multipart/form-data"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<QuartoModel> update(@PathVariable Long id, @RequestPart("imagem") Optional<MultipartFile> imagem,
                                               @RequestPart("nome") String nome,
                                               @RequestPart("tipo") String tipo,
                                               @RequestPart("categoria") String categoria,
                                               @RequestPart("valor") String valor,
-                                              @RequestPart("itens") List<String> itens,
+                                              @RequestPart("itens") Optional<String> itens,
                                               @RequestPart("ativo") String ativo) throws IOException {
 
         QuartoModel quartoAlterado = new QuartoModel();
@@ -85,10 +86,13 @@ public class QuartoController {
         quartoAlterado.setCategoria(CategoriasEnum.valueOf(categoria));
         quartoAlterado.setAtivo(Boolean.parseBoolean(ativo));
         quartoAlterado.setValor(Double.parseDouble(valor));
-        quartoAlterado.setItens(itens);
 
-        if (!imagem.isEmpty()) {
-            quartoAlterado.setImagem(imagem.getBytes());
+        if (itens.isPresent()) {
+            List<String> itensList = Arrays.stream(itens.get().split(",")).toList();
+            quartoAlterado.setItens(itensList);
+        }
+        if (imagem.isPresent()) {
+            quartoAlterado.setImagem(imagem.get().getBytes());
         }
         quartoAlterado = quartoService.update(id, quartoAlterado);
         return ResponseEntity.ok().body(quartoAlterado);
