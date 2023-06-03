@@ -27,6 +27,8 @@ export class QuartoService {
 		formData.append('categoria', quarto.categoria!.toString());
 		formData.append('ativo', quarto.ativo!.toString());
 		formData.append('imagem', quarto.imagem!);
+		formData.append('valor', quarto.valor!.toString());
+		formData.append('itens', quarto.itens.toString())
 
 		return this.http.post<QuartoModel>(this.urlEndPoint, formData, {observe: 'response'});
 	}
@@ -38,6 +40,8 @@ export class QuartoService {
 		formData.append('categoria', quarto.categoria!.toString());
 		formData.append('ativo', quarto.ativo!.toString());
 		formData.append('imagem', quarto.imagem!);
+		formData.append('valor', quarto.valor!.toString());
+		formData.append('itens', quarto.itens.toString())
 
 		return this.http.put(`${this.urlEndPoint}/${quarto.id}`, formData, {observe: 'response'});
 	}

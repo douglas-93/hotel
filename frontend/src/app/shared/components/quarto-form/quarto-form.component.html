@@ -35,13 +35,39 @@
 						   labelMode="floating"
 						   valueExpr="value">
 			</dx-select-box>
-			<dx-text-box
-				#valorDiaria
+
+			<dx-number-box
+				[(value)]="quarto.valor"
+				format="R$ #,##0.00"
 				class="margem"
 				label="Valor da Diária"
-				labelMode="floating"
-				(onValueChanged)="formataValorDiaria($event)">
-			</dx-text-box>
+				labelMode="floating">
+			</dx-number-box>
+		</div>
+		<div class="container">
+			<div class="row">
+				<dx-text-box
+					#itensQuarto
+					(onEnterKey)="adicionaItem()"
+					label="Itens do Quarto"
+					labelMode="floating"
+					class="margem"
+					width="100%">
+				</dx-text-box>
+				<dx-button
+					icon="add"
+					(onClick)="adicionaItem()">
+				</dx-button>
+			</div>
+			<dx-list
+				class="margem"
+				[dataSource]="quarto.itens"
+				selectionMode="single"
+				[allowItemDeleting]="true">
+				<dxo-item-dragging
+					[allowReordering]="true">
+				</dxo-item-dragging>
+			</dx-list>
 		</div>
 		<div class="container-foto">
 			<div class="dx-card" id="foto">

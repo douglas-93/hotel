@@ -6,8 +6,9 @@ import notify from "devextreme/ui/notify";
 import {custom} from "devextreme/ui/dialog";
 import {ToolbarModule} from "../toolbar/toolbar.component";
 import {
+	DxButtonModule,
 	DxCheckBoxModule,
-	DxFileUploaderModule,
+	DxFileUploaderModule, DxListModule,
 	DxNumberBoxModule,
 	DxSelectBoxModule,
 	DxTextBoxComponent,
@@ -24,7 +25,7 @@ import {NgIf} from "@angular/common";
 })
 export class QuartoFormComponent {
 
-	@ViewChild('valorDiaria') valorDiaria: DxTextBoxComponent;
+	@ViewChild('itensQuarto') itemQuarto: DxTextBoxComponent;
 	isUpdate: boolean;
 	quarto: QuartoModel = new QuartoModel();
 	tiposQuartos = Object.values(TiposQuartoEnum).filter(f => isNaN(Number(f))).map(valor => ({
@@ -169,20 +170,10 @@ export class QuartoFormComponent {
 		return bytes.buffer;
 	}
 
-	formataValorDiaria(e: any) {
-		let valorDigitado = e.value;
-		console.log(valorDigitado)
-		const valorNumerico = valorDigitado.replace(/\D/g, "");
-		// Formatar valor monetário
-
-		console.log(valorNumerico)
-		const valorFormatado = Number(valorNumerico).toLocaleString('pt-BR', {
-			style: 'currency',
-			currency: 'BRL',
-			minimumFractionDigits: 2,
-		});
-
-		this.valorDiaria.instance.option('value', valorFormatado);
+	adicionaItem() {
+		let item = this.itemQuarto.value.split(' ').map(e => e.charAt(0).toUpperCase() + e.slice(1)).join(' ')
+		this.quarto.itens.push(item)
+        this.itemQuarto.value = ''
 	}
 }
 
@@ -194,7 +185,9 @@ export class QuartoFormComponent {
 		DxSelectBoxModule,
 		DxFileUploaderModule,
 		NgIf,
-		DxNumberBoxModule
+		DxNumberBoxModule,
+		DxListModule,
+		DxButtonModule
 	],
 	declarations: [QuartoFormComponent],
 	exports: [QuartoFormComponent]

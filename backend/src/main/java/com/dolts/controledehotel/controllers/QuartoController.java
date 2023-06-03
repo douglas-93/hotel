@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -39,12 +40,22 @@ public class QuartoController {
                                               @RequestPart("nome") String nome,
                                               @RequestPart("tipo") String tipo,
                                               @RequestPart("categoria") String categoria,
+                                              @RequestPart("valor") String valor,
+                                              @RequestPart("itens") String itens,
                                               @RequestPart("ativo") String ativo) throws IOException {
+
+        List<String> itensList = Arrays.stream(itens.split(",")).toList();
+
         QuartoModel novoQuarto = new QuartoModel();
         novoQuarto.setNome(nome);
         novoQuarto.setTipo(TiposEnum.valueOf(tipo));
         novoQuarto.setCategoria(CategoriasEnum.valueOf(categoria));
         novoQuarto.setAtivo(Boolean.parseBoolean(ativo));
+        novoQuarto.setValor(Double.parseDouble(valor));
+
+        if (!itensList.isEmpty()) {
+            novoQuarto.setItens(itensList);
+        }
         if (!imagem.isEmpty()) {
             novoQuarto.setImagem(imagem.getBytes());
         }
@@ -64,12 +75,18 @@ public class QuartoController {
                                               @RequestPart("nome") String nome,
                                               @RequestPart("tipo") String tipo,
                                               @RequestPart("categoria") String categoria,
+                                              @RequestPart("valor") String valor,
+                                              @RequestPart("itens") List<String> itens,
                                               @RequestPart("ativo") String ativo) throws IOException {
+
         QuartoModel quartoAlterado = new QuartoModel();
         quartoAlterado.setNome(nome);
         quartoAlterado.setTipo(TiposEnum.valueOf(tipo));
         quartoAlterado.setCategoria(CategoriasEnum.valueOf(categoria));
         quartoAlterado.setAtivo(Boolean.parseBoolean(ativo));
+        quartoAlterado.setValor(Double.parseDouble(valor));
+        quartoAlterado.setItens(itens);
+
         if (!imagem.isEmpty()) {
             quartoAlterado.setImagem(imagem.getBytes());
         }

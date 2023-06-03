@@ -33,3 +33,10 @@ img {
 	max-width: 100%;
 	height: auto;
 }
+
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}

@@ -5,6 +5,8 @@ import com.dolts.controledehotel.enumerators.TiposEnum;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "quartos")
@@ -22,8 +24,33 @@ public class QuartoModel implements Serializable {
     private byte[] imagem;
 
     private String imagemURL;
+    private Double valor;
+    @ElementCollection
+    private List<String> itens = new ArrayList<>();
 
     public QuartoModel() {
+    }
+
+    public QuartoModel(Long id, String nome, TiposEnum tipo, CategoriasEnum categoria, boolean ativo, Double valor, List<String> itens) {
+        this.id = id;
+        this.nome = nome;
+        this.tipo = tipo;
+        this.categoria = categoria;
+        this.ativo = ativo;
+        this.valor = valor;
+        this.itens = itens;
+    }
+
+    public QuartoModel(Long id, String nome, TiposEnum tipo, CategoriasEnum categoria, boolean ativo, byte[] imagem, String imagemURL, Double valor, List<String> itens) {
+        this.id = id;
+        this.nome = nome;
+        this.tipo = tipo;
+        this.categoria = categoria;
+        this.ativo = ativo;
+        this.imagem = imagem;
+        this.imagemURL = imagemURL;
+        this.valor = valor;
+        this.itens = itens;
     }
 
     public QuartoModel(Long id, String nome, TiposEnum tipo, CategoriasEnum categoria) {
@@ -31,6 +58,22 @@ public class QuartoModel implements Serializable {
         this.nome = nome;
         this.tipo = tipo;
         this.categoria = categoria;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public List<String> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<String> itens) {
+        this.itens = itens;
     }
 
     public byte[] getImagem() {

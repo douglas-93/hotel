@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,12 +30,20 @@ public class QuartoService {
 
     public QuartoModel insert(QuartoModel novoQuarto) {
         byte[] imagem = novoQuarto.getImagem();
+        List<String> itens = new ArrayList<>(novoQuarto.getItens());
+
         novoQuarto.setImagem(null); // Limpa o atributo imagem para evitar problemas na serialização
+        novoQuarto.setItens(null); // Limpa o atributo itens para evitar problemas na serialização
 
         QuartoModel quartoSalvo = quartoRepository.save(novoQuarto);
 
         if (imagem != null) {
             quartoSalvo.setImagem(imagem);
+            quartoRepository.save(quartoSalvo);
+        }
+
+        if (itens != null) {
+            quartoSalvo.setItens(itens);
             quartoRepository.save(quartoSalvo);
         }
 
@@ -56,7 +65,10 @@ public class QuartoService {
     public QuartoModel update(Long id, QuartoModel quartoAlterado) {
 
         byte[] imagem = quartoAlterado.getImagem();
+        List<String> itens = new ArrayList<>(quartoAlterado.getItens());
+
         quartoAlterado.setImagem(null); // Limpa o atributo imagem para evitar problemas na serialização
+        quartoAlterado.setItens(null); // Limpa o atributo itens para evitar problemas na serialização
 
         QuartoModel quarto = quartoRepository.getReferenceById(id);
         updateData(quarto, quartoAlterado);
@@ -64,6 +76,11 @@ public class QuartoService {
 
         if (imagem != null) {
             quartoSalvo.setImagem(imagem);
+            quartoRepository.save(quartoSalvo);
+        }
+
+        if (itens != null) {
+            quartoSalvo.setItens(itens);
             quartoRepository.save(quartoSalvo);
         }
 
@@ -75,5 +92,7 @@ public class QuartoService {
         quarto.setCategoria(quartoAlterado.getCategoria());
         quarto.setTipo(quartoAlterado.getTipo());
         quarto.setAtivo(quartoAlterado.isAtivo());
+        quarto.setValor(quartoAlterado.getValor());
+        quarto.setItens(quartoAlterado.getItens());
     }
 }

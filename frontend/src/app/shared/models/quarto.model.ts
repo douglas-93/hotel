@@ -9,4 +9,6 @@ export class QuartoModel {
 	ativo: boolean | undefined | null = true;
 	imagem: File | null;
 	imagemURL: string | null;
+	valor: number;
+	itens: string[] = [];
 }
