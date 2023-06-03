@@ -12,6 +12,7 @@ export class ReservaComponent implements OnInit {
 
 	reservas: ReservaModel[];
 	reservaSelecionada: ReservaModel;
+	loadingVisible: boolean = false;
 
 	constructor(private router: Router,
 				private reservaService: ReservaService) {
@@ -25,8 +26,10 @@ export class ReservaComponent implements OnInit {
 	}
 
 	buscarReservas() {
+		this.loadingVisible = true;
 		this.reservaService.getReservas().subscribe(resp => {
 			this.reservas = resp
+			this.loadingVisible = false;
 		})
 	}
 
@@ -41,6 +44,4 @@ export class ReservaComponent implements OnInit {
 	editar(e: MouseEvent) {
 		this.router.navigate(['pages', 'reservas', 'cad', this.reservaSelecionada.id])
 	}
-
-	protected readonly console = console;
 }

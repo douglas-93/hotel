@@ -13,6 +13,7 @@ export class QuartosComponent implements OnInit {
 	isReadOnly: boolean = true;
 	quartos: QuartoModel[];
 	quartoSelecionado: QuartoModel;
+	loadingVisible: boolean = false;
 
 	constructor(private quartoService: QuartoService,
 				private router: Router) {
@@ -22,9 +23,11 @@ export class QuartosComponent implements OnInit {
 	}
 
 	buscaQuartos() {
+		this.loadingVisible = true;
 		this.quartoService.getQuartos().subscribe(resp => {
 			if (resp.status === 200) {
 				this.quartos = resp.body!
+				this.loadingVisible = false;
 			}
 		})
 	}

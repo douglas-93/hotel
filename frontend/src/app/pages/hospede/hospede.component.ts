@@ -20,6 +20,7 @@ export class HospedeComponent {
 	grid: DxDataGridComponent;
 	hospedes: HospedeModel[];
 	hospedeSelecinado: HospedeModel;
+	loadingVisible: boolean = false;
 
 
 	constructor(private hospService: HospedeService,
@@ -51,9 +52,11 @@ export class HospedeComponent {
 	}
 
 	buscaHospedes() {
+		this.loadingVisible = true;
 		this.hospService.getHospedes().subscribe(
 			data => {
 				this.hospedes = data
+				this.loadingVisible = false;
 			}
 		)
 	}

@@ -6,6 +6,18 @@
 		[cad]="false">
 	</app-toolbar>
 
+	<dx-load-panel
+		#loadPanel
+		shadingColor="rgba(0,0,0,0.4)"
+		[position]="{ of: '#grid' }"
+		[(visible)]="loadingVisible"
+		[showIndicator]="true"
+		[showPane]="true"
+		[shading]="true"
+		[hideOnOutsideClick]="false"
+	>
+	</dx-load-panel>
+
 	<dx-data-grid #grid
 				  (onRowDblClick)="editar($event)"
 				  (onSelectionChanged)="selecionaQuarto($event)"
@@ -33,9 +45,12 @@
 		<dxi-column cellTemplate="tipoTemplate"
 			dataField="tipo"></dxi-column>
 		<dxi-column dataField="categoria"></dxi-column>
+		<dxi-column dataField="valor" cellTemplate="valorTemplate"></dxi-column>
 		<dxi-column cellTemplate="ativoTemplate"
 					dataField="ativo">
 		</dxi-column>
+		<dxi-column dataField="itens" [visible]="false"></dxi-column>
+		<dxi-column dataField="imagem" [visible]="false"></dxi-column>
 
 		<!--		TEMPLATES-->
 		<div *dxTemplate="let data of 'ativoTemplate'">
@@ -46,6 +61,9 @@
 		</div>
 		<div *dxTemplate="let data of 'tipoTemplate'">
 			{{data.data.tipo.replace('_', ' ')}}
+		</div>
+		<div *dxTemplate="let data of 'valorTemplate'">
+			{{data.data.valor | currency: 'BRL'}}
 		</div>
 	</dx-data-grid>
 </div>
