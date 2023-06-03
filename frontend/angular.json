@@ -52,11 +52,11 @@
 							"src/assets"
 						],
 						"styles": [
-							"node_modules/devextreme/dist/css/dx.common.css",
-							"node_modules/devextreme/dist/css/dx.light.css",
+							"src/dx-styles.scss",
 							"src/themes/generated/theme.base.css",
 							"src/themes/generated/theme.additional.css",
-							"src/dx-styles.scss",
+							"node_modules/devextreme/dist/css/dx.common.css",
+							"node_modules/devextreme/dist/css/dx.light.css",
 							"src/styles.scss"
 						],
 						"scripts": []
