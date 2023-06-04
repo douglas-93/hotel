@@ -15,7 +15,7 @@ import {
 import {HospedeModel} from "../../models/hospede.model";
 import notify from "devextreme/ui/notify";
 import {ReservaModel} from "../../models/reserva.model";
-import {DatePipe} from "@angular/common";
+import {DatePipe, Location} from "@angular/common";
 import {QuartoModel} from "../../models/quarto.model";
 import {HospedeService} from "../../services/hospede.service";
 import {QuartoService} from "../../services/quarto.service";
@@ -45,7 +45,8 @@ export class ReservaFormComponent {
 				private quartSerice: QuartoService,
 				private reservService: ReservaService,
 				private router: Router,
-				private cdr: ChangeDetectorRef) {
+				private cdr: ChangeDetectorRef,
+				private location: Location) {
 	}
 
 	ngOnInit() {
@@ -178,7 +179,7 @@ export class ReservaFormComponent {
 	}
 
 	voltar() {
-		window.history.back()
+		this.location.back();
 	}
 
 	validaReserva() {

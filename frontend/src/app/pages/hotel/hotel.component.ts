@@ -6,6 +6,7 @@ import {EstadoModel} from "../../shared/models/estado.model";
 import {EstadoService} from "../../shared/services/estado.service";
 import {CidadeService} from "../../shared/services/cidade.service";
 import {DxAutocompleteComponent, DxSelectBoxComponent} from "devextreme-angular";
+import {Location} from "@angular/common";
 
 
 @Component({
@@ -26,7 +27,8 @@ export class HotelComponent implements OnInit {
 
 	constructor(private hotelService: HotelService,
 				private estadoService: EstadoService,
-				private cidadeService: CidadeService) {
+				private cidadeService: CidadeService,
+				private location: Location) {
 		this.iscarregando = true
 		hotelService.getLastHotelVersion().subscribe(
 			data => {
@@ -103,7 +105,7 @@ export class HotelComponent implements OnInit {
 	}
 
 	voltar() {
-		window.history.back();
+		this.location.back();
 	}
 
 	mostraMensagem(tipo: string, mensagem: string) {

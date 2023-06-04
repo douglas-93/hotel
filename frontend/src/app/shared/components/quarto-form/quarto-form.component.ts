@@ -17,7 +17,7 @@ import {
 } from "devextreme-angular";
 import {TiposQuartoEnum} from "../../enums/tipos-quartos.enum";
 import {CategoriasEnum} from "../../enums/categorias.enum";
-import {NgIf} from "@angular/common";
+import {Location, NgIf} from "@angular/common";
 
 @Component({
 	selector: 'app-quarto-form',
@@ -41,7 +41,8 @@ export class QuartoFormComponent {
 	}));
 
 	constructor(private quartoService: QuartoService,
-				private router: Router) {
+				private router: Router,
+				private location: Location) {
 		let id = router.url.split('/').pop()!
 		if (id.match(/[0-9]+/)) {
 			this.isUpdate = true
@@ -76,6 +77,11 @@ export class QuartoFormComponent {
 					this.mostraMensagem('success', 'Quarto salvo com sucesso.')
 					setTimeout(this.voltar, 1000)
 				}
+			},
+			error => {
+				if (error.error.message.includes('constraint')) {
+                    this.mostraMensagem('error', 'Já existe um quarto com esse nome.')
+                }
 			}
 		)
 	}

@@ -66,4 +66,27 @@ public class ReservaService {
         Sort sortEntrada = Sort.by(Sort.Direction.ASC, "dataEntrada");
         return reservaRepository.findByDateAndQuartoId(dataEntrada, dataSaida, quarto.getId());
     }
+
+    public void fazerCheckIn(Long reservaId) {
+        ReservaModel reserva = reservaRepository.findById(reservaId).orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
+
+        if (!reserva.isCheckedIn()) {
+            reserva.setCheckIn(true);
+            reservaRepository.save(reserva);
+        } else {
+            throw new RuntimeException("Reserva já fez check-in");
+        }
+    }
+
+    public void fazerCheckOut(Long reservaId) {
+        ReservaModel reserva = reservaRepository.findById(reservaId).orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
+
+        if (reserva.isCheckedIn() && !reserva.isCheckedOut()) {
+            reserva.setCheckOut(true);
+            reservaRepository.save(reserva);
+        } else {
+            throw new RuntimeException("Reserva não fez check-in ou já fez check-out");
+        }
+    }
+
 }

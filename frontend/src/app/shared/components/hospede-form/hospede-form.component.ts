@@ -1,5 +1,5 @@
 import {Component, NgModule, ViewChild} from '@angular/core';
-import {CommonModule} from "@angular/common";
+import {CommonModule, Location} from "@angular/common";
 import {ToolbarModule} from "../toolbar/toolbar.component";
 import {HospedeModel} from "../../models/hospede.model";
 import {DxDateBoxModule, DxNumberBoxModule, DxTextAreaModule, DxTextBoxModule} from "devextreme-angular";
@@ -24,7 +24,8 @@ export class HospedeFormComponent {
 	// tipoMensagem = ['error', 'success', 'info', 'warning']
 
 	constructor(private hospService: HospedeService,
-				private router: Router) {
+				private router: Router,
+				private location: Location) {
 		let id = router.url.split('/').pop()!
 		if (id.match(/[0-9]+/)) {
 			this.isUpdate = true
@@ -53,6 +54,11 @@ export class HospedeFormComponent {
 					if (resp.status === 201) {
 						this.mostraMensagem('success', 'Hospede salvo com sucesso.')
 						setTimeout(this.voltar, 1000)
+					}
+				},
+				error => {
+					if (error.error.message.includes('constraint')) {
+						this.mostraMensagem('error', 'Já existe um hospede com esse CPF.')
 					}
 				}
 			)
@@ -151,7 +157,7 @@ export class HospedeFormComponent {
 	}
 
 	voltar() {
-		window.history.back()
+		this.location.back()
 	}
 }
 

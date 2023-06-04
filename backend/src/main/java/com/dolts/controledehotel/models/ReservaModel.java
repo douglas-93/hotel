@@ -36,6 +36,9 @@ public class ReservaModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<HospedeModel> hospedes;
 
+    private boolean checkIn;
+    private boolean checkOut;
+
     public ReservaModel() {
         this.hospedes = new ArrayList<>();
     }
@@ -46,6 +49,22 @@ public class ReservaModel implements Serializable {
         this.dataSaida = dataSaida;
         this.quarto = quarto;
         this.hospedes = new ArrayList<>();
+    }
+
+    public boolean isCheckedIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(boolean checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public boolean isCheckedOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(boolean checkOut) {
+        this.checkOut = checkOut;
     }
 
     public Long getId() {

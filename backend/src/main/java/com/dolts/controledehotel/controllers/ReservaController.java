@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -57,6 +56,38 @@ public class ReservaController {
         novaReserva = reservaService.insert(novaReserva);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novaReserva.getId()).toUri();
         return ResponseEntity.created(uri).body(novaReserva);
+    }
+
+    @PostMapping("/{id}/checkin")
+    public ResponseEntity<Void> fazerCheckIn(@PathVariable("id") Long reservaId) {
+        try {
+            reservaService.fazerCheckIn(reservaId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            if (e.getMessage().contains("não encontrada")) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva não encontrada");
+            }
+            if (e.getMessage().contains("fez check-in")) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Check-in já realizado");
+            }
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/{id}/checkout")
+    public ResponseEntity<Void> fazerCheckOut(@PathVariable("id") Long reservaId) {
+        try {
+            reservaService.fazerCheckOut(reservaId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            if (e.getMessage().contains("não encontrada")) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva não encontrada");
+            }
+            if (e.getMessage().contains("fez check-in")) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Reserva não fez check-in ou já fez check-out");
+            }
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @PutMapping(value = "/{id}")

@@ -1,4 +1,4 @@
-<h2 class="content-block">Reserva</h2>
+<h2 class="content-block" style="text-align: center">Reserva</h2>
 <div class="content-block">
 	<app-toolbar
 		(filtrar)="buscarReservas()"
@@ -47,12 +47,12 @@
 			<dxi-column
 				dataField="dataEntrada"
 				dataType="date"
-				format="dd/MM/yyyy HH:mm">
+				format="dd/MM/yyyy">
 			</dxi-column>
 			<dxi-column
 				dataField="dataSaida"
 				dataType="date"
-				format="dd/MM/yyyy HH:mm">
+				format="dd/MM/yyyy">
 			</dxi-column>
 			<dxi-column dataField="quarto.nome"></dxi-column>
 			<dxi-column [visible]="false" dataField="observacao"></dxi-column>

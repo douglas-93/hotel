@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, NgModule, Output} from '@angular/core';
 import {DxButtonModule, DxMenuModule} from "devextreme-angular";
-import {NgIf} from "@angular/common";
+import {Location, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 
 @Component({
@@ -18,7 +18,8 @@ export class ToolbarComponent {
 	cad: boolean;
 
     edit: boolean;
-	constructor(private router: Router) {
+	constructor(private router: Router,
+				private location: Location) {
 		this.edit = this.router.url.includes('edit/')
 	}
 
@@ -35,7 +36,7 @@ export class ToolbarComponent {
 		this.deletar.emit(e)
 	}
 	voltar() {
-		window.history.back()
+		this.location.back();
 	}
 }
 
