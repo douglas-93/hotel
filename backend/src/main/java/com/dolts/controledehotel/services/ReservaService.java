@@ -63,10 +63,7 @@ public class ReservaService {
 
     @Transactional
     public List<ReservaModel> findByQuartoAndData(QuartoModel quarto, Date dataEntrada, Date dataSaida) {
-        Date de1 = dataEntrada;
-        Date de2 = dataEntrada;
-        Date ate1 = dataSaida;
-        Date ate2 = dataSaida;
-        return reservaRepository.findReservaModelsByQuartoAndDataEntradaBetweenOrDataSaidaBetween(quarto, de1, ate1, de2, ate2);
+        Sort sortEntrada = Sort.by(Sort.Direction.ASC, "dataEntrada");
+        return reservaRepository.findByDateAndQuartoId(dataEntrada, dataSaida, quarto.getId());
     }
 }
