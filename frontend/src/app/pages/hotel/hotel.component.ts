@@ -83,9 +83,6 @@ export class HotelComponent implements OnInit {
 					let listaCidades: string[];
 					listaCidades = data.map(e => e['distrito-nome']);
 					this.cidades = listaCidades;
-					let t = listaCidades.filter(e => e === c)[0]
-					// this.cidadeAutocomplete.value = listaCidades.filter(e => e === c)[0]
-					console.log(t)
 					this.iscarregando = false;
 				}
 			)
@@ -128,7 +125,6 @@ export class HotelComponent implements OnInit {
 	defineIdEstado(e: any) {
 		let estado: EstadoModel = e.selectedItem
 		this.idEstado = estado.ufId
-		// this.carregaCidades()
-		this.hotel.cidade = ''
+		this.carregaCidades()
 	}
 }

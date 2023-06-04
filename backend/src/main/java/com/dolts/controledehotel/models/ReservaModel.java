@@ -1,6 +1,8 @@
 package com.dolts.controledehotel.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class ReservaModel implements Serializable {
     private String observacao;
 
     @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private QuartoModel quarto;
 
     @ManyToMany
@@ -30,6 +33,7 @@ public class ReservaModel implements Serializable {
             joinColumns = @JoinColumn(name = "reserva_id"),
             inverseJoinColumns = @JoinColumn(name = "hospede_id")
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<HospedeModel> hospedes;
 
     public ReservaModel() {

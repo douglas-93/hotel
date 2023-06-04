@@ -13,6 +13,7 @@ public class HospedeModel implements Serializable {
     private Long id;
     private String nome;
     private Date nascimento;
+    @Column(unique = true)
     private String cpf;
     private String email;
     private String celular;
