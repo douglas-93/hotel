@@ -22,6 +22,7 @@
 		(onClick)="salvaEnv($event)">
 	</dx-button>
 	<dx-button
+		*ngIf="edit"
 		icon="trash"
 		text="Excluir"
 		(onClick)="deleteEnv($event)">

@@ -42,6 +42,6 @@ export class ReservaComponent implements OnInit {
 	}
 
 	editar(e: MouseEvent) {
-		this.router.navigate(['pages', 'reservas', 'cad', this.reservaSelecionada.id])
+		this.router.navigate(['pages', 'reservas', 'edit', this.reservaSelecionada.id])
 	}
 }

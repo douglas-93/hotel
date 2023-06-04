@@ -98,6 +98,6 @@ export class HospedeComponent {
 	}
 
 	editar(e: MouseEvent) {
-		this.router.navigate(['pages', 'hospedes', 'cad', this.hospedeSelecinado.id])
+		this.router.navigate(['pages', 'hospedes', 'edit', this.hospedeSelecinado.id])
 	}
 }

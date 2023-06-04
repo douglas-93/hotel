@@ -45,6 +45,6 @@ export class QuartosComponent implements OnInit {
 	}
 
 	editar(e: MouseEvent) {
-		this.router.navigate(['pages', 'quartos', 'cad', this.quartoSelecionado.id])
+		this.router.navigate(['pages', 'quartos', 'edit', this.quartoSelecionado.id])
 	}
 }

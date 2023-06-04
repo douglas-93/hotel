@@ -69,7 +69,7 @@ const routes: Routes = [
 		canActivate: [AuthGuardService]
 	},
 	{
-		path: 'pages/hospedes/cad/:id',
+		path: 'pages/hospedes/edit/:id',
 		component: HospedeFormComponent,
 		canActivate: [AuthGuardService]
 	},
@@ -79,7 +79,7 @@ const routes: Routes = [
 		canActivate: [AuthGuardService]
 	},
 	{
-		path: 'pages/quartos/cad/:id',
+		path: 'pages/quartos/edit/:id',
 		component: QuartoFormComponent,
 		canActivate: [AuthGuardService]
 	},
@@ -89,7 +89,7 @@ const routes: Routes = [
 		canActivate: [AuthGuardService]
 	},
 	{
-		path: 'pages/reservas/cad/:id',
+		path: 'pages/reservas/edit/:id',
 		component: ReservaFormComponent,
 		canActivate: [AuthGuardService]
 	},
