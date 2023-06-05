@@ -8,7 +8,7 @@
 	text-align: center;
 }
 
-.quarto {
+#quarto {
 	display: inline-block;
 	width: 12.5rem;
 	height: 9rem;
@@ -24,10 +24,11 @@
 }
 
 .quarto-ocupado {
-	color: #8c0b0b;
-	background-color: #ffacb6;
+	color: #8c6e0b;
+	background-color: #fff1ac;
 	border-radius: 5px;
 	padding: 0.5rem;
+	margin: 5px;
 }
 
 .quarto-disponivel {
@@ -35,6 +36,7 @@
 	background-color: #a0faa0;
 	border-radius: 5px;
 	padding: 0.5rem;
+	margin: 5px;
 }
 
 .quarto:hover {

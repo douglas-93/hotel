@@ -2,32 +2,63 @@
 <div class="content-block">
 
 	<dx-load-panel
-		shadingColor="rgba(0,0,0,0.4)"
-		[position]="{ of: '#main' }"
 		[(visible)]="loadingVisible"
+		[hideOnOutsideClick]="false"
+		[position]="{ of: '#main' }"
+		[shading]="true"
 		[showIndicator]="true"
 		[showPane]="true"
-		[shading]="true"
-		[hideOnOutsideClick]="false"
+		shadingColor="rgba(0,0,0,0.4)"
 	>
 	</dx-load-panel>
 
-	<div class="dx-card responsive-paddings" #main>
+	<div #main class="dx-card responsive-paddings">
 		<div class="logos-container">
 			<h1>Visualização de Quartos</h1>
 		</div>
 
-		<div class="quarto" *ngFor="let quarto of quartosAExibir">
-			<div class="icone">
-				<i class="dx-icon-home"
-				   [class.quarto-disponivel]="quarto.reserva === null"
-				   [class.quarto-ocupado]="quarto.reserva != null">
-				</i>
+		<ng-container *ngFor="let quarto of quartosAExibir">
+			<div id="quarto">
+				<div class="icone">
+					<i [class.quarto-disponivel]="quarto.reserva === null"
+					   [class.quarto-ocupado]="quarto.reserva != null"
+					   class="dx-icon-home">
+					</i>
+					<i *ngIf="quarto.reserva?.checkIn" class="dx-icon-check quarto-disponivel"></i>
+				</div>
+				<div class="info">
+					<p>Quarto {{quarto.quarto.nome}}</p>
+					<p>{{quarto.reserva === null ? quarto.quarto.tipo.toString().replace('_', ' ') : quarto.reserva.hospedes[0].nome}}</p>
+				</div>
 			</div>
-			<div class="info">
-				<p>Quarto {{quarto.quarto.nome}}</p>
-				<p>{{quarto.reserva === null ? quarto.quarto.tipo.toString().replace('_', ' ') : quarto.reserva.hospedes[0].nome}}</p>
+		</ng-container>
+
+		<dx-context-menu
+			[dataSource]="items"
+			[width]="200"
+			target="#quarto">
+			<div *dxTemplate="let e of 'item'">
+				<div (click)="itemClick($event)">
+					<span [ngClass]="e.icon"></span>
+					<span *ngIf="e.items" class="dx-icon-spinright"></span> {{ e.text }}
+				</div>
 			</div>
+		</dx-context-menu>
+
+		<div class="toolbar">
+			<dx-button
+				icon=""
+				text="Check-In">
+			</dx-button>
+			<dx-button
+				icon=""
+				text="Check-Out">
+			</dx-button>
+			<dx-button
+				icon=""
+				text="Consumo">
+			</dx-button>
 		</div>
+
 	</div>
 </div>
