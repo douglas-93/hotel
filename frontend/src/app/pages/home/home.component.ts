@@ -60,7 +60,39 @@ export class HomeComponent {
 		);
 	}
 
-	itemClick(event: any) {
-		console.log(event);
+	//{ quarto: QuartoModel; reserva: ReservaModel }
+	selecionarQuarto(quarto: any) {
+		console.log(quarto)
+		if (this.quartoSelecionado === quarto.quarto) {
+			this.quartoSelecionado = null;
+			return;
+		}
+		this.quartoSelecionado = quarto.quarto;
+	}
+
+	quartoSelecionado: QuartoModel | null = null;
+
+	realizarCheckIn() {
+		if (!this.quartoSelecionado) {
+			notify('Selecione um quarto para realizar o check-in', 'warning', 3000);
+			return;
+		}
+		console.log('Realizar Check-In:', this.quartoSelecionado);
+	}
+
+	realizarCheckOut() {
+		if (!this.quartoSelecionado) {
+			notify('Selecione um quarto para realizar o check-out', 'warning', 3000);
+			return;
+		}
+		console.log('Realizar Check-Out:', this.quartoSelecionado);
+	}
+
+	gerenciarConsumo() {
+		if (!this.quartoSelecionado) {
+			notify('Selecione um quarto para gerenciar o consumo', 'warning', 3000);
+			return;
+		}
+		console.log('Gerenciar Consumo:', this.quartoSelecionado);
 	}
 }

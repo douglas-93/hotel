@@ -23,6 +23,16 @@
 	transition: box-shadow 0.3s ease;
 }
 
+#quarto:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+	cursor: pointer;
+}
+
+#quarto:active {
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	transform: translateY(1px);
+}
+
 .quarto-ocupado {
 	color: #8c6e0b;
 	background-color: #fff1ac;
@@ -37,16 +47,6 @@
 	border-radius: 5px;
 	padding: 0.5rem;
 	margin: 5px;
-}
-
-.quarto:hover {
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-	cursor: pointer;
-}
-
-.quarto:active {
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-	transform: translateY(1px);
 }
 
 .icone {
@@ -64,6 +64,11 @@
 	justify-content: center;
 }
 
-#main {
-	height: 100%;
+.selecionado {
+	background-color: #f0f0f0;
+	border: 2px solid #007bff !important;
+}
+
+dx-button {
+	margin: 5px;
 }

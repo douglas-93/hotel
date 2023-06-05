@@ -17,44 +17,37 @@
 			<h1>Visualização de Quartos</h1>
 		</div>
 
-		<ng-container *ngFor="let quarto of quartosAExibir">
-			<div id="quarto">
-				<div class="icone">
-					<i [class.quarto-disponivel]="quarto.reserva === null"
-					   [class.quarto-ocupado]="quarto.reserva != null"
-					   class="dx-icon-home">
-					</i>
-					<i *ngIf="quarto.reserva?.checkIn" class="dx-icon-check quarto-disponivel"></i>
-				</div>
-				<div class="info">
-					<p>Quarto {{quarto.quarto.nome}}</p>
-					<p>{{quarto.reserva === null ? quarto.quarto.tipo.toString().replace('_', ' ') : quarto.reserva.hospedes[0].nome}}</p>
-				</div>
+		<div
+			(click)="selecionarQuarto(quarto)"
+			*ngFor="let quarto of quartosAExibir"
+			[class.selecionado]="quarto.quarto === quartoSelecionado"
+			id="quarto">
+			<div class="icone">
+				<i [class.quarto-disponivel]="quarto.reserva === null"
+				   [class.quarto-ocupado]="quarto.reserva != null"
+				   class="dx-icon-home">
+				</i>
+				<i *ngIf="quarto.reserva?.checkIn" class="dx-icon-check quarto-disponivel"></i>
 			</div>
-		</ng-container>
-
-		<dx-context-menu
-			[dataSource]="items"
-			[width]="200"
-			target="#quarto">
-			<div *dxTemplate="let e of 'item'">
-				<div (click)="itemClick($event)">
-					<span [ngClass]="e.icon"></span>
-					<span *ngIf="e.items" class="dx-icon-spinright"></span> {{ e.text }}
-				</div>
+			<div class="info">
+				<p>Quarto {{quarto.quarto.nome}}</p>
+				<p>{{quarto.reserva === null ? quarto.quarto.tipo.toString().replace('_', ' ') : quarto.reserva.hospedes[0].nome}}</p>
 			</div>
-		</dx-context-menu>
+		</div>
 
 		<div class="toolbar">
 			<dx-button
+				(click)="realizarCheckIn()"
 				icon=""
 				text="Check-In">
 			</dx-button>
 			<dx-button
+				(click)="realizarCheckOut()"
 				icon=""
 				text="Check-Out">
 			</dx-button>
 			<dx-button
+				(click)="gerenciarConsumo()"
 				icon=""
 				text="Consumo">
 			</dx-button>
