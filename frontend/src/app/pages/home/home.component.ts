@@ -60,23 +60,27 @@ export class HomeComponent {
 		);
 	}
 
-	//{ quarto: QuartoModel; reserva: ReservaModel }
 	selecionarQuarto(quarto: any) {
-		console.log(quarto)
-		if (this.quartoSelecionado === quarto.quarto) {
+		if (this.quartoSelecionado === quarto) {
 			this.quartoSelecionado = null;
 			return;
 		}
-		this.quartoSelecionado = quarto.quarto;
+		this.quartoSelecionado = quarto;
 	}
 
-	quartoSelecionado: QuartoModel | null = null;
+	quartoSelecionado: any = null;
+	checkInPopupVisible: boolean = false;
 
 	realizarCheckIn() {
 		if (!this.quartoSelecionado) {
 			notify('Selecione um quarto para realizar o check-in', 'warning', 3000);
 			return;
 		}
+		if (this.quartoSelecionado.reserva.checkIn) {
+			notify('Já foi realizado o check-in para essa reserva', 'warning', 3000);
+			return;
+		}
+		this.checkInPopupVisible = true;
 		console.log('Realizar Check-In:', this.quartoSelecionado);
 	}
 
@@ -94,5 +98,23 @@ export class HomeComponent {
 			return;
 		}
 		console.log('Gerenciar Consumo:', this.quartoSelecionado);
+	}
+
+	cpfFormatado(cpf): string {
+		if (cpf) {
+			return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
+		} else {
+			return cpf
+		}
+	}
+
+	confirmarCheckIn() {
+		this.quartoSelecionado.reserva.checkIn = true;
+		this.reservaService.updateReserva(this.quartoSelecionado.reserva).subscribe(resp => {
+			if (resp.status === 200) {
+				notify('Check-in realizado com sucesso', 'success', 3000);
+				this.checkInPopupVisible = false;
+			}
+		});
 	}
 }

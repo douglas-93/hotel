@@ -20,7 +20,7 @@
 		<div
 			(click)="selecionarQuarto(quarto)"
 			*ngFor="let quarto of quartosAExibir"
-			[class.selecionado]="quarto.quarto === quartoSelecionado"
+			[class.selecionado]="quarto === quartoSelecionado"
 			id="quarto">
 			<div class="icone">
 				<i [class.quarto-disponivel]="quarto.reserva === null"
@@ -52,6 +52,75 @@
 				text="Consumo">
 			</dx-button>
 		</div>
+
+
+		<dx-popup
+			[(visible)]="checkInPopupVisible"
+			[dragEnabled]="false"
+			[height]="540"
+			[hideOnOutsideClick]="true"
+			[showTitle]="true"
+			[width]="660"
+			title="Check-In">
+			<div *dxTemplate="let data of 'content'">
+				<dx-text-box
+					[readOnly]="true"
+					[value]="quartoSelecionado.quarto.nome"
+					label="Quarto"
+					labelMode="floating">
+				</dx-text-box>
+				<ng-container *ngFor="let h of quartoSelecionado.reserva.hospedes">
+					<div style="display: flex">
+						<dx-text-box
+							[readOnly]="true"
+							[value]="h.nome"
+							label="Hospede"
+							labelMode="floating"
+							width="80%">
+						</dx-text-box>
+						<dx-text-box
+							[readOnly]="true"
+							[value]="cpfFormatado(h.cpf)"
+							label="CPF"
+							labelMode="floating">
+						</dx-text-box>
+					</div>
+				</ng-container>
+				<dx-date-box
+					[readOnly]="true"
+					[useMaskBehavior]="true"
+					[value]="quartoSelecionado.reserva.dataEntrada"
+					displayFormat="dd/MM/yyyy HH:mm"
+					label="Data Entrada"
+					labelMode="floating"
+					type="datetime">
+				</dx-date-box>
+				<dx-date-box
+					[useMaskBehavior]="true"
+					[value]="quartoSelecionado.reserva.dataSaida"
+					displayFormat="dd/MM/yyyy HH:mm"
+					label="Data Saída"
+					labelMode="floating"
+					type="datetime">
+				</dx-date-box>
+				<dx-text-area
+					[(value)]="quartoSelecionado.reserva.observacao"
+					height="8rem"
+					label="Observação"
+					labelMode="floating">
+				</dx-text-area>
+
+				<div style="display: flex; justify-content: end; position: absolute; bottom: 20px; right: 20px">
+					<dx-button
+						(click)="confirmarCheckIn()"
+						icon="check"
+						text="Confirmar Check-In"
+						type="success">
+					</dx-button>
+				</div>
+			</div>
+		</dx-popup>
+
 
 	</div>
 </div>
