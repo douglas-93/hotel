@@ -27,7 +27,7 @@
 				   [class.quarto-ocupado]="quarto.reserva != null"
 				   class="dx-icon-home">
 				</i>
-				<i *ngIf="quarto.reserva?.checkIn" class="dx-icon-check quarto-disponivel"></i>
+				<i *ngIf="quarto.reserva?.checkedIn === true" class="dx-icon-check quarto-disponivel"></i>
 			</div>
 			<div class="info">
 				<p>Quarto {{quarto.quarto.nome}}</p>

@@ -8,6 +8,6 @@ export class ReservaModel {
 	quarto: QuartoModel;
 	hospedes: HospedeModel[];
 	observacao: string;
-	checkIn: boolean;
-	checkOut: boolean;
+	checkedIn: boolean;
+	checkedOut: boolean;
 }

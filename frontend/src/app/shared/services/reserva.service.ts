@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ReservaModel} from "../models/reserva.model";
 
 @Injectable({
@@ -30,5 +30,15 @@ export class ReservaService {
 
 	deleteReserva(id: number){
 		return this.http.delete(`${this.url}/${id}`, {observe: 'response'});
+	}
+
+	fazerCheckIn(reserva: ReservaModel){
+		const formData = new FormData();
+		formData.append('observacao', reserva.observacao);
+		formData.append('dataSaida', reserva.dataSaida.toString());
+
+		const headers = new HttpHeaders().set('Content-Type', 'application/json')
+
+		return this.http.post(`${this.url}/${reserva.id}/checkin`, formData, {headers, observe: 'response'});
 	}
 }

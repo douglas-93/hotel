@@ -28,11 +28,7 @@ public class ReservaModel implements Serializable {
     private QuartoModel quarto;
 
     @ManyToMany
-    @JoinTable(
-            name = "reserva_hospede",
-            joinColumns = @JoinColumn(name = "reserva_id"),
-            inverseJoinColumns = @JoinColumn(name = "hospede_id")
-    )
+    @JoinTable(name = "reserva_hospede", joinColumns = @JoinColumn(name = "reserva_id"), inverseJoinColumns = @JoinColumn(name = "hospede_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<HospedeModel> hospedes;
 

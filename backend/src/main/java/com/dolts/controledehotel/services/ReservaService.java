@@ -11,7 +11,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -67,8 +66,16 @@ public class ReservaService {
         return reservaRepository.findByDateAndQuartoId(dataEntrada, dataSaida, quarto.getId());
     }
 
-    public void fazerCheckIn(Long reservaId) {
+    public void fazerCheckIn(Long reservaId, Optional<String> observacao, Optional<Date> dataSaida) {
+
         ReservaModel reserva = reservaRepository.findById(reservaId).orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
+        if (observacao.isPresent() && !observacao.get().isEmpty()) {
+            reserva.setObservacao(observacao.get());
+        }
+
+        if (dataSaida.isPresent() && !dataSaida.get().equals(reserva.getDataEntrada())) {
+            reserva.setDataSaida(dataSaida.get());
+        }
 
         if (!reserva.isCheckedIn()) {
             reserva.setCheckIn(true);

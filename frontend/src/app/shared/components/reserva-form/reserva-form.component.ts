@@ -203,6 +203,15 @@ export class ReservaFormComponent {
 
 		return erros === 0;
 	}
+
+	deletaReserva() {
+		this.reservService.deleteReserva(this.reserva.id!).subscribe(resp => {
+			if (resp.status === 204) {
+				this.mostraMensagem('success', 'Reserva removida com sucesso')
+				setTimeout(this.voltar, 1000)
+			}
+		})
+	}
 }
 
 @NgModule({

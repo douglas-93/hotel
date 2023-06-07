@@ -5,6 +5,7 @@ import com.dolts.controledehotel.models.ReservaModel;
 import com.dolts.controledehotel.services.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -58,10 +60,19 @@ public class ReservaController {
         return ResponseEntity.created(uri).body(novaReserva);
     }
 
-    @PostMapping("/{id}/checkin")
-    public ResponseEntity<Void> fazerCheckIn(@PathVariable("id") Long reservaId) {
+    @PostMapping(value = "/{id}/checkin", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> fazerCheckIn(@PathVariable("id") Long reservaId,
+                                             @RequestPart("observacao") Optional<String> observacao,
+                                             @RequestPart("dataSaida") Optional<Date> dataSaida) {
         try {
-            reservaService.fazerCheckIn(reservaId);
+            System.out.println(reservaId);
+            if (observacao.isPresent())
+                System.out.println(observacao.get());
+            if (dataSaida.isPresent())
+                System.out.println(dataSaida.get());
+
+
+            reservaService.fazerCheckIn(reservaId, observacao, dataSaida);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             if (e.getMessage().contains("não encontrada")) {
