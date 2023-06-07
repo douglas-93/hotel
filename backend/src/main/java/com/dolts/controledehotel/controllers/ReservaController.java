@@ -60,18 +60,12 @@ public class ReservaController {
         return ResponseEntity.created(uri).body(novaReserva);
     }
 
-    @PostMapping(value = "/{id}/checkin", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping(value = "/{id}/checkin", consumes = "multipart/form-data", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> fazerCheckIn(@PathVariable("id") Long reservaId,
                                              @RequestPart("observacao") Optional<String> observacao,
                                              @RequestPart("dataSaida") Optional<Date> dataSaida) {
         try {
-            System.out.println(reservaId);
-            if (observacao.isPresent())
-                System.out.println(observacao.get());
-            if (dataSaida.isPresent())
-                System.out.println(dataSaida.get());
-
-
             reservaService.fazerCheckIn(reservaId, observacao, dataSaida);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
