@@ -8,13 +8,13 @@
 
 	<dx-load-panel
 		#loadPanel
-		shadingColor="rgba(0,0,0,0.4)"
-		[position]="{ of: '#grid' }"
 		[(visible)]="loadingVisible"
+		[hideOnOutsideClick]="false"
+		[position]="{ of: '#grid' }"
+		[shading]="true"
 		[showIndicator]="true"
 		[showPane]="true"
-		[shading]="true"
-		[hideOnOutsideClick]="false"
+		shadingColor="rgba(0,0,0,0.4)"
 	>
 	</dx-load-panel>
 
@@ -40,17 +40,17 @@
 			[showPageSizeSelector]="true">
 		</dxo-pager>
 
-		<dxi-column dataField="id" caption="ID"></dxi-column>
+		<dxi-column caption="ID" dataField="id"></dxi-column>
 		<dxi-column dataField="nome"></dxi-column>
 		<dxi-column cellTemplate="tipoTemplate"
-			dataField="tipo"></dxi-column>
+					dataField="tipo"></dxi-column>
 		<dxi-column dataField="categoria"></dxi-column>
-		<dxi-column dataField="valor" cellTemplate="valorTemplate"></dxi-column>
+		<dxi-column cellTemplate="valorTemplate" dataField="valor"></dxi-column>
 		<dxi-column cellTemplate="ativoTemplate"
 					dataField="ativo">
 		</dxi-column>
-		<dxi-column dataField="itens" [visible]="false"></dxi-column>
-		<dxi-column dataField="imagem" [visible]="false"></dxi-column>
+		<dxi-column [visible]="false" dataField="itens"></dxi-column>
+		<dxi-column [visible]="false" dataField="imagem"></dxi-column>
 
 		<!--		TEMPLATES-->
 		<div *dxTemplate="let data of 'ativoTemplate'">

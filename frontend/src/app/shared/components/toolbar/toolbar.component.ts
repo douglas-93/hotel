@@ -4,9 +4,9 @@ import {Location, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-toolbar',
-  templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+	selector: 'app-toolbar',
+	templateUrl: './toolbar.component.html',
+	styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent {
 	@Output() filtrar = new EventEmitter();
@@ -17,7 +17,8 @@ export class ToolbarComponent {
 	@Input()
 	cad: boolean;
 
-    edit: boolean;
+	edit: boolean;
+
 	constructor(private router: Router,
 				private location: Location) {
 		this.edit = this.router.url.includes('edit/')
@@ -26,15 +27,19 @@ export class ToolbarComponent {
 	filtrarEnv(e: any) {
 		this.filtrar.emit(e)
 	}
+
 	novoCadEnv(e: any) {
 		this.novoCad.emit(e)
 	}
+
 	salvaEnv(e: any) {
 		this.salvar.emit(e)
 	}
+
 	deleteEnv(e: any) {
 		this.deletar.emit(e)
 	}
+
 	voltar() {
 		this.location.back();
 	}
@@ -49,5 +54,5 @@ export class ToolbarComponent {
 	declarations: [ToolbarComponent],
 	exports: [ToolbarComponent],
 })
-export class ToolbarModule{
+export class ToolbarModule {
 }

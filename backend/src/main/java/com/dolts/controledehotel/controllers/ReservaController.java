@@ -5,18 +5,15 @@ import com.dolts.controledehotel.models.ReservaModel;
 import com.dolts.controledehotel.services.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -49,9 +46,7 @@ public class ReservaController {
         if (!reservas.isEmpty()) {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             List<String> datasReservadas = new ArrayList<>();
-            reservas.forEach(reserva -> datasReservadas.add("Reserva: " + reserva.getId() +
-                    " Quarto: " + reserva.getQuarto().getNome() + " Entrada: " + formatter.format(reserva.getDataEntrada()) +
-                    " Saida: " + formatter.format(reserva.getDataSaida())));
+            reservas.forEach(reserva -> datasReservadas.add("Reserva: " + reserva.getId() + " Quarto: " + reserva.getQuarto().getNome() + " Entrada: " + formatter.format(reserva.getDataEntrada()) + " Saida: " + formatter.format(reserva.getDataSaida())));
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Quarto ocupado nesse(s) dia(s): " + datasReservadas);
         }
 
@@ -61,12 +56,36 @@ public class ReservaController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping(value = "/{id}/checkin", consumes = "multipart/form-data", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> fazerCheckIn(@PathVariable("id") Long reservaId,
-                                             @RequestPart("observacao") Optional<String> observacao,
-                                             @RequestPart("dataSaida") Optional<Date> dataSaida) {
+    @PostMapping(value = "/{id}/checkin")
+    public ResponseEntity<Void> fazerCheckIn(@PathVariable("id") Long reservaId, @RequestParam("observacao") Optional<String> observacao, @RequestParam("dataSaida") Optional<String> dataSaida) throws ParseException {
+
+        ReservaModel reserva = reservaService.findById(reservaId);
+        QuartoModel quarto = reserva.getQuarto();
+        Date entrada = reserva.getDataEntrada();
+
+        if (dataSaida.isPresent()) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date saida = dateFormat.parse(dataSaida.get());
+
+            if (reserva.getDataSaida().compareTo(saida) != 0) {
+                reserva.setDataSaida(saida);
+            }
+        }
+
+        observacao.ifPresent(reserva::setObservacao);
+
+        List<ReservaModel> reservas = reservaService.findByQuartoAndData(quarto, entrada, reserva.getDataSaida());
+
+        if (!reservas.isEmpty() && reservas.size() > 1) {
+            reservas.forEach(r -> {
+                if (!Objects.equals(r.getId(), reserva.getId()) && Objects.equals(r.getQuarto().getId(), reserva.getQuarto().getId())) {
+                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Quarto ocupado neste dia, verifique a data de saída, ou mantenha a original");
+                }
+            });
+        }
+
         try {
-            reservaService.fazerCheckIn(reservaId, observacao, dataSaida);
+            reservaService.fazerCheckIn(reservaId);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             if (e.getMessage().contains("não encontrada")) {

@@ -12,19 +12,19 @@
 
 		<dx-load-panel
 			#loadPanel
-			shadingColor="rgba(0,0,0,0.4)"
-			[position]="{ of: '#grid' }"
 			[(visible)]="loadingVisible"
+			[hideOnOutsideClick]="false"
+			[position]="{ of: '#grid' }"
+			[shading]="true"
 			[showIndicator]="true"
 			[showPane]="true"
-			[shading]="true"
-			[hideOnOutsideClick]="false"
+			shadingColor="rgba(0,0,0,0.4)"
 		>
 		</dx-load-panel>
 
 		<dx-data-grid #grid
-					  (onSelectionChanged)="selecionaHospede($event)"
 					  (onRowDblClick)="editar($event)"
+					  (onSelectionChanged)="selecionaHospede($event)"
 					  [columnAutoWidth]="true"
 					  [dataSource]="hospedes"
 					  id="dataGrid"
@@ -35,25 +35,25 @@
 			<dxo-load-panel [enabled]="true"></dxo-load-panel>
 			<dxo-selection mode="single"></dxo-selection>
 			<dxo-paging
-				[pageSize]="10"
-				[pageIndex]="0">
+				[pageIndex]="0"
+				[pageSize]="10">
 			</dxo-paging>
 			<dxo-pager
-				[showPageSizeSelector]="true"
 				[allowedPageSizes]="[10, 20, 50]"
-				[showNavigationButtons]="true">
+				[showNavigationButtons]="true"
+				[showPageSizeSelector]="true">
 			</dxo-pager>
 
-			<dxi-column dataField="id" caption="ID"></dxi-column>
+			<dxi-column caption="ID" dataField="id"></dxi-column>
 			<dxi-column dataField="nome"></dxi-column>
 			<dxi-column
 				dataField="nascimento"
 				dataType="date"
 				format="dd/MM/yyyy">
 			</dxi-column>
-			<dxi-column cellTemplate="cpfTemplate"
-						dataField="cpf"
-						caption="CPF">
+			<dxi-column caption="CPF"
+						cellTemplate="cpfTemplate"
+						dataField="cpf">
 			</dxi-column>
 			<dxi-column cellTemplate="telefoneTemplate"
 						dataField="telefone">
@@ -61,7 +61,7 @@
 			<dxi-column cellTemplate="celularTemplate"
 						dataField="celular">
 			</dxi-column>
-			<dxi-column dataField="email" caption="E-mail"></dxi-column>
+			<dxi-column caption="E-mail" dataField="email"></dxi-column>
 			<dxi-column [visible]="false" dataField="observacao"></dxi-column>
 
 			<!--		TEMPLATES-->

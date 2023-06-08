@@ -80,8 +80,8 @@ export class QuartoFormComponent {
 			},
 			error => {
 				if (error.error.message.includes('constraint')) {
-                    this.mostraMensagem('error', 'Já existe um quarto com esse nome.')
-                }
+					this.mostraMensagem('error', 'Já existe um quarto com esse nome.')
+				}
 			}
 		)
 	}

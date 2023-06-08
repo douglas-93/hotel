@@ -15,20 +15,21 @@ export class HospedeService {
 	getHospedes() {
 		return this.http.get<HospedeModel[]>(this.url);
 	}
-	getHospede(id: number){
+
+	getHospede(id: number) {
 		return this.http.get<HospedeModel>(`${this.url}/${id}`, {observe: 'response'});
 	}
 
 
-	createHospede(hospede: HospedeModel){
+	createHospede(hospede: HospedeModel) {
 		return this.http.post<HospedeModel>(this.url, hospede, {observe: 'response'});
 	}
 
-	updateHospede(hospede: HospedeModel){
+	updateHospede(hospede: HospedeModel) {
 		return this.http.put(`${this.url}/${hospede.id}`, hospede, {observe: 'response'});
 	}
 
-	deleteHospede(id: number){
+	deleteHospede(id: number) {
 		return this.http.delete(`${this.url}/${id}`, {observe: 'response'});
 	}
 }

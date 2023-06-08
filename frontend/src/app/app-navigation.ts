@@ -28,14 +28,14 @@ export const navigation = [
 		path: '/pages/hospedes',
 		icon: 'group'
 	},
-  {
-    text: 'Quartos',
-    path: '/pages/quartos',
-    icon: 'lock'
-  },
-  {
-    text: 'Reserva',
-    path: '/pages/reserva',
-    icon: 'clock'
-  }
+	{
+		text: 'Quartos',
+		path: '/pages/quartos',
+		icon: 'lock'
+	},
+	{
+		text: 'Reserva',
+		path: '/pages/reserva',
+		icon: 'clock'
+	}
 ];

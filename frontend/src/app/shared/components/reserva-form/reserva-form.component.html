@@ -1,8 +1,8 @@
 <h2 class="content-block" style="text-align: center">Cadastro de Reserva</h2>
 <div class="content-block">
 	<app-toolbar
-		(salvar)="salvaReserva()"
 		(deletar)="deletaReserva()"
+		(salvar)="salvaReserva()"
 		[cad]="true">
 	</app-toolbar>
 	<div class="dx-card responsive-paddings">
@@ -87,12 +87,12 @@
 				<dx-select-box
 					#quarto
 					(onSelectionChanged)="defineQuarto()"
-					[value]="reserva.quarto"
 					[dataSource]="quartos"
+					[value]="reserva.quarto"
 					displayExpr="nome"
-					valueExpr="this"
 					label="Quarto"
-					labelMode="floating">
+					labelMode="floating"
+					valueExpr="this">
 				</dx-select-box>
 				<dx-text-area
 					[(value)]="reserva.observacao"

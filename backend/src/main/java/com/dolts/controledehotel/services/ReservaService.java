@@ -62,20 +62,13 @@ public class ReservaService {
 
     @Transactional
     public List<ReservaModel> findByQuartoAndData(QuartoModel quarto, Date dataEntrada, Date dataSaida) {
-        Sort sortEntrada = Sort.by(Sort.Direction.ASC, "dataEntrada");
+//        Sort sortEntrada = Sort.by(Sort.Direction.ASC, "dataEntrada");
         return reservaRepository.findByDateAndQuartoId(dataEntrada, dataSaida, quarto.getId());
     }
 
-    public void fazerCheckIn(Long reservaId, Optional<String> observacao, Optional<Date> dataSaida) {
+    public void fazerCheckIn(Long reservaId) {
 
         ReservaModel reserva = reservaRepository.findById(reservaId).orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
-        if (observacao.isPresent() && !observacao.get().isEmpty()) {
-            reserva.setObservacao(observacao.get());
-        }
-
-        if (dataSaida.isPresent() && !dataSaida.get().equals(reserva.getDataEntrada())) {
-            reserva.setDataSaida(dataSaida.get());
-        }
 
         if (!reserva.isCheckedIn()) {
             reserva.setCheckIn(true);

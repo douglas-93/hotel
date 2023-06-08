@@ -48,8 +48,7 @@ import {ReservaFormModule} from './shared/components/reserva-form/reserva-form.c
 		ScreenService,
 		AppInfoService
 	],
-	exports: [
-	],
+	exports: [],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

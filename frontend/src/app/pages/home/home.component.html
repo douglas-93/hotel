@@ -96,6 +96,7 @@
 					type="datetime">
 				</dx-date-box>
 				<dx-date-box
+					(valueChange)="defineDataSaida($event)"
 					[useMaskBehavior]="true"
 					[value]="quartoSelecionado.reserva.dataSaida"
 					displayFormat="dd/MM/yyyy HH:mm"

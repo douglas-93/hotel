@@ -38,8 +38,8 @@
 
 			<dx-number-box
 				[(value)]="quarto.valor"
-				format="R$ #,##0.00"
 				class="margem"
+				format="R$ #,##0.00"
 				label="Valor da Diária"
 				labelMode="floating">
 			</dx-number-box>
@@ -49,21 +49,21 @@
 				<dx-text-box
 					#itensQuarto
 					(onEnterKey)="adicionaItem()"
+					class="margem"
 					label="Itens do Quarto"
 					labelMode="floating"
-					class="margem"
 					width="100%">
 				</dx-text-box>
 				<dx-button
-					icon="add"
-					(onClick)="adicionaItem()">
+					(onClick)="adicionaItem()"
+					icon="add">
 				</dx-button>
 			</div>
 			<dx-list
-				class="margem"
+				[allowItemDeleting]="true"
 				[dataSource]="quarto.itens"
-				selectionMode="single"
-				[allowItemDeleting]="true">
+				class="margem"
+				selectionMode="single">
 				<dxo-item-dragging
 					[allowReordering]="true">
 				</dxo-item-dragging>
@@ -75,10 +75,10 @@
 			</div>
 
 			<dx-file-uploader
-				[selectButtonText]="'Selecione a foto'"
+				(onValueChanged)="handleFileChange($event)"
 				[accept]="'image/*'"
-				[uploadMode]="'useForm'"
-				(onValueChanged)="handleFileChange($event)">
+				[selectButtonText]="'Selecione a foto'"
+				[uploadMode]="'useForm'">
 			</dx-file-uploader>
 		</div>
 	</div>

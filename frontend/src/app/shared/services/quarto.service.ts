@@ -33,8 +33,8 @@ export class QuartoService {
 		if (quarto.imagem) {
 			formData.append('imagem', quarto.imagem!);
 		} else {
-            formData.append('imagem', '');
-        }
+			formData.append('imagem', '');
+		}
 		return this.http.post<QuartoModel>(this.urlEndPoint, formData, {observe: 'response'});
 	}
 

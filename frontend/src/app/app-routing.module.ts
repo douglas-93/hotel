@@ -14,7 +14,8 @@ import {
 	DxAutocompleteModule,
 	DxBoxModule,
 	DxButtonModule,
-	DxCheckBoxModule, DxContextMenuModule,
+	DxCheckBoxModule,
+	DxContextMenuModule,
 	DxDataGridModule,
 	DxDateBoxModule,
 	DxDropDownBoxModule,
@@ -39,15 +40,15 @@ import {HotelComponent} from './pages/hotel/hotel.component';
 import {CurrencyPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {QuartosComponent} from './pages/quartos/quartos.component';
 import {QuartoFormComponent} from "./shared/components/quarto-form/quarto-form.component";
-import { ReservaComponent } from './pages/reserva/reserva.component';
+import {ReservaComponent} from './pages/reserva/reserva.component';
 import {ReservaFormComponent} from "./shared/components/reserva-form/reserva-form.component";
 
 const routes: Routes = [
-  {
-    path: 'pages/reserva',
-    component: ReservaComponent,
-    canActivate: [ AuthGuardService ]
-  },
+	{
+		path: 'pages/reserva',
+		component: ReservaComponent,
+		canActivate: [AuthGuardService]
+	},
 	{
 		path: 'pages/quartos',
 		component: QuartosComponent,
@@ -145,7 +146,7 @@ const routes: Routes = [
 		HospedeComponent,
 		HotelComponent,
 		QuartosComponent,
-  ReservaComponent
+		ReservaComponent
 	]
 })
 export class AppRoutingModule {

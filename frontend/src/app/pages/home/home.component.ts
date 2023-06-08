@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component} from '@angular/core';
 import {QuartoModel} from "../../shared/models/quarto.model";
 import {QuartoService} from "../../shared/services/quarto.service";
 import {ReservaModel} from "../../shared/models/reserva.model";
 import {ReservaService} from "../../shared/services/reserva.service";
 import notify from "devextreme/ui/notify";
 import * as _ from 'lodash';
-import {forkJoin, map} from "rxjs";
+import {forkJoin} from "rxjs";
 
 @Component({
 	templateUrl: 'home.component.html',
@@ -15,7 +15,8 @@ import {forkJoin, map} from "rxjs";
 export class HomeComponent {
 	loadingVisible: boolean = false;
 	quartosAExibir: { quarto: QuartoModel, reserva: ReservaModel | null }[] = [];
-
+	quartoSelecionado: any = null;
+	checkInPopupVisible: boolean = false;
 
 	constructor(private quartoService: QuartoService,
 				private reservaService: ReservaService) {
@@ -33,7 +34,7 @@ export class HomeComponent {
 			this.quartoService.getQuartos(),
 			this.reservaService.getReservas()
 		]).subscribe(([quartosResp, reservasResp]) => {
-			this.quartosAExibir = quartosResp.body!.filter(q => q.ativo).map(q => ({ quarto: q, reserva: null }));
+			this.quartosAExibir = quartosResp.body!.filter(q => q.ativo).map(q => ({quarto: q, reserva: null}));
 
 			let hoje = new Date();
 
@@ -56,9 +57,6 @@ export class HomeComponent {
 		}
 		this.quartoSelecionado = quarto;
 	}
-
-	quartoSelecionado: any = null;
-	checkInPopupVisible: boolean = false;
 
 	realizarCheckIn() {
 		if (!this.quartoSelecionado) {
@@ -96,13 +94,23 @@ export class HomeComponent {
 		}
 	}
 
+	defineDataSaida(e: any) {
+		this.quartoSelecionado.reserva.dataSaida = <Date>e
+	}
+
 	confirmarCheckIn() {
-		this.reservaService.fazerCheckIn(this.quartoSelecionado.reserva).subscribe(resp => {
-			if (resp.status === 200) {
-				notify('Check-in realizado com sucesso', 'success', 3000);
-				this.checkInPopupVisible = false;
-				this.buscaQuartosEReservas();
-			}
-		});
+		this.reservaService.fazerCheckIn(this.quartoSelecionado.reserva)
+			.subscribe(resp => {
+					if (resp.status === 200) {
+						notify('Check-in realizado com sucesso', 'success', 3000);
+						this.checkInPopupVisible = false;
+						this.buscaQuartosEReservas();
+					}
+				},
+				error => {
+					if (error.status === 409) {
+						notify(error.error.message, 'warning', 5000);
+					}
+				});
 	}
 }
