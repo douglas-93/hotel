@@ -16,3 +16,9 @@ dx-button, dx-date-box, dx-select-box, dx-autocomplete, dx-text-area {
 	display: flex;
 	justify-content: space-around;
 }
+
+.popUp-buttons {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}

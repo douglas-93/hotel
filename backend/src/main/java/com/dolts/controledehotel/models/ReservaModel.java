@@ -34,6 +34,8 @@ public class ReservaModel implements Serializable {
 
     private boolean checkIn;
     private boolean checkOut;
+    private boolean cancelada;
+    private String motivoCancelamento;
 
     public ReservaModel() {
         this.hospedes = new ArrayList<>();
@@ -45,6 +47,22 @@ public class ReservaModel implements Serializable {
         this.dataSaida = dataSaida;
         this.quarto = quarto;
         this.hospedes = new ArrayList<>();
+    }
+
+    public String getMotivoCancelamento() {
+        return motivoCancelamento;
+    }
+
+    public void setMotivoCancelamento(String motivoCancelamento) {
+        this.motivoCancelamento = motivoCancelamento;
+    }
+
+    public boolean isCancelada() {
+        return cancelada;
+    }
+
+    public void setCancelada(boolean cancelada) {
+        this.cancelada = cancelada;
     }
 
     public boolean isCheckedIn() {
@@ -101,14 +119,6 @@ public class ReservaModel implements Serializable {
 
     public void setHospedes(List<HospedeModel> hospedes) {
         this.hospedes = hospedes;
-    }
-
-    public void adicionarHospede(HospedeModel hospede) {
-        hospedes.add(hospede);
-    }
-
-    public void removerHospede(HospedeModel hospede) {
-        hospedes.remove(hospede);
     }
 
     public String getObservacao() {

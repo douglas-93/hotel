@@ -114,6 +114,20 @@ public class ReservaController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PostMapping("/{id}/cancelar")
+    public ResponseEntity<Void> cancelarReserva(@PathVariable("id") Long reservaId, @RequestParam("motivo") String motivo) {
+        if (motivo.isEmpty() || motivo.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Motivo não informado");
+        }
+
+        try {
+            reservaService.cancelarReserva(reservaId, motivo);
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.ok().build();
+        }
+    }
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<ReservaModel> update(@PathVariable Long id, @RequestBody ReservaModel reservaAlterado) {
         reservaAlterado = reservaService.update(id, reservaAlterado);

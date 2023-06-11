@@ -5,17 +5,22 @@ import {
 	DxAutocompleteComponent,
 	DxAutocompleteModule,
 	DxButtonModule,
+	DxDataGridComponent,
 	DxDataGridModule,
 	DxDateBoxModule,
+	DxLoadPanelModule,
+	DxPopupModule,
 	DxSelectBoxComponent,
 	DxSelectBoxModule,
 	DxTextAreaModule,
+	DxTextBoxComponent,
+	DxTextBoxModule,
 	DxToastModule
 } from "devextreme-angular";
 import {HospedeModel} from "../../models/hospede.model";
 import notify from "devextreme/ui/notify";
 import {ReservaModel} from "../../models/reserva.model";
-import {DatePipe, Location} from "@angular/common";
+import {DatePipe} from "@angular/common";
 import {QuartoModel} from "../../models/quarto.model";
 import {HospedeService} from "../../services/hospede.service";
 import {QuartoService} from "../../services/quarto.service";
@@ -30,23 +35,27 @@ import {Router} from "@angular/router";
 })
 export class ReservaFormComponent {
 
-	@ViewChild('autComp')
-	autComp: DxAutocompleteComponent
-	@ViewChild('quarto', {static: false})
-	quarto: DxSelectBoxComponent
+	@ViewChild('autComp') autComp: DxAutocompleteComponent;
+	@ViewChild('quarto', {static: false}) quarto: DxSelectBoxComponent;
+	@ViewChild('hospedesPopUp', {static: false}) dataGrid: DxDataGridComponent;
+	@ViewChild('nomePopUp', {static: false}) nomePopUp: DxTextBoxComponent;
+	@ViewChild('cpfPopUp', {static: false}) cpfPopUp: DxTextBoxComponent;
+
+
 	reserva: ReservaModel = new ReservaModel();
 	hospedesNaReserva: HospedeModel[] = [];
 	quartos: QuartoModel[] = [];
 	hospedeSelecinado: HospedeModel;
 	hospedes: HospedeModel[];
 	isUpdate: boolean = false;
+	popUpPesquisaHospedeVisible: boolean = false;
+	popUpPesquisaHospedeLoading: boolean = false;
 
 	constructor(private hospService: HospedeService,
 				private quartSerice: QuartoService,
 				private reservService: ReservaService,
 				private router: Router,
-				private cdr: ChangeDetectorRef,
-				private location: Location) {
+				private cdr: ChangeDetectorRef) {
 	}
 
 	ngOnInit() {
@@ -179,7 +188,7 @@ export class ReservaFormComponent {
 	}
 
 	voltar() {
-		this.location.back();
+		window.history.back();
 	}
 
 	validaReserva() {
@@ -212,6 +221,25 @@ export class ReservaFormComponent {
 			}
 		})
 	}
+
+	buscarHospedes() {
+		this.popUpPesquisaHospedeLoading = true
+
+		let nome = this.nomePopUp.value
+		let cpf = this.cpfPopUp.value
+
+		this.hospService.getHospedesByNomeOrCpf(nome, cpf).subscribe(resp => {
+			this.hospedes = resp.body!
+			this.popUpPesquisaHospedeLoading = false
+		})
+	}
+
+	adicionaHospedesPeloPopUp() {
+		this.dataGrid.instance.getSelectedRowsData().forEach(h => {
+			this.hospedesNaReserva.push(h)
+		})
+		this.popUpPesquisaHospedeVisible = false
+	}
 }
 
 @NgModule({
@@ -226,7 +254,10 @@ export class ReservaFormComponent {
 		DxAutocompleteModule,
 		FormsModule,
 		DxTextAreaModule,
-		DxToastModule
+		DxToastModule,
+		DxPopupModule,
+		DxTextBoxModule,
+		DxLoadPanelModule
 	],
 	declarations: [ReservaFormComponent],
 	exports: [ReservaFormComponent]

@@ -28,6 +28,10 @@
 						(onClick)="removerHospede()"
 						icon="minus">
 					</dx-button>
+					<dx-button
+						(onClick)="popUpPesquisaHospedeVisible = true; hospedes = []"
+						icon="search">
+					</dx-button>
 				</div>
 				<dx-data-grid
 					(onSelectionChanged)="selecionaHospede($event)"
@@ -103,5 +107,102 @@
 				</dx-text-area>
 			</div>
 		</div>
+
+		<dx-popup
+			[(visible)]="popUpPesquisaHospedeVisible"
+			[dragEnabled]="false"
+			[height]="540"
+			[hideOnOutsideClick]="true"
+			[showTitle]="true"
+			title="Pesquisa de Hospedes">
+			<div *dxTemplate="let data of 'content'" #pesquisaHospedes>
+				<div style="display: flex;align-items: flex-start;">
+					<dx-text-box
+						#nomePopUp
+						style="margin-right: 10px"
+						label="Nome"
+						labelMode="floating"
+						[width]="'25rem'">
+					</dx-text-box>
+					<dx-text-box
+						#cpfPopUp
+						label="CPF"
+						labelMode="floating"
+						mask="###.###.###-##">
+					</dx-text-box>
+					<dx-button
+						(onClick)="buscarHospedes()"
+						icon="search"
+						text="Buscar">
+					</dx-button>
+				</div>
+
+				<dx-data-grid
+					#hospedesPopUp
+					[dataSource]="hospedes">
+					<dxo-filter-row [visible]="true"></dxo-filter-row>
+					<dxo-selection mode="multiple" showCheckBoxesMode="onClick"></dxo-selection>
+					<dxo-paging
+						[pageIndex]="0"
+						[pageSize]="10">
+					</dxo-paging>
+					<dxo-pager
+						[allowedPageSizes]="[10, 20, 50]"
+						[showNavigationButtons]="true"
+						[showPageSizeSelector]="true">
+					</dxo-pager>
+
+					<dxi-column type="selection"></dxi-column>
+					<dxi-column dataField="nome"></dxi-column>
+					<dxi-column
+						dataField="nascimento"
+						dataType="date"
+						format="dd/MM/yyyy">
+					</dxi-column>
+					<dxi-column caption="CPF"
+								cellTemplate="cpfTemplate"
+								dataField="cpf">
+					</dxi-column>
+
+					<!--		TEMPLATES-->
+					<div *dxTemplate="let data of 'cpfTemplate'">
+						{{ cpfFormatado(data.data.cpf) }}
+					</div>
+
+
+					<dxo-summary>
+						<dxi-group-item
+							summaryType="count">
+						</dxi-group-item>
+					</dxo-summary>
+				</dx-data-grid>
+
+				<div class="popUp-buttons">
+					<dx-button
+						(onClick)="adicionaHospedesPeloPopUp()"
+						text="Adicionar"
+						icon="add">
+					</dx-button>
+					<dx-button
+						(onClick)="popUpPesquisaHospedeVisible = false; nomePopUp.value = ''; cpfPopUp.value = '';"
+						text="Cancelar"
+						icon="close">
+					</dx-button>
+				</div>
+
+				<dx-load-panel
+					#loadPanel
+					[(visible)]="popUpPesquisaHospedeLoading"
+					[hideOnOutsideClick]="false"
+					[position]="{ of: '#pesquisaHospedes' }"
+					[shading]="true"
+					[showIndicator]="true"
+					[showPane]="true"
+					shadingColor="rgba(0,0,0,0.4)"
+					message="Carregando ...">
+				</dx-load-panel>
+			</div>
+		</dx-popup>
+
 	</div>
 </div>

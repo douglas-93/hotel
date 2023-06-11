@@ -41,8 +41,7 @@ export class QuartoFormComponent {
 	}));
 
 	constructor(private quartoService: QuartoService,
-				private router: Router,
-				private location: Location) {
+				private router: Router) {
 		let id = router.url.split('/').pop()!
 		if (id.match(/[0-9]+/)) {
 			this.isUpdate = true

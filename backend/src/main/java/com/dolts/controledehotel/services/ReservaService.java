@@ -89,4 +89,15 @@ public class ReservaService {
         }
     }
 
+    public void cancelarReserva(Long reservaId, String motivo) {
+        ReservaModel reserva = reservaRepository.findById(reservaId).orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
+        if (!reserva.isCancelada()) {
+            reserva.setCancelada(true);
+            reserva.setMotivoCancelamento(motivo);
+            reservaRepository.save(reserva);
+        } else {
+            throw new RuntimeException("Reserva já cancelada.");
+        }
+    }
+
 }

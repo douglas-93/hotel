@@ -10,4 +10,6 @@ export class ReservaModel {
 	observacao: string;
 	checkedIn: boolean;
 	checkedOut: boolean;
+	cancelada: boolean;
+	motivoCancelamento: string;
 }

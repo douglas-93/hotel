@@ -105,7 +105,7 @@ export class HotelComponent implements OnInit {
 	}
 
 	voltar() {
-		this.location.back();
+		window.history.back();
 	}
 
 	mostraMensagem(tipo: string, mensagem: string) {

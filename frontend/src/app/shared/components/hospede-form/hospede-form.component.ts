@@ -24,8 +24,7 @@ export class HospedeFormComponent {
 	// tipoMensagem = ['error', 'success', 'info', 'warning']
 
 	constructor(private hospService: HospedeService,
-				private router: Router,
-				private location: Location) {
+				private router: Router) {
 		let id = router.url.split('/').pop()!
 		if (id.match(/[0-9]+/)) {
 			this.isUpdate = true
@@ -157,7 +156,7 @@ export class HospedeFormComponent {
 	}
 
 	voltar() {
-		this.location.back()
+		window.history.back();
 	}
 }
 

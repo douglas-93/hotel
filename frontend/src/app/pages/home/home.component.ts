@@ -46,7 +46,6 @@ export class HomeComponent {
 			});
 
 			this.loadingVisible = false;
-			console.log(this.quartosAExibir);
 		});
 	}
 
@@ -63,6 +62,10 @@ export class HomeComponent {
 			notify('Selecione um quarto para realizar o check-in', 'warning', 3000);
 			return;
 		}
+		if (!this.quartoSelecionado.reserva) {
+			notify('O quarto não possui reserva', 'warning', 3000);
+			return;
+		}
 		if (this.quartoSelecionado.reserva.checkedIn) {
 			notify('Já foi realizado o check-in para essa reserva', 'warning', 3000);
 			return;
@@ -73,6 +76,14 @@ export class HomeComponent {
 	realizarCheckOut() {
 		if (!this.quartoSelecionado) {
 			notify('Selecione um quarto para realizar o check-out', 'warning', 3000);
+			return;
+		}
+		if (!this.quartoSelecionado.reserva) {
+			notify('O quarto não possui reserva', 'warning', 3000);
+			return;
+		}
+		if (!this.quartoSelecionado.reserva.checkedIn) {
+			notify('Check-in ainda não realizado para essa reserva', 'warning', 3000);
 			return;
 		}
 		console.log('Realizar Check-Out:', this.quartoSelecionado);

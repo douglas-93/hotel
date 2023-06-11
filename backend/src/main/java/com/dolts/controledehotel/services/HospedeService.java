@@ -60,4 +60,14 @@ public class HospedeService {
         hospede.setEmail(hospedeAlterado.getEmail());
         hospede.setCelular(hospedeAlterado.getCelular());
     }
+
+    public List<HospedeModel> findByNome(String nome) {
+        return hospedeRepository.findByNomeContainsIgnoreCase(nome);
+    }
+    public List<HospedeModel> findByCpf(String cpf) {
+        return hospedeRepository.findByCpfContains(cpf);
+    }
+    public List<HospedeModel> findByNomeOrCpf(String nome, String cpf) {
+        return hospedeRepository.findByNomeContainsIgnoreCaseAndCpfContains(nome, cpf);
+    }
 }
