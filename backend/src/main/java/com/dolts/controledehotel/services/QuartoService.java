@@ -1,7 +1,10 @@
 package com.dolts.controledehotel.services;
 
+import com.dolts.controledehotel.enumerators.CategoriasEnum;
+import com.dolts.controledehotel.enumerators.TiposEnum;
 import com.dolts.controledehotel.models.QuartoModel;
 import com.dolts.controledehotel.repositories.QuartoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -94,5 +97,25 @@ public class QuartoService {
         quarto.setAtivo(quartoAlterado.isAtivo());
         quarto.setValor(quartoAlterado.getValor());
         quarto.setItens(quartoAlterado.getItens());
+    }
+
+    @Transactional
+    public List<QuartoModel> findByNome(String nome) {
+        return quartoRepository.findByNomeContainsIgnoreCase(nome);
+    }
+
+    @Transactional
+    public List<QuartoModel> findByAtivo(Boolean ativo) {
+        return quartoRepository.findByAtivo(ativo);
+    }
+
+    @Transactional
+    public List<QuartoModel> findByTipo(TiposEnum tipo) {
+        return quartoRepository.findByTipo(tipo);
+    }
+
+    @Transactional
+    public List<QuartoModel> findByCategoria(CategoriasEnum categoria) {
+        return quartoRepository.findByCategoria(categoria);
     }
 }

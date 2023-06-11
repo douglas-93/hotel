@@ -36,6 +36,30 @@ public class QuartoController {
         return ResponseEntity.ok().body(quarto);
     }
 
+    @GetMapping(value = "/filter")
+    public ResponseEntity<List<QuartoModel>> findByFilter(@RequestParam Optional<String> nome,
+                                                          @RequestParam Optional<Boolean> ativo,
+                                                          @RequestParam Optional<TiposEnum> tipo,
+                                                          @RequestParam Optional<CategoriasEnum> categoria) {
+        if (nome.isPresent()) {
+            List<QuartoModel> quartos = quartoService.findByNome(nome.get());
+            return ResponseEntity.ok().body(quartos);
+        }
+        if (ativo.isPresent()) {
+            List<QuartoModel> quartos = quartoService.findByAtivo(ativo.get());
+            return ResponseEntity.ok().body(quartos);
+        }
+        if (tipo.isPresent()) {
+            List<QuartoModel> quartos = quartoService.findByTipo(tipo.get());
+            return ResponseEntity.ok().body(quartos);
+        }
+        if (categoria.isPresent()) {
+            List<QuartoModel> quartos = quartoService.findByCategoria(categoria.get());
+            return ResponseEntity.ok().body(quartos);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     @PostMapping(consumes = {"multipart/mixed", "multipart/form-data"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<QuartoModel> insert(@RequestPart("imagem") Optional<MultipartFile> imagem,
                                               @RequestPart("nome") String nome,

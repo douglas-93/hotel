@@ -100,4 +100,26 @@ public class ReservaService {
         }
     }
 
+    @Transactional
+    public List<ReservaModel> findByNomeHospede(String nome) {
+        if (nome.isEmpty() || nome.isBlank()) {
+            throw new RuntimeException("Nome inválido");
+        }
+        return reservaRepository.findReservasByNomeHospedeContaining(nome);
+    }
+
+    @Transactional
+    public List<ReservaModel> findByDataEntrada(Date dataEntrada) {
+        return reservaRepository.findByDataEntrada(dataEntrada);
+    }
+
+    @Transactional
+    public List<ReservaModel> findByDataSaida(Date dataSaida) {
+        return reservaRepository.findByDataSaida(dataSaida);
+    }
+
+    @Transactional
+    public List<ReservaModel> findByDataEntradaBetween(Date dataInicio, Date dataFim) {
+        return reservaRepository.findByDataEntradaBetween(dataInicio, dataFim);
+    }
 }

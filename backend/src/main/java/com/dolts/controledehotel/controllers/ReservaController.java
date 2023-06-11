@@ -34,6 +34,36 @@ public class ReservaController {
         return ResponseEntity.ok().body(reserva);
     }
 
+    @GetMapping(value = "/filter")
+    public ResponseEntity<List<ReservaModel>> findByFilter(@RequestParam Optional<String> nome,
+                                                           @RequestParam Optional<String> dataEntrada,
+                                                           @RequestParam Optional<String> dataSaida,
+                                                           @RequestParam Optional<String> dataInicio,
+                                                           @RequestParam Optional<String> dataFim) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        if (nome.isPresent()) {
+            List<ReservaModel> reservas = reservaService.findByNomeHospede(nome.get());
+            return ResponseEntity.ok().body(reservas);
+        }
+        if (dataEntrada.isPresent()) {
+            Date data = formatter.parse(dataEntrada.get());
+            List<ReservaModel> reservas = reservaService.findByDataEntrada(data);
+            return ResponseEntity.ok().body(reservas);
+        }
+        if (dataSaida.isPresent()) {
+            Date data = formatter.parse(dataSaida.get());
+            List<ReservaModel> reservas = reservaService.findByDataSaida(data);
+            return ResponseEntity.ok().body(reservas);
+        }
+        if (dataInicio.isPresent() && dataFim.isPresent()) {
+            Date dataI = formatter.parse(dataInicio.get());
+            Date dataF = formatter.parse(dataFim.get());
+            List<ReservaModel> reservas = reservaService.findByDataEntradaBetween(dataI, dataF);
+            return ResponseEntity.ok().body(reservas);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     @PostMapping
     public ResponseEntity<ReservaModel> insert(@RequestBody ReservaModel novaReserva) {
 
