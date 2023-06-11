@@ -6,10 +6,10 @@ import {SingleCardModule} from 'src/app/layouts';
 @Component({
 	selector: 'app-not-authorized-container',
 	template: `
-    <app-single-card [title]="title" [description]="description">
-      <router-outlet></router-outlet>
-    </app-single-card>
-  `,
+		<app-single-card [title]="title" [description]="description">
+			<router-outlet></router-outlet>
+		</app-single-card>
+	`,
 	styles: [`
     :host {
       width: 100%;

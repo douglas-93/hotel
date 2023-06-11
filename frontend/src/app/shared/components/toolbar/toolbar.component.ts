@@ -19,8 +19,7 @@ export class ToolbarComponent {
 
 	edit: boolean;
 
-	constructor(private router: Router,
-				private location: Location) {
+	constructor(private router: Router) {
 		this.edit = this.router.url.includes('edit/')
 	}
 
@@ -41,7 +40,7 @@ export class ToolbarComponent {
 	}
 
 	voltar() {
-		this.location.back();
+		window.history.back();
 	}
 }
 
