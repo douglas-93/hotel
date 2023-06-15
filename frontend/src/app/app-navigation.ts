@@ -2,7 +2,7 @@ export const navigation = [
 	{
 		text: 'Home',
 		path: '/home',
-		icon: 'home'
+		icon: 'columnchooser'
 	},
 	// {
 	// 	text: 'Examples',
@@ -34,8 +34,28 @@ export const navigation = [
 		icon: 'lock'
 	},
 	{
-		text: 'Reserva',
-		path: '/pages/reserva',
+		text: 'Reservas',
+		path: '/pages/reservas',
 		icon: 'clock'
+	},
+	{
+		text: 'Produtos',
+		path: '/pages/produtos',
+		icon: 'product'
+	},
+	{
+		text: 'Entrada de Produtos',
+		path: '/pages/entradas',
+		icon: 'download'
+	},
+	{
+		text: 'Consumo',
+		path: '/pages/consumo',
+		icon: 'food'
+	},
+	{
+		text: 'Nota',
+		path: '/pages/notas',
+		icon: 'money'
 	}
 ];

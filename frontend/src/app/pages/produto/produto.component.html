@@ -1,0 +1,59 @@
+<h2 class="content-block" style="text-align: center">Produtos Cadastrados</h2>
+<div class="content-block">
+
+
+	<app-toolbar
+		(filtrar)="buscaProdutos()"
+		(novoCad)="novo()"
+		[cad]="false">
+	</app-toolbar>
+
+	<dx-load-panel
+		#loadPanel
+		[(visible)]="loadingVisible"
+		[hideOnOutsideClick]="false"
+		[position]="{ of: '#grid' }"
+		[shading]="true"
+		[showIndicator]="true"
+		[showPane]="true"
+		shadingColor="rgba(0,0,0,0.4)"
+	>
+	</dx-load-panel>
+
+	<dx-data-grid #grid
+				  (onRowDblClick)="editar($event)"
+				  (onSelectionChanged)="selecionaProduto($event)"
+				  [columnAutoWidth]="true"
+				  [dataSource]="produtos">
+
+		<dxo-filter-row [visible]="true"></dxo-filter-row>
+		<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
+		<dxo-load-panel [enabled]="true"></dxo-load-panel>
+		<dxo-selection mode="single"></dxo-selection>
+		<dxo-paging
+			[pageIndex]="0"
+			[pageSize]="10">
+		</dxo-paging>
+		<dxo-pager
+			[allowedPageSizes]="[10, 20, 50]"
+			[showNavigationButtons]="true"
+			[showPageSizeSelector]="true">
+		</dxo-pager>
+
+		<dxi-column caption="ID" dataField="id"></dxi-column>
+		<dxi-column dataField="nome"></dxi-column>
+		<dxi-column dataField="quantidade"></dxi-column>
+		<dxi-column cellTemplate="valorTemplate" dataField="valor"></dxi-column>
+		<dxi-column cellTemplate="valorTotalTemplate"></dxi-column>
+		<!--		TEMPLATES-->
+		<div *dxTemplate="let data of 'valorTemplate'">
+			{{data.data.valor | currency: 'BRL'}}
+		</div>
+		<div *dxTemplate="let data of 'valorTotalTemplate'">
+			{{ (data.data.valor * data.data.quantidade) | currency: 'BRL'}}
+		</div>
+
+	</dx-data-grid>
+
+
+</div>

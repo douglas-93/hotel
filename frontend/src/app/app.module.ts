@@ -19,10 +19,14 @@ import {DevExtremeModule} from "devextreme-angular";
 import {CommonModule} from "@angular/common";
 import {QuartoFormModule} from "./shared/components/quarto-form/quarto-form.component";
 import {ReservaFormModule} from './shared/components/reserva-form/reserva-form.component';
+import { ProdutoFormComponent } from './shared/components/produto-form/produto-form.component';
+import { EntradaFormComponent } from './shared/components/entrada-form/entrada-form.component';
+import { ConsumoFormComponent } from './shared/components/consumo-form/consumo-form.component';
+import { NotaFormComponent } from './shared/components/nota-form/nota-form.component';
 
 @NgModule({
 	declarations: [
-		AppComponent,
+		AppComponent
 	],
 	imports: [
 		BrowserModule,

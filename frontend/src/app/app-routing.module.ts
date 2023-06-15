@@ -42,11 +42,89 @@ import {QuartosComponent} from './pages/quartos/quartos.component';
 import {QuartoFormComponent} from "./shared/components/quarto-form/quarto-form.component";
 import {ReservaComponent} from './pages/reserva/reserva.component';
 import {ReservaFormComponent} from "./shared/components/reserva-form/reserva-form.component";
+import {ProdutoComponent} from './pages/produto/produto.component';
+import {EntradaComponent} from './pages/entrada/entrada.component';
+import {ConsumoComponent} from './pages/consumo/consumo.component';
+import {NotaComponent} from './pages/nota/nota.component';
+import {ProdutoFormComponent} from "./shared/components/produto-form/produto-form.component";
+import {EntradaFormComponent} from "./shared/components/entrada-form/entrada-form.component";
+import {ConsumoFormComponent} from "./shared/components/consumo-form/consumo-form.component";
+import {NotaFormComponent} from "./shared/components/nota-form/nota-form.component";
 
 const routes: Routes = [
 	{
-		path: 'pages/reserva',
+		path: 'pages/notas',
+		component: NotaComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/notas/cad',
+		component: NotaFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/notas/edit/:id',
+		component: NotaFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/consumo',
+		component: ConsumoComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/consumo/cad',
+		component: ConsumoFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/consumo/edit/:id',
+		component: ConsumoFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/entradas',
+		component: EntradaComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/entradas/cad',
+		component: EntradaFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/entradas/edit/:id',
+		component: EntradaFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/produtos',
+		component: ProdutoComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/produtos/cad',
+		component: ProdutoFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/produtos/edit/:id',
+		component: ProdutoFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/reservas',
 		component: ReservaComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/reservas/cad',
+		component: ReservaFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/reservas/edit/:id',
+		component: ReservaFormComponent,
 		canActivate: [AuthGuardService]
 	},
 	{
@@ -55,8 +133,13 @@ const routes: Routes = [
 		canActivate: [AuthGuardService]
 	},
 	{
-		path: 'pages/hotel',
-		component: HotelComponent,
+		path: 'pages/quartos/cad',
+		component: QuartoFormComponent,
+		canActivate: [AuthGuardService]
+	},
+	{
+		path: 'pages/quartos/edit/:id',
+		component: QuartoFormComponent,
 		canActivate: [AuthGuardService]
 	},
 	{
@@ -75,23 +158,8 @@ const routes: Routes = [
 		canActivate: [AuthGuardService]
 	},
 	{
-		path: 'pages/quartos/cad',
-		component: QuartoFormComponent,
-		canActivate: [AuthGuardService]
-	},
-	{
-		path: 'pages/quartos/edit/:id',
-		component: QuartoFormComponent,
-		canActivate: [AuthGuardService]
-	},
-	{
-		path: 'pages/reservas/cad',
-		component: ReservaFormComponent,
-		canActivate: [AuthGuardService]
-	},
-	{
-		path: 'pages/reservas/edit/:id',
-		component: ReservaFormComponent,
+		path: 'pages/hotel',
+		component: HotelComponent,
 		canActivate: [AuthGuardService]
 	},
 	{
@@ -146,7 +214,11 @@ const routes: Routes = [
 		HospedeComponent,
 		HotelComponent,
 		QuartosComponent,
-		ReservaComponent
+		ReservaComponent,
+		ProdutoComponent,
+		EntradaComponent,
+		ConsumoComponent,
+		NotaComponent
 	]
 })
 export class AppRoutingModule {

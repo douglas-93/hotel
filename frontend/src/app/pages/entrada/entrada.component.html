@@ -1,0 +1,55 @@
+<h2 class="content-block" style="text-align: center">Lista de Entrada</h2>
+<div class="content-block">
+
+
+	<app-toolbar
+		(filtrar)="buscaEntradas()"
+		(novoCad)="novo()"
+		[cad]="false">
+	</app-toolbar>
+
+	<dx-load-panel
+		#loadPanel
+		[(visible)]="loadingVisible"
+		[hideOnOutsideClick]="false"
+		[position]="{ of: '#grid' }"
+		[shading]="true"
+		[showIndicator]="true"
+		[showPane]="true"
+		shadingColor="rgba(0,0,0,0.4)"
+	>
+	</dx-load-panel>
+
+	<dx-data-grid #grid
+				  (onRowDblClick)="editar($event)"
+				  (onSelectionChanged)="selecionaEntrada($event)"
+				  [columnAutoWidth]="true"
+				  [dataSource]="entradas">
+
+		<dxo-filter-row [visible]="true"></dxo-filter-row>
+		<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
+		<dxo-load-panel [enabled]="true"></dxo-load-panel>
+		<dxo-selection mode="single"></dxo-selection>
+		<dxo-paging
+			[pageIndex]="0"
+			[pageSize]="10">
+		</dxo-paging>
+		<dxo-pager
+			[allowedPageSizes]="[10, 20, 50]"
+			[showNavigationButtons]="true"
+			[showPageSizeSelector]="true">
+		</dxo-pager>
+
+		<dxi-column caption="Número da Entrada" dataField="id"></dxi-column>
+		<dxi-column caption="Data da Entrada" dataField="dataEntrada"></dxi-column>
+		<dxi-column caption="Nota" dataField="nota"></dxi-column>
+		<dxi-column caption="Valor da Nota" cellTemplate="valorTemplate" dataField="valor"></dxi-column>
+
+		<!--		TEMPLATES-->
+		<div *dxTemplate="let data of 'valorTemplate'">
+			{{data.data.valor | currency: 'BRL'}}
+		</div>
+	</dx-data-grid>
+
+
+</div>
