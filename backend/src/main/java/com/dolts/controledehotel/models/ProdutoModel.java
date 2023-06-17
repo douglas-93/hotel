@@ -13,22 +13,7 @@ public class ProdutoModel implements Serializable {
     private String nome;
     private Double valor;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ProdutoModel that)) return false;
-
-        if (!getId().equals(that.getId())) return false;
-        if (getNome() != null ? !getNome().equals(that.getNome()) : that.getNome() != null) return false;
-        return getValor() != null ? getValor().equals(that.getValor()) : that.getValor() == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + (getNome() != null ? getNome().hashCode() : 0);
-        result = 31 * result + (getValor() != null ? getValor().hashCode() : 0);
-        return result;
+    public ProdutoModel() {
     }
 
     public Long getId() {
@@ -53,5 +38,23 @@ public class ProdutoModel implements Serializable {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProdutoModel that)) return false;
+
+        if (!getId().equals(that.getId())) return false;
+        if (getNome() != null ? !getNome().equals(that.getNome()) : that.getNome() != null) return false;
+        return getValor() != null ? getValor().equals(that.getValor()) : that.getValor() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + (getNome() != null ? getNome().hashCode() : 0);
+        result = 31 * result + (getValor() != null ? getValor().hashCode() : 0);
+        return result;
     }
 }

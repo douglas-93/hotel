@@ -41,14 +41,6 @@ public class ReservaModel implements Serializable {
         this.hospedes = new ArrayList<>();
     }
 
-    public ReservaModel(Long id, Date dataEntrada, Date dataSaida, QuartoModel quarto) {
-        this.id = id;
-        this.dataEntrada = dataEntrada;
-        this.dataSaida = dataSaida;
-        this.quarto = quarto;
-        this.hospedes = new ArrayList<>();
-    }
-
     public String getMotivoCancelamento() {
         return motivoCancelamento;
     }

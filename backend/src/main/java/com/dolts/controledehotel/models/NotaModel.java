@@ -23,6 +23,9 @@ public class NotaModel implements Serializable {
     private List<ConsumoModel> consumos;
     private Double valor;
 
+    public NotaModel() {
+    }
+
     public Long getId() {
         return id;
     }

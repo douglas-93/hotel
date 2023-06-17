@@ -23,17 +23,6 @@ public class HospedeModel implements Serializable {
     public HospedeModel() {
     }
 
-    public HospedeModel(Long id, String nome, Date nascimento, String cpf, String email, String celular, String telefone, String observacao) {
-        this.id = id;
-        this.nome = nome;
-        this.nascimento = nascimento;
-        this.cpf = cpf;
-        this.email = email;
-        this.celular = celular;
-        this.telefone = telefone;
-        this.observacao = observacao;
-    }
-
     public Long getId() {
         return id;
     }

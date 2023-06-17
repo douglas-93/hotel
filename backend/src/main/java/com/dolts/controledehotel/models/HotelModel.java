@@ -21,17 +21,6 @@ public class HotelModel implements Serializable {
     public HotelModel() {
     }
 
-    public HotelModel(Integer id, String nome, String cnpj, String logradouro, String numero, String cidade, String estado, String pais) {
-        this.id = id;
-        this.nome = nome;
-        this.cnpj = cnpj;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.pais = pais;
-    }
-
     public Integer getId() {
         return id;
     }

@@ -33,35 +33,6 @@ public class QuartoModel implements Serializable {
     public QuartoModel() {
     }
 
-    public QuartoModel(Long id, String nome, TiposEnum tipo, CategoriasEnum categoria, boolean ativo, Double valor, List<String> itens) {
-        this.id = id;
-        this.nome = nome;
-        this.tipo = tipo;
-        this.categoria = categoria;
-        this.ativo = ativo;
-        this.valor = valor;
-        this.itens = itens;
-    }
-
-    public QuartoModel(Long id, String nome, TiposEnum tipo, CategoriasEnum categoria, boolean ativo, byte[] imagem, String imagemURL, Double valor, List<String> itens) {
-        this.id = id;
-        this.nome = nome;
-        this.tipo = tipo;
-        this.categoria = categoria;
-        this.ativo = ativo;
-        this.imagem = imagem;
-        this.imagemURL = imagemURL;
-        this.valor = valor;
-        this.itens = itens;
-    }
-
-    public QuartoModel(Long id, String nome, TiposEnum tipo, CategoriasEnum categoria) {
-        this.id = id;
-        this.nome = nome;
-        this.tipo = tipo;
-        this.categoria = categoria;
-    }
-
     public Double getValor() {
         return valor;
     }

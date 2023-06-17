@@ -21,6 +21,9 @@ public class ConsumoModel implements Serializable {
 
     private Integer quantidade;
 
+    public ConsumoModel() {
+    }
+
     public Long getId() {
         return id;
     }

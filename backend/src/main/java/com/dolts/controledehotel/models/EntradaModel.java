@@ -20,6 +20,9 @@ public class EntradaModel implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<ProdutoModel> produtos;
 
+    public EntradaModel() {
+    }
+
     public Long getId() {
         return id;
     }
