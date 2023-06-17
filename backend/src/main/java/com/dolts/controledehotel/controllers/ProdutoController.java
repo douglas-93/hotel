@@ -3,56 +3,47 @@ package com.dolts.controledehotel.controllers;
 import com.dolts.controledehotel.models.ProdutoModel;
 import com.dolts.controledehotel.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/produtos")
 public class ProdutoController {
 
+    private final ProdutoService produtoService;
+
     @Autowired
-    private ProdutoService produtoService;
+    public ProdutoController(ProdutoService produtoService) {
+        this.produtoService = produtoService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<ProdutoModel>> findAll() {
-        List<ProdutoModel> produtos = produtoService.findAll();
-        return ResponseEntity.ok(produtos);
+    public ResponseEntity<List<ProdutoModel>> listarProdutos() {
+        List<ProdutoModel> produtos = produtoService.listarProdutos();
+        return new ResponseEntity<>(produtos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProdutoModel> findById(@PathVariable Long id) {
-        ProdutoModel produto = produtoService.findById(id);
-        if (produto != null) {
-            return ResponseEntity.ok(produto);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ProdutoModel> buscarProdutoPorId(@PathVariable Long id) {
+        Optional<ProdutoModel> produto = produtoService.buscarProdutoPorId(id);
+        return produto.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoModel> insert(@RequestBody ProdutoModel novoProduto) {
-        ProdutoModel produto = produtoService.insert(novoProduto);
-        URI location = URI.create("/produtos/" + produto.getId());
-        return ResponseEntity.created(location).body(produto);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ProdutoModel> update(@PathVariable Long id, @RequestBody ProdutoModel produtoAlterado) {
-        ProdutoModel produtoAtualizado = produtoService.update(id, produtoAlterado);
-        if (produtoAtualizado != null) {
-            return ResponseEntity.ok(produtoAtualizado);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ProdutoModel> salvarProduto(@RequestBody ProdutoModel produto) {
+        ProdutoModel produtoSalvo = produtoService.salvarProduto(produto);
+        return new ResponseEntity<>(produtoSalvo, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        produtoService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> removerProduto(@PathVariable Long id) {
+        produtoService.removerProduto(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

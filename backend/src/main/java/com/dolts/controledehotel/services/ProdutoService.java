@@ -11,37 +11,26 @@ import java.util.Optional;
 @Service
 public class ProdutoService {
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
+    private final ProdutoRepository produtoRepository;
 
-    public List<ProdutoModel> findAll() {
+    @Autowired
+    public ProdutoService(ProdutoRepository produtoRepository) {
+        this.produtoRepository = produtoRepository;
+    }
+
+    public List<ProdutoModel> listarProdutos() {
         return produtoRepository.findAll();
     }
 
-    public ProdutoModel findById(Long id) {
-        Optional<ProdutoModel> produto = produtoRepository.findById(id);
-        return produto.orElse(null);
+    public Optional<ProdutoModel> buscarProdutoPorId(Long id) {
+        return produtoRepository.findById(id);
     }
 
-    public ProdutoModel insert(ProdutoModel novoProduto) {
-        return produtoRepository.save(novoProduto);
+    public ProdutoModel salvarProduto(ProdutoModel produto) {
+        return produtoRepository.save(produto);
     }
 
-    public List<ProdutoModel> insertMany(List<ProdutoModel> novosProdutos) {
-        return produtoRepository.saveAll(novosProdutos);
-    }
-
-    public void delete(Long id) {
+    public void removerProduto(Long id) {
         produtoRepository.deleteById(id);
-    }
-
-    public ProdutoModel update(Long id, ProdutoModel produtoAlterado) {
-        ProdutoModel produto = produtoRepository.findById(id).orElse(null);
-        if (produto != null) {
-            produto.setNome(produtoAlterado.getNome());
-            produto.setValor(produtoAlterado.getValor());
-            return produtoRepository.save(produto);
-        }
-        return null;
     }
 }

@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {ProdutoService} from "../../shared/services/produto.service";
+import {ProdutoModel} from "../../shared/models/produto.model";
 
 @Component({
 	selector: 'app-produto',
@@ -8,16 +10,21 @@ import {Router} from "@angular/router";
 })
 export class ProdutoComponent implements OnInit {
 	loadingVisible: boolean;
-	produtos: any;
+	produtos: ProdutoModel[];
 
-	constructor(private router: Router) {
+	constructor(private router: Router,
+				private prodService: ProdutoService) {
 	}
 
 	ngOnInit(): void {
 	}
 
 	buscaProdutos() {
-
+		this.prodService.getAll().subscribe(resp => {
+			if (resp.status === 200) {
+				this.produtos = resp.body!
+			}
+		})
 	}
 
 	novo() {

@@ -1,1 +1,98 @@
-<p>produto-form works!</p>
+<div class="content-block">
+
+	<h2 class="content-block" style="text-align: center">Cadastro de Produtos</h2>
+
+	<app-toolbar
+		(salvar)="salvar()"
+		[cad]="true">
+	</app-toolbar>
+	<div class="dx-card responsive-paddings">
+		<dx-tab-panel #tabPanel>
+			<dxi-item style="display: flex" title="Único">
+				<dx-text-box [(value)]="produto.nome"
+							 [showClearButton]="true"
+							 label="Nome"
+							 labelMode="floating"
+							 style="margin: 10px"
+							 width="50%">
+				</dx-text-box>
+
+				<dx-text-box #valor
+							 (onInput)="formataValor(valor.text, 'U')"
+							 [showClearButton]="true"
+							 label="Valor R$"
+							 labelMode="floating"
+							 style="margin: 10px"
+							 width="30%">
+				</dx-text-box>
+			</dxi-item>
+
+			<dxi-item title="Vários">
+				<div style="display: flex">
+					<dx-text-box #nomeVarios
+								 [showClearButton]="true"
+								 label="Nome"
+								 labelMode="floating"
+								 style="margin: 10px"
+								 width="50%">
+					</dx-text-box>
+
+					<dx-text-box #valorVarios
+								 (onInput)="formataValor(valorVarios.text, 'V')"
+								 [showClearButton]="true"
+								 label="Valor R$"
+								 labelMode="floating"
+								 style="margin: 10px"
+								 width="30%">
+					</dx-text-box>
+
+					<dx-button
+						(onClick)="adicionaAoGrid()"
+						icon="add"
+						style="margin: 10px 5px"
+						title="Adicionar a lista">
+					</dx-button>
+					<dx-button
+						(onClick)="removeProduto()"
+						icon="minus"
+						style="margin: 10px 5px"
+						title="Remover da lista">
+					</dx-button>
+					<dx-button
+						(onClick)="limparGrid()"
+						icon="clearformat"
+						style="margin: 10px 5px"
+						title="Limpar a lista">
+					</dx-button>
+				</div>
+				<div>
+					<dx-data-grid
+						(onSelectionChanged)="selecionaProduto($event)"
+						[dataSource]="produtos"
+						style="margin: 10px">
+
+						<dxo-selection mode="single"></dxo-selection>
+						<dxo-paging
+							[pageIndex]="0"
+							[pageSize]="10">
+						</dxo-paging>
+						<dxo-pager
+							[allowedPageSizes]="[10, 20, 50]"
+							[showNavigationButtons]="true"
+							[showPageSizeSelector]="true">
+						</dxo-pager>
+
+						<dxi-column [visible]="false" dataField="id"></dxi-column>
+						<dxi-column dataField="nome"></dxi-column>
+						<dxi-column cellTemplate="valorTemplate" dataField="valor"></dxi-column>
+						<div *dxTemplate="let data of 'valorTemplate'">
+							{{data.data.valor | currency: 'BRL'}}
+						</div>
+
+					</dx-data-grid>
+				</div>
+
+			</dxi-item>
+		</dx-tab-panel>
+	</div>
+</div>

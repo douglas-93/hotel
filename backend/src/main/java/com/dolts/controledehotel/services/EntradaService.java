@@ -41,7 +41,11 @@ public class EntradaService {
             entrada.setNota(entradaAlterada.getNota());
             entrada.setDataEntrada(entradaAlterada.getDataEntrada());
             entrada.setValor(entradaAlterada.getValor());
-            entrada.setProdutos(entradaAlterada.getProdutos());
+
+            if (entradaAlterada.getProdutos() != null) {
+                entrada.getProdutos().clear();
+                entrada.getProdutos().addAll(entradaAlterada.getProdutos());
+            }
             return entradaRepository.save(entrada);
         }
         return null;

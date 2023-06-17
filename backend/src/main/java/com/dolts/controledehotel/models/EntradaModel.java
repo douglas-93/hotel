@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,10 +18,12 @@ public class EntradaModel implements Serializable {
     private String nota;
     private LocalDate dataEntrada;
     private Double valor;
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<ProdutoModel> produtos;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "entrada_id")
+    private List<ProdutoEntradaModel> produtos;
 
     public EntradaModel() {
+        produtos = new ArrayList<>();
     }
 
     public Long getId() {
@@ -55,13 +58,25 @@ public class EntradaModel implements Serializable {
         this.valor = valor;
     }
 
-    public List<ProdutoModel> getProdutos() {
+    public List<ProdutoEntradaModel> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(List<ProdutoModel> produtos) {
+    public void setProdutos(List<ProdutoEntradaModel> produtos) {
         this.produtos = produtos;
     }
+
+    public void addProduto(ProdutoModel produto, int quantidade) {
+        ProdutoEntradaModel produtoEntrada = new ProdutoEntradaModel();
+        produtoEntrada.setProduto(produto);
+        produtoEntrada.setQuantidade(quantidade);
+        produtos.add(produtoEntrada);
+    }
+
+    public void removeProduto(ProdutoModel produto) {
+        produtos.removeIf(p -> p.getProduto().equals(produto));
+    }
+
 
     @Override
     public boolean equals(Object o) {
