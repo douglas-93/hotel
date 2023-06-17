@@ -95,4 +95,33 @@ public class HotelModel implements Serializable {
     public void setPais(String pais) {
         this.pais = pais;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HotelModel that)) return false;
+
+        if (!getId().equals(that.getId())) return false;
+        if (getNome() != null ? !getNome().equals(that.getNome()) : that.getNome() != null) return false;
+        if (getCnpj() != null ? !getCnpj().equals(that.getCnpj()) : that.getCnpj() != null) return false;
+        if (getLogradouro() != null ? !getLogradouro().equals(that.getLogradouro()) : that.getLogradouro() != null)
+            return false;
+        if (getNumero() != null ? !getNumero().equals(that.getNumero()) : that.getNumero() != null) return false;
+        if (getCidade() != null ? !getCidade().equals(that.getCidade()) : that.getCidade() != null) return false;
+        if (getEstado() != null ? !getEstado().equals(that.getEstado()) : that.getEstado() != null) return false;
+        return getPais() != null ? getPais().equals(that.getPais()) : that.getPais() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + (getNome() != null ? getNome().hashCode() : 0);
+        result = 31 * result + (getCnpj() != null ? getCnpj().hashCode() : 0);
+        result = 31 * result + (getLogradouro() != null ? getLogradouro().hashCode() : 0);
+        result = 31 * result + (getNumero() != null ? getNumero().hashCode() : 0);
+        result = 31 * result + (getCidade() != null ? getCidade().hashCode() : 0);
+        result = 31 * result + (getEstado() != null ? getEstado().hashCode() : 0);
+        result = 31 * result + (getPais() != null ? getPais().hashCode() : 0);
+        return result;
+    }
 }

@@ -128,4 +128,40 @@ public class ReservaModel implements Serializable {
     public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReservaModel that)) return false;
+
+        if (checkIn != that.checkIn) return false;
+        if (checkOut != that.checkOut) return false;
+        if (isCancelada() != that.isCancelada()) return false;
+        if (!getId().equals(that.getId())) return false;
+        if (getDataEntrada() != null ? !getDataEntrada().equals(that.getDataEntrada()) : that.getDataEntrada() != null)
+            return false;
+        if (getDataSaida() != null ? !getDataSaida().equals(that.getDataSaida()) : that.getDataSaida() != null)
+            return false;
+        if (getObservacao() != null ? !getObservacao().equals(that.getObservacao()) : that.getObservacao() != null)
+            return false;
+        if (getQuarto() != null ? !getQuarto().equals(that.getQuarto()) : that.getQuarto() != null) return false;
+        if (getHospedes() != null ? !getHospedes().equals(that.getHospedes()) : that.getHospedes() != null)
+            return false;
+        return getMotivoCancelamento() != null ? getMotivoCancelamento().equals(that.getMotivoCancelamento()) : that.getMotivoCancelamento() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + (getDataEntrada() != null ? getDataEntrada().hashCode() : 0);
+        result = 31 * result + (getDataSaida() != null ? getDataSaida().hashCode() : 0);
+        result = 31 * result + (getObservacao() != null ? getObservacao().hashCode() : 0);
+        result = 31 * result + (getQuarto() != null ? getQuarto().hashCode() : 0);
+        result = 31 * result + (getHospedes() != null ? getHospedes().hashCode() : 0);
+        result = 31 * result + (checkIn ? 1 : 0);
+        result = 31 * result + (checkOut ? 1 : 0);
+        result = 31 * result + (isCancelada() ? 1 : 0);
+        result = 31 * result + (getMotivoCancelamento() != null ? getMotivoCancelamento().hashCode() : 0);
+        return result;
+    }
 }

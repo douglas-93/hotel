@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -131,5 +132,36 @@ public class QuartoModel implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof QuartoModel that)) return false;
+
+        if (isAtivo() != that.isAtivo()) return false;
+        if (!getId().equals(that.getId())) return false;
+        if (!getNome().equals(that.getNome())) return false;
+        if (getTipo() != that.getTipo()) return false;
+        if (getCategoria() != that.getCategoria()) return false;
+        if (!Arrays.equals(getImagem(), that.getImagem())) return false;
+        if (getImagemURL() != null ? !getImagemURL().equals(that.getImagemURL()) : that.getImagemURL() != null)
+            return false;
+        if (getValor() != null ? !getValor().equals(that.getValor()) : that.getValor() != null) return false;
+        return getItens() != null ? getItens().equals(that.getItens()) : that.getItens() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getNome().hashCode();
+        result = 31 * result + (getTipo() != null ? getTipo().hashCode() : 0);
+        result = 31 * result + (getCategoria() != null ? getCategoria().hashCode() : 0);
+        result = 31 * result + (isAtivo() ? 1 : 0);
+        result = 31 * result + Arrays.hashCode(getImagem());
+        result = 31 * result + (getImagemURL() != null ? getImagemURL().hashCode() : 0);
+        result = 31 * result + (getValor() != null ? getValor().hashCode() : 0);
+        result = 31 * result + (getItens() != null ? getItens().hashCode() : 0);
+        return result;
     }
 }
