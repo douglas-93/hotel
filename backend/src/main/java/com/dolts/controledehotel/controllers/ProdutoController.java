@@ -37,6 +37,8 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<ProdutoModel> salvarProduto(@RequestBody ProdutoModel produto) {
+        if (produto.getQuantidade() == null)
+            produto.setQuantidade(0d);
         ProdutoModel produtoSalvo = produtoService.salvarProduto(produto);
         return new ResponseEntity<>(produtoSalvo, HttpStatus.CREATED);
     }

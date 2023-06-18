@@ -1,80 +1,60 @@
 package com.dolts.controledehotel.controllers;
 
 import com.dolts.controledehotel.models.EntradaModel;
-import com.dolts.controledehotel.models.EstoqueModel;
-import com.dolts.controledehotel.models.ProdutoEntradaModel;
+import com.dolts.controledehotel.models.ProdutoModel;
 import com.dolts.controledehotel.services.EntradaService;
-import com.dolts.controledehotel.services.EstoqueService;
+import com.dolts.controledehotel.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/entradas")
+@RequestMapping(value = "/entradas")
 public class EntradaController {
-
     @Autowired
     private EntradaService entradaService;
-
     @Autowired
-    private EstoqueService estoqueService;
+    private ProdutoService produtoService;
 
     @GetMapping
-    public ResponseEntity<List<EntradaModel>> findAll() {
-        List<EntradaModel> entradas = entradaService.findAll();
-        return ResponseEntity.ok(entradas);
+    public ResponseEntity<List<EntradaModel>> listarEntradas() {
+        List<EntradaModel> entradas = entradaService.listarEntradas();
+        return new ResponseEntity<>(entradas, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EntradaModel> findById(@PathVariable Long id) {
-        EntradaModel entrada = entradaService.findById(id);
-        if (entrada != null) {
-            return ResponseEntity.ok(entrada);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<EntradaModel> buscarEntradaPorId(@PathVariable Long id) {
+        Optional<EntradaModel> entrada = entradaService.buscarEntradaPorId(id);
+        return entrada.map(entradaModel -> new ResponseEntity<>(entradaModel, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<EntradaModel> insert(@RequestBody EntradaModel novaEntrada) {
-        EntradaModel entrada = entradaService.insert(novaEntrada);
-        URI location = URI.create("/entradas/" + entrada.getId());
+    public ResponseEntity<EntradaModel> salvarEntrada(@RequestBody EntradaModel entrada) {
+        ProdutoModel produto = entrada.getProduto();
+        entrada.setProduto(null);
+        Optional<ProdutoModel> p = produtoService.buscarProdutoPorId(produto.getId());
+        p.ifPresent(entrada::setProduto);
 
-        if (novaEntrada.getProdutos() != null && !novaEntrada.getProdutos().isEmpty()) {
-            for (ProdutoEntradaModel produtoEntrada : novaEntrada.getProdutos()) {
-                EstoqueModel estoque = new EstoqueModel();
-                estoque.setProduto(produtoEntrada.getProduto());
-                Optional<EstoqueModel> prod = estoqueService.buscarEstoquePorId(produtoEntrada.getId());
-                if (prod.isPresent()) {
-                    estoque.setQuantidade(produtoEntrada.getQuantidade() + prod.get().getQuantidade());
-                } else {
-                    estoque.setQuantidade(produtoEntrada.getQuantidade());
-                }
-                estoqueService.salvarEstoque(estoque);
-            }
+        EntradaModel novaEntrada = entradaService.salvarEntrada(entrada);
+        if (novaEntrada != null) {
+            ProdutoModel prodAtualizado = p.get();
+            prodAtualizado.setQuantidade(prodAtualizado.getQuantidade() + novaEntrada.getQuantidade());
+            produtoService.atualizarProduto(prodAtualizado);
+            return new ResponseEntity<>(novaEntrada, HttpStatus.CREATED);
         }
-
-        return ResponseEntity.created(location).body(entrada);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<EntradaModel> update(@PathVariable Long id, @RequestBody EntradaModel entradaAlterada) {
-        EntradaModel entradaAtualizada = entradaService.update(id, entradaAlterada);
-        if (entradaAtualizada != null) {
-            return ResponseEntity.ok(entradaAtualizada);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        entradaService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> removerEntrada(@PathVariable Long id) {
+        entradaService.removerEntrada(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }
