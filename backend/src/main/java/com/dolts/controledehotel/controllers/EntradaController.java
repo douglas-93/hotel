@@ -44,7 +44,7 @@ public class EntradaController {
         EntradaModel novaEntrada = entradaService.salvarEntrada(entrada);
         if (novaEntrada != null) {
             ProdutoModel prodAtualizado = p.get();
-            prodAtualizado.setQuantidade(prodAtualizado.getQuantidade() + novaEntrada.getQuantidade());
+            prodAtualizado.setQuantidade(prodAtualizado.getQuantidade() + Math.abs(novaEntrada.getQuantidade()));
             produtoService.atualizarProduto(prodAtualizado);
             return new ResponseEntity<>(novaEntrada, HttpStatus.CREATED);
         }
