@@ -43,6 +43,16 @@ public class ProdutoController {
         return new ResponseEntity<>(produtoSalvo, HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "/m")
+    public ResponseEntity<List<ProdutoModel>> salvarProdutos(@RequestBody List<ProdutoModel> produtos) {
+        produtos.forEach(produto -> {
+            if (produto.getQuantidade() == null)
+                produto.setQuantidade(0d);
+        });
+        List<ProdutoModel> produtosSalvo = produtoService.salvarProdutos(produtos);
+        return new ResponseEntity<>(produtosSalvo, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerProduto(@PathVariable Long id) {
         produtoService.removerProduto(id);
