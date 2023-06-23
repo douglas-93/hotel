@@ -11,6 +11,7 @@ import {ProdutoModel} from "../../shared/models/produto.model";
 export class ProdutoComponent implements OnInit {
 	loadingVisible: boolean;
 	produtos: ProdutoModel[];
+	produtoSelecionado: ProdutoModel;
 
 	constructor(private router: Router,
 				private prodService: ProdutoService) {
@@ -32,10 +33,14 @@ export class ProdutoComponent implements OnInit {
 	}
 
 	editar(e: any) {
-
+		this.router.navigate(['pages', 'produtos', 'edit', this.produtoSelecionado.id])
 	}
 
 	selecionaProduto(e: any) {
-
+		e.component.byKey(e.currentSelectedRowKeys[0]).done(prod => {
+			if (prod) {
+				this.produtoSelecionado = prod;
+			}
+		});
 	}
 }

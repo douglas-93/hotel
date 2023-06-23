@@ -17,11 +17,19 @@ export class ProdutoService {
 		return this.http.get<ProdutoModel[]>(this.url, {observe: 'response'})
 	}
 
+	getById(id) {
+		return this.http.get<ProdutoModel>(`${this.url}/${id}`, {observe: 'response'})
+	}
+
 	createProduto(produto: ProdutoModel) {
 		return this.http.post(this.url, produto, {observe: 'response'})
 	}
 
 	createProdutos(produtos: ProdutoModel[]) {
 		return this.http.post(`${this.url}/m`, produtos, {observe: 'response'})
+	}
+
+	deleteProduto(id: number) {
+		return this.http.delete(`${this.url}/${id}`, {observe: 'response'});
 	}
 }

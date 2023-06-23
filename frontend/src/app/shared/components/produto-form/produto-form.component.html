@@ -4,6 +4,7 @@
 
 	<app-toolbar
 		(salvar)="salvar()"
+		(deletar)="deletaProduto()"
 		[cad]="true">
 	</app-toolbar>
 	<div class="dx-card responsive-paddings">
@@ -27,7 +28,7 @@
 				</dx-text-box>
 			</dxi-item>
 
-			<dxi-item title="Vários">
+			<dxi-item title="Vários" [disabled]="isEditing">
 				<div style="display: flex">
 					<dx-text-box #nomeVarios
 								 [showClearButton]="true"
@@ -86,7 +87,7 @@
 						<dxi-column dataField="nome"></dxi-column>
 						<dxi-column cellTemplate="valorTemplate" dataField="valor"></dxi-column>
 						<div *dxTemplate="let data of 'valorTemplate'">
-							{{data.data.valor | currency: 'BRL'}}
+							{{data.data.preco | currency: 'BRL'}}
 						</div>
 
 					</dx-data-grid>

@@ -14,6 +14,7 @@ import _ from "lodash";
 import notify from "devextreme/ui/notify";
 import {CurrencyPipe} from "@angular/common";
 import {ProdutoService} from "../../services/produto.service";
+import {Router} from "@angular/router";
 
 @Component({
 	selector: 'app-produto-form',
@@ -29,11 +30,31 @@ export class ProdutoFormComponent {
 	produto: ProdutoModel;
 	produtos: ProdutoModel[];
 	produtoSelecionadoGrid: ProdutoModel;
+	isEditing: boolean = false;
 
 
-	constructor(private prodService: ProdutoService) {
+	constructor(private prodService: ProdutoService,
+				private router: Router) {
+
 		this.produto = new ProdutoModel();
 		this.produtos = [];
+
+		let id = router.url.split('/').pop()
+		if (id!.match(/[0-9]+/)) {
+			prodService.getById(id).subscribe(resp => {
+				if (resp.status === 200) {
+					this.produto = resp.body!
+					let preco = this.produto.preco.toString()
+					if (preco.length <= 3 && !preco.includes('.')) {
+						preco += '00'
+					} else if (preco.includes('.') && preco.split('.')[1].length == 1) {
+						preco += '0'
+					}
+					this.formataValor(preco, 'U')
+					this.isEditing = true
+				}
+			})
+		}
 	}
 
 	selecionaProduto(e) {
@@ -64,7 +85,7 @@ export class ProdutoFormComponent {
 
 		if (box === 'U') {
 			this.valorUnico.value = formattedValue
-			this.produto.valor = parseFloat(formattedValue.replace('.', '').replace(',', '.'))
+			this.produto.preco = parseFloat(formattedValue.replace('.', '').replace(',', '.'))
 		} else {
 			this.valorVarios.value = formattedValue
 		}
@@ -76,7 +97,7 @@ export class ProdutoFormComponent {
 				this.mostraMensagem('Nome do produto é obrigatório', 'error')
 				return;
 			}
-			if (_.isUndefined(this.produto.valor) && !_.isNumber(this.produto.valor)) {
+			if (_.isUndefined(this.produto.preco) && !_.isNumber(this.produto.preco)) {
 				this.mostraMensagem('O valor do produto é obrigatório', 'error')
 				return
 			}
@@ -84,7 +105,7 @@ export class ProdutoFormComponent {
 				if (resp.status === 201) {
 					this.mostraMensagem('Produto gravado com sucesso', 'success')
 				}
-				setTimeout(this.voltar, 1000)
+				setTimeout(this.voltar)
 			})
 		}
 
@@ -97,12 +118,12 @@ export class ProdutoFormComponent {
 				if (resp.status === 200) {
 					this.mostraMensagem('Produtos gravados com sucesso', 'success')
 				}
-				setTimeout(this.voltar, 1000)
+				setTimeout(this.voltar)
 			})
 		}
 	}
 
-	mostraMensagem(mensagem: string, tipo: string) {
+	mostraMensagem(mensagem: string, tipo: string, tempo: number = 3000) {
 		notify({
 				message: `${mensagem}`,
 				type: `${tipo}`,
@@ -126,6 +147,13 @@ export class ProdutoFormComponent {
 		if (this.produtos.length == 0) {
 			this.mostraMensagem('Não existem produtos a serem removidos', 'warning')
 		}
+		let index = this.produtos.indexOf(this.produtoSelecionadoGrid);
+		if (index != -1) {
+			this.produtos.splice(index, 1);
+			this.mostraMensagem('Produto removido com sucesso', 'success', 1000)
+		} else {
+			this.mostraMensagem('Selecione produto a ser removido da lista', 'warning')
+		}
 	}
 
 	adicionaAoGrid() {
@@ -139,7 +167,7 @@ export class ProdutoFormComponent {
 		}
 		const prod = new ProdutoModel();
 		prod.nome = this.nomeVarios.value
-		prod.valor = parseFloat(this.valorVarios.value
+		prod.preco = parseFloat(this.valorVarios.value
 			.replace('.', '')
 			.replace(',', '.'))
 		this.produtos.push(prod)
@@ -153,10 +181,19 @@ export class ProdutoFormComponent {
 	}
 
 	defineValorUnico() {
-		this.produto.valor = parseFloat(this.valorUnico.value
+		this.produto.preco = parseFloat(this.valorUnico.value
 			.replace('.', '')
 			.replace(',', '.')
 		)
+	}
+
+	deletaProduto() {
+		this.prodService.deleteProduto(this.produto.id!).subscribe(resp => {
+			if (resp.status === 204) {
+				this.mostraMensagem('Produto Removido com sucesso', 'success')
+				this.voltar()
+			}
+		});
 	}
 }
 

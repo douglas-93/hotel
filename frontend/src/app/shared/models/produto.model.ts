@@ -1,6 +1,6 @@
 export class ProdutoModel {
 	id?: number;
 	nome: string;
-	valor: number;
+	preco: number;
 	quantidade: number;
 }
