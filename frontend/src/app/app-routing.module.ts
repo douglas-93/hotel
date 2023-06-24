@@ -37,7 +37,7 @@ import {FormsModule} from "@angular/forms";
 import {HospedeFormComponent} from "./shared/components/hospede-form/hospede-form.component";
 import {ToolbarModule} from "./shared/components/toolbar/toolbar.component";
 import {HotelComponent} from './pages/hotel/hotel.component';
-import {CurrencyPipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {QuartosComponent} from './pages/quartos/quartos.component';
 import {QuartoFormComponent} from "./shared/components/quarto-form/quarto-form.component";
 import {ReservaComponent} from './pages/reserva/reserva.component';
@@ -204,7 +204,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule, NgIf, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxLoadPanelModule, DxAutocompleteModule, DxTabPanelModule, DxCheckBoxModule, NgForOf, CurrencyPipe, DxContextMenuModule, NgClass],
+    imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule, NgIf, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxLoadPanelModule, DxAutocompleteModule, DxTabPanelModule, DxCheckBoxModule, NgForOf, CurrencyPipe, DxContextMenuModule, NgClass, DatePipe],
 	providers: [AuthGuardService],
 	exports: [RouterModule],
 	declarations: [

@@ -1,1 +1,88 @@
-<p>entrada-form works!</p>
+<div #main class="content-block">
+
+	<h2 class="content-block" style="text-align: center">Entrada de Produtos</h2>
+
+	<dx-load-panel
+		[(visible)]="loadingVisible"
+		[hideOnOutsideClick]="false"
+		[position]="{ of: '#main' }"
+		[shading]="true"
+		[showIndicator]="true"
+		[showPane]="true"
+		message="Carregando ..."
+		shadingColor="rgba(0,0,0,0.4)">
+	</dx-load-panel>
+
+	<app-toolbar
+		(deletar)="deletaEntrada()"
+		(salvar)="salvar()"
+		[cad]="true">
+	</app-toolbar>
+
+	<div class="dx-card responsive-paddings">
+		<div class="linha">
+			<dx-text-box #notaBox
+						 [width]="'30vw'"
+						 label="Nota"
+						 labelMode="floating">
+			</dx-text-box>
+			<dx-date-box #dataEntradaBox
+						 (valueChange)="defineDataEntrada($event)"
+						 [max]="hoje"
+						 [useMaskBehavior]="true"
+						 [value]="hoje"
+						 displayFormat="dd/MM/yyyy"
+						 label="Data de Entrada"
+						 labelMode="floating"
+						 type="date">
+			</dx-date-box>
+		</div>
+
+		<div class="linha">
+			<dx-select-box #produtoBox
+						   [dataSource]="produtos"
+						   [searchEnabled]="true"
+						   [width]="'30vw'"
+						   displayExpr="nome"
+						   label="Produto"
+						   labelMode="floting">
+			</dx-select-box>
+			<dx-number-box #quantidadeBox
+						   [min]="0"
+						   label="Quantidade"
+						   labelMode="floating">
+			</dx-number-box>
+			<dx-button (onClick)="adicionaProduto()"
+					   icon="add">
+			</dx-button>
+			<dx-button (onClick)="removeProduto()"
+				icon="minus">
+			</dx-button>
+		</div>
+		<dx-data-grid
+			[dataSource]="produtosDataGrid"
+			(onSelectionChanged)="selecionaEntrada($event)">
+
+			<dxo-filter-row [visible]="true"></dxo-filter-row>
+			<dxo-selection mode="single"></dxo-selection>
+			<dxo-paging
+				[pageIndex]="0"
+				[pageSize]="10">
+			</dxo-paging>
+			<dxo-pager
+				[allowedPageSizes]="[10, 20, 50]"
+				[showNavigationButtons]="true"
+				[showPageSizeSelector]="true">
+			</dxo-pager>
+
+			<dxi-column caption="Produto" cellTemplate="produtoTemplate" dataField="produto"></dxi-column>
+			<dxi-column caption="Quantidade" dataField="quantidade"></dxi-column>
+
+			<!--		TEMPLATES-->
+			<div *dxTemplate="let data of 'produtoTemplate'">
+				{{data.data.produto.nome}}
+			</div>
+
+		</dx-data-grid>
+	</div>
+</div>
