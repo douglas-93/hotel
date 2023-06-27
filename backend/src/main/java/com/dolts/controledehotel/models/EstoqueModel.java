@@ -15,6 +15,7 @@ public class EstoqueModel implements Serializable {
     private ProdutoModel produto;
 
     private int quantidade;
+    private String tipo;
     private LocalDateTime data;
 
     public EstoqueModel() {
@@ -42,6 +43,14 @@ public class EstoqueModel implements Serializable {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public LocalDateTime getData() {

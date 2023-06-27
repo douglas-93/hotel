@@ -24,6 +24,7 @@ public class EstoqueService {
         EstoqueModel entradaEstoque = new EstoqueModel();
         entradaEstoque.setProduto(produto);
         entradaEstoque.setQuantidade(quantidade);
+        entradaEstoque.setTipo("Entrada");
         entradaEstoque.setData(LocalDateTime.now());
 
         produtoService.atualizarProduto(produto);
@@ -42,7 +43,8 @@ public class EstoqueService {
 
         EstoqueModel saidaEstoque = new EstoqueModel();
         saidaEstoque.setProduto(produto);
-        saidaEstoque.setQuantidade(-quantidade);
+        saidaEstoque.setQuantidade(quantidade);
+        saidaEstoque.setTipo("Saida");
         saidaEstoque.setData(LocalDateTime.now());
 
         produtoService.atualizarProduto(produto);

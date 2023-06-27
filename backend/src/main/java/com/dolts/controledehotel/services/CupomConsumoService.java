@@ -25,7 +25,7 @@ public class CupomConsumoService {
     public CupomConsumoModel gerarCupomConsumo(double valorDiariaHospede, List<Long> produtosIds, List<Integer> quantidades) {
         CupomConsumoModel cupom = new CupomConsumoModel();
         cupom.setValorDiariaHospede(valorDiariaHospede);
-        cupom.setDataValidade(LocalDateTime.now().plusDays(7));
+        cupom.setDataEmissao(LocalDateTime.now());
 
         List<ProdutoConsumidoModel> produtosConsumidos = new ArrayList<>();
 
@@ -41,6 +41,7 @@ public class CupomConsumoService {
             ProdutoConsumidoModel produtoConsumido = new ProdutoConsumidoModel();
             produtoConsumido.setProduto(produto);
             produtoConsumido.setQuantidade(quantidade);
+            produtoConsumido.setValor(produto.getPreco());
             produtoConsumido.setCupomConsumo(cupom);
 
             produtosConsumidos.add(produtoConsumido);
@@ -51,5 +52,8 @@ public class CupomConsumoService {
         return cupomConsumoRepository.save(cupom);
     }
 
+    public CupomConsumoModel obterCupomConsumo(Long id) {
+        return cupomConsumoRepository.getById(id);
+    }
 }
 

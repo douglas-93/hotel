@@ -1,5 +1,6 @@
 package com.dolts.controledehotel.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,9 +13,11 @@ public class ProdutoConsumidoModel {
     private ProdutoModel produto;
 
     @ManyToOne
+    @JsonIgnore
     private CupomConsumoModel cupomConsumo;
 
     private int quantidade;
+    private double valor;
 
     public ProdutoConsumidoModel() {
     }
@@ -49,6 +52,14 @@ public class ProdutoConsumidoModel {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     @Override
