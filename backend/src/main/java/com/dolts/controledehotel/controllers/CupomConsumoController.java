@@ -24,9 +24,6 @@ public class CupomConsumoController {
         List<Long> produtosIds = cupomConsumoRequest.getProdutosIds();
         List<Integer> quantidades = cupomConsumoRequest.getQuantidades();
 
-        System.out.println(produtosIds);
-        System.out.println(quantidades);
-
         CupomConsumoModel cupomConsumo = cupomConsumoService.gerarCupomConsumo(valorDiariaHospede, produtosIds, quantidades);
         return ResponseEntity.status(HttpStatus.CREATED).body(cupomConsumo);
     }
