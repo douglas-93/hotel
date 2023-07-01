@@ -44,8 +44,7 @@
 			<dxi-column caption="Número da Entrada" dataField="id"></dxi-column>
 			<dxi-column caption="Produto" cellTemplate="produtoTemplate" dataField="produto"></dxi-column>
 			<dxi-column caption="Quantidade" dataField="quantidade"></dxi-column>
-			<dxi-column caption="Data da Entrada" cellTemplate="dataTemplate" dataField="dataEntrada"></dxi-column>
-			<dxi-column caption="Nota" dataField="nota"></dxi-column>
+			<dxi-column caption="Data da Entrada" cellTemplate="dataTemplate" dataField="data"></dxi-column>
 
 			<!--		TEMPLATES-->
 			<div *dxTemplate="let data of 'produtoTemplate'">
@@ -53,7 +52,7 @@
 			</div>
 
 			<div *dxTemplate="let data of 'dataTemplate'">
-				{{data.data.dataEntrada | date: 'dd/MM/yyyy'}}
+				{{data.data.data | date: 'dd/MM/yyyy'}}
 			</div>
 		</dx-data-grid>
 

@@ -115,7 +115,7 @@ export class ProdutoFormComponent {
 				return
 			}
 			this.prodService.createProdutos(this.produtos).subscribe(resp => {
-				if (resp.status === 200) {
+				if (resp.status === 201) {
 					this.mostraMensagem('Produtos gravados com sucesso', 'success')
 				}
 				setTimeout(this.voltar)

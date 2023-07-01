@@ -4,6 +4,6 @@ export class EntradaModel {
 	id: number;
 	produto: ProdutoModel;
 	quantidade: number;
-	nota: string;
-	dataEntrada: Date;
+	tipo: string;
+	data: Date;
 }

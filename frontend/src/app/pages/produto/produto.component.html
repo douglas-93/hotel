@@ -51,7 +51,7 @@
 
 			<dxi-column caption="ID" dataField="id"></dxi-column>
 			<dxi-column dataField="nome"></dxi-column>
-			<dxi-column dataField="quantidade"></dxi-column>
+			<dxi-column dataField="quantidadeEstoque"></dxi-column>
 			<dxi-column cellTemplate="precoTemplate" dataField="valor"></dxi-column>
 			<dxi-column caption="Valor Total em Estoque"
 						cellTemplate="valorTotalTemplate"
@@ -62,7 +62,7 @@
 				{{data.data.preco | currency: 'BRL'}}
 			</div>
 			<div *dxTemplate="let data of 'valorTotalTemplate'">
-				{{ (data.data.preco * data.data.quantidade) | currency: 'BRL'}}
+				{{ (data.data.preco * data.data.quantidadeEstoque) | currency: 'BRL'}}
 			</div>
 
 		</dx-data-grid>

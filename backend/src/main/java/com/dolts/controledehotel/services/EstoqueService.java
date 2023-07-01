@@ -3,9 +3,12 @@ package com.dolts.controledehotel.services;
 import com.dolts.controledehotel.models.EstoqueModel;
 import com.dolts.controledehotel.models.ProdutoModel;
 import com.dolts.controledehotel.repositories.EstoqueRepository;
+import org.hibernate.query.sqm.SortOrder;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EstoqueService {
@@ -49,6 +52,14 @@ public class EstoqueService {
 
         produtoService.atualizarProduto(produto);
         return estoqueRepository.save(saidaEstoque);
+    }
+
+    public List<EstoqueModel> listarEntradas() {
+        return estoqueRepository.findByTipo("Entrada");
+    }
+
+    public List<EstoqueModel> listarSaidas() {
+        return estoqueRepository.findByTipo("Saida");
     }
 
 }

@@ -5,12 +5,12 @@ import com.dolts.controledehotel.models.EstoqueModel;
 import com.dolts.controledehotel.services.EstoqueService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/estoque")
 public class EstoqueController {
     private final EstoqueService estoqueService;
@@ -26,6 +26,18 @@ public class EstoqueController {
 
         EstoqueModel entradaEstoque = estoqueService.darEntradaEstoque(produtoId, quantidade);
         return ResponseEntity.status(HttpStatus.CREATED).body(entradaEstoque);
+    }
+
+    @GetMapping("/entradas")
+    public ResponseEntity<List<EstoqueModel>> listarEntradas() {
+        List<EstoqueModel> entradas = estoqueService.listarEntradas();
+        return ResponseEntity.status(HttpStatus.OK).body(entradas);
+    }
+
+    @GetMapping("/saidas")
+    public ResponseEntity<List<EstoqueModel>> listarSaidas() {
+        List<EstoqueModel> saidas = estoqueService.listarSaidas();
+        return ResponseEntity.status(HttpStatus.OK).body(saidas);
     }
 
     @PostMapping("/saida")

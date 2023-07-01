@@ -40,7 +40,7 @@ export class EntradaFormComponent {
 	entradaSelecionada: EntradaModel;
 	produtosDataGrid: EntradaModel[];
 	hoje: Date = new Date();
-	dataEntrada: Date;
+	data: Date;
 	nota: string;
 
 	constructor(private entradaService: EntradaService,
@@ -72,11 +72,10 @@ export class EntradaFormComponent {
 
 		this.loadingVisible = true
 
-		this.dataEntrada = this.dataEntrada === undefined ? this.hoje : this.dataEntrada
+		this.data = this.data === undefined ? this.hoje : this.data
 
 		let chamadas: Observable<HttpResponse<EntradaModel>>[] = _.forEach(this.produtosDataGrid, e => {
-			e.nota = nota;
-			e.dataEntrada = this.dataEntrada;
+			e.data = this.data;
 		}).map(e => this.entradaService.createEntrada(e))
 
 		forkJoin(chamadas).subscribe(resp => {
@@ -94,7 +93,7 @@ export class EntradaFormComponent {
 	}
 
 	defineDataEntrada(e: any) {
-		this.dataEntrada = <Date>e;
+		this.data = <Date>e;
 	}
 
 	adicionaProduto() {

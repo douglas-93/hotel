@@ -7,13 +7,13 @@ import {EntradaModel} from "../models/entrada.model";
 })
 export class EntradaService {
 
-	url: string = 'http://localhost:8080/entradas'
+	url: string = 'http://localhost:8080/estoque/entrada'
 
 	constructor(private http: HttpClient) {
 	}
 
 	getEntradas() {
-		return this.http.get<EntradaModel[]>(this.url);
+		return this.http.get<EntradaModel[]>(`${this.url}s`);
 	}
 
 	getEntrada(id: number) {
@@ -21,12 +21,13 @@ export class EntradaService {
 	}
 
 
-	createEntrada(hospede: EntradaModel) {
-		return this.http.post<EntradaModel>(this.url, hospede, {observe: 'response'});
+	createEntrada(entrada: EntradaModel) {
+		entrada.tipo = 'Entrada';
+		return this.http.post<EntradaModel>(this.url, entrada, {observe: 'response'});
 	}
 
-	updateEntrada(hospede: EntradaModel) {
-		return this.http.put(`${this.url}/${hospede.id}`, hospede, {observe: 'response'});
+	updateEntrada(entrada: EntradaModel) {
+		return this.http.put(`${this.url}/${entrada.id}`, entrada, {observe: 'response'});
 	}
 
 	deleteEntrada(id: number) {

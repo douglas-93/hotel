@@ -36,6 +36,11 @@ export class EntradaComponent implements OnInit {
 	buscaEntradas() {
 		this.entradaService.getEntradas().subscribe(resp => {
 			this.entradas = resp
+			this.entradas.forEach(e => {
+				// @ts-ignore
+				const [ano, mes, dia, hora, minuto, segundo] = e.data;
+				e.data = new Date(ano, mes-1, dia, hora, minuto, segundo);
+			})
 		})
 	}
 
@@ -43,5 +48,4 @@ export class EntradaComponent implements OnInit {
 		this.router.navigate(['pages', 'entradas', 'cad'])
 	}
 
-	protected readonly Date = Date;
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/produtos")
 public class ProdutoController {
     private final ProdutoService produtoService;
@@ -21,6 +22,12 @@ public class ProdutoController {
     public ResponseEntity<ProdutoModel> criarProduto(@RequestBody ProdutoModel produto) {
         ProdutoModel novoProduto = produtoService.criarProduto(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoProduto);
+    }
+
+    @PostMapping("/m")
+    public ResponseEntity<List<ProdutoModel>> criarProdutos(@RequestBody List<ProdutoModel> produtos) {
+        List<ProdutoModel> novosProdutos = produtoService.criarProdutos(produtos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novosProdutos);
     }
 
     @GetMapping
