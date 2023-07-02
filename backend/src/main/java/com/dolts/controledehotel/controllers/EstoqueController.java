@@ -34,6 +34,12 @@ public class EstoqueController {
         return ResponseEntity.status(HttpStatus.OK).body(entradas);
     }
 
+    @GetMapping("/entradas/{id}")
+    public ResponseEntity<EstoqueModel> listarEntrada(@PathVariable Long id) {
+        EstoqueModel entrada = estoqueService.listarMovimento(id);
+        return ResponseEntity.status(HttpStatus.OK).body(entrada);
+    }
+
     @GetMapping("/saidas")
     public ResponseEntity<List<EstoqueModel>> listarSaidas() {
         List<EstoqueModel> saidas = estoqueService.listarSaidas();

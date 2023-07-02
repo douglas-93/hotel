@@ -57,6 +57,9 @@ public class EstoqueService {
     public List<EstoqueModel> listarEntradas() {
         return estoqueRepository.findByTipo("Entrada");
     }
+    public EstoqueModel listarMovimento(Long id) {
+        return estoqueRepository.findById(id).orElse(null);
+    }
 
     public List<EstoqueModel> listarSaidas() {
         return estoqueRepository.findByTipo("Saida");

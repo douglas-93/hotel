@@ -22,6 +22,7 @@ import {EntradaModel} from "../../models/entrada.model";
 import {DatePipe} from "@angular/common";
 import {forkJoin, Observable} from "rxjs";
 import {HttpResponse} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
 	selector: 'app-entrada-form',
@@ -44,7 +45,8 @@ export class EntradaFormComponent {
 	nota: string;
 
 	constructor(private entradaService: EntradaService,
-				private produtoService: ProdutoService) {
+				private produtoService: ProdutoService,
+				private router: Router) {
 	}
 
 	ngOnInit() {
@@ -60,11 +62,11 @@ export class EntradaFormComponent {
 	}
 
 	salvar() {
-		let nota = this.notaBox.value
+		/*let nota = this.notaBox.value
 		if (_.isEmpty(nota) || _.isNull(nota) || _.isUndefined(nota)) {
 			notify('A nota precisa ser informada', 'error')
 			return
-		}
+		}*/
 		if (this.produtosDataGrid.length === 0) {
 			notify('Deve existir pelo menos um produto', 'error')
 			return

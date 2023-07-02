@@ -50,6 +50,7 @@ import {ProdutoFormComponent} from "./shared/components/produto-form/produto-for
 import {EntradaFormComponent} from "./shared/components/entrada-form/entrada-form.component";
 import {ConsumoFormComponent} from "./shared/components/consumo-form/consumo-form.component";
 import {NotaFormComponent} from "./shared/components/nota-form/nota-form.component";
+import {EntradaEditFormComponent} from "./shared/components/entrada-edit-form/entrada-edit-form.component";
 
 const routes: Routes = [
 	{
@@ -94,7 +95,7 @@ const routes: Routes = [
 	},
 	{
 		path: 'pages/entradas/edit/:id',
-		component: EntradaFormComponent,
+		component: EntradaEditFormComponent,
 		canActivate: [AuthGuardService]
 	},
 	{

@@ -1,0 +1,51 @@
+<div #main class="content-block">
+
+	<h2 class="content-block" style="text-align: center">Entrada do Produto</h2>
+
+	<dx-load-panel
+		[(visible)]="isLoading"
+		[hideOnOutsideClick]="false"
+		[position]="{ of: '#main' }"
+		[shading]="true"
+		[showIndicator]="true"
+		[showPane]="true"
+		message="Carregando ..."
+		shadingColor="rgba(0,0,0,0.4)">
+	</dx-load-panel>
+
+	<app-toolbar
+		(deletar)="deletaEntrada()"
+		(salvar)="salvar()"
+		[cad]="true">
+	</app-toolbar>
+
+	<div class="dx-card responsive-paddings">
+		<div style="display: flex;">
+			<dx-text-box
+				[readOnly]="true"
+				[value]="entrada.produto.nome"
+				label="Produto"
+				labelMode="floating"
+				style="margin: 5px"
+				width="40vw">
+			</dx-text-box>
+			<dx-text-box
+				[readOnly]="true"
+				[value]="entrada.quantidade.toString()"
+				label="Quantidade"
+				labelMode="floating"
+				style="margin: 5px"
+				width="10vw">
+			</dx-text-box>
+			<dx-date-box
+				[readOnly]="true"
+				[value]="data"
+				displayFormat="dd/MM/yyyy"
+				label="Data da Entrada"
+				labelMode="floating"
+				style="margin: 5px"
+				width="10vw">
+			</dx-date-box>
+		</div>
+	</div>
+</div>

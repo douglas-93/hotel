@@ -17,13 +17,15 @@ export class EntradaService {
 	}
 
 	getEntrada(id: number) {
-		return this.http.get<EntradaModel>(`${this.url}/${id}`, {observe: 'response'});
+		return this.http.get<EntradaModel>(`${this.url}s/${id}`, {observe: 'response'});
 	}
 
 
 	createEntrada(entrada: EntradaModel) {
-		entrada.tipo = 'Entrada';
-		return this.http.post<EntradaModel>(this.url, entrada, {observe: 'response'});
+		return this.http.post<EntradaModel>(this.url, {
+			produtoId: entrada.produto.id,
+			quantidade: entrada.quantidade
+		}, {observe: 'response'});
 	}
 
 	updateEntrada(entrada: EntradaModel) {
