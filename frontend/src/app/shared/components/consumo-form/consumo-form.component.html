@@ -1,1 +1,109 @@
-<p>consumo-form works!</p>
+<div #main class="content-block">
+
+	<h2 class="content-block" style="text-align: center">Consumo de Produtos</h2>
+
+	<dx-load-panel
+		[(visible)]="loadingVisible"
+		[hideOnOutsideClick]="false"
+		[position]="{ of: '#main' }"
+		[shading]="true"
+		[showIndicator]="true"
+		[showPane]="true"
+		message="Carregando ..."
+		shadingColor="rgba(0,0,0,0.4)">
+	</dx-load-panel>
+
+	<app-toolbar
+		(salvar)="salvarConsumo()"
+		[cad]="true">
+	</app-toolbar>
+
+	<div class="dx-card responsive-paddings">
+		<dx-select-box
+			#reserva
+			[dataSource]="reservas"
+			class="margem"
+			displayExpr="quarto.nome"
+			itemTemplate="item"
+			label="Reserva"
+			labelMode="floating"
+			width="40vw">
+			<div *dxTemplate="let data of 'item'">
+				<dx-text-box
+					[readOnly]="true"
+					[value]="data?.quarto.nome + ' - ' + data?.hospedes[0].nome"
+					width="100%">
+				</dx-text-box>
+			</div>
+		</dx-select-box>
+
+		<div class="row">
+
+			<dx-select-box
+				#produto
+				[dataSource]="produtos"
+				class="margem"
+				displayExpr="nome"
+				label="Produto"
+				labelMode="floating"
+				valueExpr="id"
+				width="20vw">
+			</dx-select-box>
+
+			<dx-number-box
+				#quantidade
+				[min]="0"
+				class="margem"
+				label="Quantidade"
+				labelMode="floating"
+				width="10vw">
+			</dx-number-box>
+
+			<dx-button
+				(onClick)="adicionaAoGrid()"
+				class="margem"
+				icon="add">
+			</dx-button>
+			<dx-button
+				class="margem"
+				icon="minus"
+			(onClick)="removeDoGrid()">
+			</dx-button>
+		</div>
+
+		<div>
+			<dx-data-grid
+				(onSelectionChanged)="selecionaProduto($event)"
+				[columnAutoWidth]="true"
+				[dataSource]="gridData">
+
+				<dxo-filter-row [visible]="true"></dxo-filter-row>
+				<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
+				<dxo-load-panel [enabled]="true"></dxo-load-panel>
+				<dxo-selection mode="single"></dxo-selection>
+				<dxo-paging
+					[pageIndex]="0"
+					[pageSize]="10">
+				</dxo-paging>
+				<dxo-pager
+					[allowedPageSizes]="[10, 20, 50]"
+					[showNavigationButtons]="true"
+					[showPageSizeSelector]="true">
+				</dxo-pager>
+
+				<dxi-column caption="Produto" cellTemplate="produtoTemplate" dataField="produto"></dxi-column>
+				<dxi-column caption="Quantidade" dataField="quantidade"></dxi-column>
+				<dxi-column caption="Valor R$" cellTemplate="valorTemplate"></dxi-column>
+				<!--		TEMPLATES-->
+				<div *dxTemplate="let data of 'produtoTemplate'">
+					{{data.data.produto.nome}}
+				</div>
+
+				<div *dxTemplate="let data of 'valorTemplate'">
+					{{data.data.produto.preco * data.data.quantidade | currency: 'BRL'}}
+				</div>
+			</dx-data-grid>
+		</div>
+
+	</div>
+</div>

@@ -70,7 +70,7 @@ const routes: Routes = [
 	},
 	{
 		path: 'pages/consumo',
-		component: ConsumoComponent,
+		component: ConsumoFormComponent,
 		canActivate: [AuthGuardService]
 	},
 	{

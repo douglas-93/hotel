@@ -169,4 +169,10 @@ public class ReservaController {
         reservaService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(value = "/hoje")
+    public ResponseEntity<List<ReservaModel>> reservasHoje() {
+        List<ReservaModel> reservas = reservaService.findReservasHoje();
+        return ResponseEntity.status(HttpStatus.OK).body(reservas);
+    }
 }

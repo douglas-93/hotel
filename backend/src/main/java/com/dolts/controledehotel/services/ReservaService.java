@@ -122,4 +122,10 @@ public class ReservaService {
     public List<ReservaModel> findByDataEntradaBetween(Date dataInicio, Date dataFim) {
         return reservaRepository.findByDataEntradaBetween(dataInicio, dataFim);
     }
+
+    @Transactional
+    public List<ReservaModel> findReservasHoje() {
+        Date hoje = new Date();
+        return reservaRepository.findHoje(hoje);
+    }
 }

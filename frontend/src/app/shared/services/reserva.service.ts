@@ -17,6 +17,10 @@ export class ReservaService {
 		return this.http.get<ReservaModel[]>(this.url);
 	}
 
+	getReservasHoje() {
+		return this.http.get<ReservaModel[]>(`${this.url}/hoje`);
+	}
+
 	getReserva(id: number) {
 		return this.http.get<ReservaModel>(`${this.url}/${id}`, {observe: 'response'});
 	}

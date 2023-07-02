@@ -20,4 +20,6 @@ public interface ReservaRepository extends JpaRepository<ReservaModel, Long> {
     List<ReservaModel> findByDataEntrada(Date dataEntrada);
     List<ReservaModel> findByDataSaida(Date dataSaida);
     List<ReservaModel> findByDataEntradaBetween(Date dataInicio, Date dataFim);
+    @Query("SELECT r FROM ReservaModel r WHERE ((:hoje >= r.dataEntrada) AND (:hoje <= r.dataSaida))")
+    List<ReservaModel> findHoje(Date hoje);
 }
