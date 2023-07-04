@@ -14,12 +14,12 @@ import java.util.List;
 public class CupomConsumoService {
     private final CupomConsumoRepository cupomConsumoRepository;
     private final ProdutoService produtoService;
-    private final EstoqueService estoqueService;
+//    private final EstoqueService estoqueService;
 
     public CupomConsumoService(CupomConsumoRepository cupomConsumoRepository, ProdutoService produtoService, EstoqueService estoqueService) {
         this.cupomConsumoRepository = cupomConsumoRepository;
         this.produtoService = produtoService;
-        this.estoqueService = estoqueService;
+//        this.estoqueService = estoqueService;
     }
 
     public CupomConsumoModel gerarCupomConsumo(double valorDiariaHospede, List<Long> produtosIds, List<Integer> quantidades) {
@@ -36,7 +36,7 @@ public class CupomConsumoService {
             ProdutoModel produto = produtoService.buscarProduto(produtoId);
 
             // Registra a saída no estoque
-            estoqueService.darSaidaEstoque(produtoId, quantidade);
+//            estoqueService.darSaidaEstoque(produtoId, quantidade);
 
             ProdutoConsumidoModel produtoConsumido = new ProdutoConsumidoModel();
             produtoConsumido.setProduto(produto);

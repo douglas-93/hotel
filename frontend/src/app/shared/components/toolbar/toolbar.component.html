@@ -10,6 +10,7 @@
 		text="Novo">
 	</dx-button>
 	<dx-button
+		*ngIf="!disableCloseButton"
 		(onClick)="voltar()"
 		icon="close"
 		text="Fechar">
@@ -28,6 +29,7 @@
 		text="Excluir">
 	</dx-button>
 	<dx-button
+		*ngIf="!disableCloseButton"
 		(onClick)="voltar()"
 		icon="close"
 		text="Fechar">

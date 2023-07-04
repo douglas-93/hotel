@@ -14,6 +14,7 @@
 	</dx-load-panel>
 
 	<app-toolbar
+		#toolBar
 		(salvar)="salvarConsumo()"
 		[cad]="true">
 	</app-toolbar>
@@ -79,7 +80,6 @@
 
 				<dxo-filter-row [visible]="true"></dxo-filter-row>
 				<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
-				<dxo-load-panel [enabled]="true"></dxo-load-panel>
 				<dxo-selection mode="single"></dxo-selection>
 				<dxo-paging
 					[pageIndex]="0"

@@ -17,6 +17,7 @@ export class HomeComponent {
 	quartosAExibir: { quarto: QuartoModel, reserva: ReservaModel | null }[] = [];
 	quartoSelecionado: any = null;
 	checkInPopupVisible: boolean = false;
+	consumoPopupVisible: boolean = false;
 
 	constructor(private quartoService: QuartoService,
 				private reservaService: ReservaService) {
@@ -94,6 +95,7 @@ export class HomeComponent {
 			notify('Selecione um quarto para gerenciar o consumo', 'warning', 3000);
 			return;
 		}
+		this.consumoPopupVisible = true
 		console.log('Gerenciar Consumo:', this.quartoSelecionado);
 	}
 
@@ -123,5 +125,9 @@ export class HomeComponent {
 						notify(error.error.message, 'warning', 5000);
 					}
 				});
+	}
+
+	closePopUpEvent(e: any) {
+		this.consumoPopupVisible = e.value
 	}
 }

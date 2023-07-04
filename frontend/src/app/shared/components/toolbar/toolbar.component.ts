@@ -14,8 +14,9 @@ export class ToolbarComponent {
 	@Output() salvar = new EventEmitter();
 	@Output() deletar = new EventEmitter();
 
-	@Input()
-	cad: boolean;
+	@Input() cad: boolean;
+
+	@Input() disableCloseButton: boolean;
 
 	edit: boolean;
 

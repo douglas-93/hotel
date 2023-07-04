@@ -1,4 +1,4 @@
-import {Component, NgModule, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, NgModule, Output, ViewChild} from '@angular/core';
 import {
 	DxButtonModule,
 	DxDataGridModule,
@@ -8,7 +8,7 @@ import {
 	DxSelectBoxModule,
 	DxTextBoxModule
 } from "devextreme-angular";
-import {ToolbarModule} from "../toolbar/toolbar.component";
+import {ToolbarComponent, ToolbarModule} from "../toolbar/toolbar.component";
 import {ReservaModel} from "../../models/reserva.model";
 import {ReservaService} from "../../services/reserva.service";
 import {ProdutoModel} from "../../models/produto.model";
@@ -31,6 +31,10 @@ export class ConsumoFormComponent {
 	@ViewChild('reserva', {static: false}) reserva: DxSelectBoxComponent;
 	@ViewChild('produto', {static: false}) produto: DxSelectBoxComponent;
 	@ViewChild('quantidade', {static: false}) quantidade: DxNumberBoxComponent;
+	@ViewChild('toolBar', {static: false}) toolBar: ToolbarComponent;
+
+	@Input() reservaSelecionadaPopUp: number;
+	@Output() closeConsumoPopUp = new EventEmitter();
 
 	loadingVisible: boolean = false;
 	reservas: ReservaModel[];
@@ -49,9 +53,16 @@ export class ConsumoFormComponent {
 		forkJoin([this.reservaService.getReservasHoje(), this.produtoService.getAll()])
 			.subscribe(([resR, resP]) => {
 				this.reservas = resR
-				this.produtos = resP.body!
+				this.produtos = resP.body!.filter(p => p.quantidadeEstoque > 0)
 				this.loadingVisible = false
-			})
+
+				if (this.reservaSelecionadaPopUp) {
+					let r: ReservaModel = this.reservas.filter(e => e.id === this.reservaSelecionadaPopUp)[0]
+					this.reserva.instance.option('value', r)
+					this.reserva.readOnly = true
+					this.toolBar.disableCloseButton = true
+				}
+			});
 	}
 
 	selecionaProduto(e: any) {
@@ -109,7 +120,7 @@ export class ConsumoFormComponent {
 		}
 
 		const consumos: ConsumoModel[] = []
-		_.forEach(this.gridData, e=>{
+		_.forEach(this.gridData, e => {
 			let c = new ConsumoModel();
 			c.reservaId = this.reserva.selectedItem.id
 			c.produtoId = e.produto.id!;
@@ -123,7 +134,11 @@ export class ConsumoFormComponent {
 			if (statusResp.length === 0) {
 				this.loadingVisible = false
 				notify('Registro realizado com sucesso', 'success', 3000)
-				this.voltar()
+				if (this.reservaSelecionadaPopUp) {
+					this.closeConsumoPopUp.emit(false);
+				} else {
+					this.voltar()
+				}
 			}
 		})
 
