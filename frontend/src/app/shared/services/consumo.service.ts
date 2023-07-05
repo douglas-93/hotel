@@ -17,7 +17,7 @@ export class ConsumoService {
 	}
 
 	getConsumo(id: number) {
-		return this.http.get<ConsumoModel>(`${this.url}/${id}`, {observe: 'response'});
+		return this.http.get<ConsumoModel[]>(`${this.url}/${id}`, {observe: 'response'});
 	}
 
 
