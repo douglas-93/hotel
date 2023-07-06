@@ -24,6 +24,7 @@
 			<dx-select-box
 				#reserva
 				[dataSource]="reservas"
+				(onValueChanged)="limparConsumoGerado()"
 				displayExpr="quarto.nome"
 				style="margin: 5px"
 				label="Quarto"
@@ -38,35 +39,101 @@
 			</dx-button>
 		</div>
 
-		<dx-data-grid
-			(onSelectionChanged)="selecionaProduto($event)"
-			[columnAutoWidth]="true"
-			[dataSource]="gridData">
+		<ng-container *ngIf="gerarVisible">
+			<h3 style="text-align: center">Produtos Consumidos</h3>
+
+			<dx-data-grid
+				[columnAutoWidth]="true"
+				[dataSource]="gridData">
 
 
-			<dxi-column caption="Data Consumo" dataField="dataConsumo" dataType="datetime" format="dd/MM/yyyy HH:mm"></dxi-column>
-			<dxi-column caption="Produto" cellTemplate="produtoTemplate" dataField="produto"></dxi-column>
-			<dxi-column caption="Quantidade" dataField="quantidade"></dxi-column>
-			<dxi-column caption="Valor R$" cellTemplate="valorTemplate" name="valorTemplate"></dxi-column>
-			<!--		TEMPLATES-->
-			<div *dxTemplate="let data of 'produtoTemplate'">
-				{{data.data.produto.nome}}
+				<dxi-column caption="Data Consumo" dataField="dataConsumo" dataType="datetime"
+							format="dd/MM/yyyy HH:mm"></dxi-column>
+				<dxi-column caption="Produto" cellTemplate="produtoTemplate" dataField="produto"></dxi-column>
+				<dxi-column caption="Quantidade" dataField="quantidade"></dxi-column>
+				<dxi-column caption="Valor R$" dataField="valor" cellTemplate="valorTemplate"></dxi-column>
+				<!--		TEMPLATES-->
+				<div *dxTemplate="let data of 'produtoTemplate'">
+					{{data.data.produto.nome}}
+				</div>
+
+				<div *dxTemplate="let data of 'valorTemplate'">
+					{{data.data.valor | currency: 'BRL'}}
+				</div>
+
+				<dxo-summary>
+					<dxi-total-item
+						column="valor"
+						summaryType="sum"
+						displayFormat="Total: R$ {0}"
+						valueFormat="##,##0.00"
+					>
+					</dxi-total-item>
+				</dxo-summary>
+			</dx-data-grid>
+
+			<h3 style="text-align: center">Valor da(s) Diária(s)</h3>
+
+			<dx-data-grid
+				[columnAutoWidth]="true"
+				[dataSource]="datasDaReserva">
+
+				<dxi-column caption="Estadia" dataField="data" dataType="date" format="dd/MM/yyyy"></dxi-column>
+				<dxi-column caption="Valor R$" dataField="valor" cellTemplate="valorTemplate"></dxi-column>
+				<!--		TEMPLATES-->
+				<div *dxTemplate="let data of 'valorTemplate'">
+					{{data.data.valor | currency: 'BRL'}}
+				</div>
+
+				<dxo-summary>
+					<dxi-total-item
+						column="data"
+						summaryType="count"
+						displayFormat="Total de Dias: {0}"
+					>
+					</dxi-total-item>
+
+					<dxi-total-item
+						column="valor"
+						summaryType="sum"
+						displayFormat="Total: R$ {0}"
+						valueFormat="##,##0.00"
+					>
+					</dxi-total-item>
+				</dxo-summary>
+
+			</dx-data-grid>
+
+			<div style="display: flex; flex-direction: column; align-items: end">
+				<dx-radio-group
+					#tipoDesconto
+					[dataSource]="radioOptions"
+					layout="horizontal">
+				</dx-radio-group>
+				<div>
+					<dx-text-box
+						label="Desconto"
+						labelMode="floating"
+						[(value)]="valorDesconto">
+					</dx-text-box>
+					<dx-button
+						icon="money"
+						text="Aplicar Desconto"
+						(onClick)="aplicaDesconto()">
+					</dx-button>
+				</div>
 			</div>
 
-			<div *dxTemplate="let data of 'valorTemplate'">
-				{{data.data.produto.preco * data.data.quantidade | currency: 'BRL'}}
-			</div>
 
+			<h3 style="text-align: end; font-weight: bolder">Total Geral: {{totalDaNota | currency: 'BRL'}}</h3>
 
-			<dxo-summary>
-				<dxi-total-item
-					column="valorTemplate"
-					summaryType="sum"
-					valueFormat="currency"
-				>
-				</dxi-total-item>
-			</dxo-summary>
-		</dx-data-grid>
+			<h3
+				*ngIf="temDesconto"
+				style="text-align: end; font-weight: bolder"
+			>
+				Total Com Desconto: {{totalDaNotaComDesconto | currency: 'BRL'}}
+			</h3>
 
+		</ng-container>
 	</div>
 </div>
