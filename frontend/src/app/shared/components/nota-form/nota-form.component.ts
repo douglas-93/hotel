@@ -65,7 +65,10 @@ export class NotaFormComponent {
 	}
 
 	salvarNota() {
-
+		console.log(this.gridData)
+		console.log(this.datasDaReserva)
+		console.log(this.totalDaNota)
+		console.log(this.totalDaNotaComDesconto)
 	}
 
 	calculaConsumo() {
@@ -111,6 +114,10 @@ export class NotaFormComponent {
 	geraDiasDiarias(dataInicial: Date, dataFinal: Date): Date[] {
 		const days: Date[] = [];
 		let currentDate = dataInicial;
+		let hoje = new Date();
+		if (dataFinal > hoje) {
+			dataFinal = hoje
+		}
 
 		while (currentDate <= dataFinal) {
 			days.push(new Date(currentDate));

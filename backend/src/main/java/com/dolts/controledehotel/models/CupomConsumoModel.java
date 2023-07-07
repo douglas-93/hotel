@@ -13,6 +13,8 @@ public class CupomConsumoModel {
 
     private double valorDiariaHospede;
     private LocalDateTime dataEmissao;
+    private LocalDateTime dataEntrada;
+    private LocalDateTime dataSaida;
 
     @OneToMany(mappedBy = "cupomConsumo", cascade = CascadeType.ALL)
     private List<ProdutoConsumidoModel> produtosConsumidos;
@@ -50,6 +52,22 @@ public class CupomConsumoModel {
 
     public void setProdutosConsumidos(List<ProdutoConsumidoModel> produtosConsumidos) {
         this.produtosConsumidos = produtosConsumidos;
+    }
+
+    public LocalDateTime getDataEntrada() {
+        return dataEntrada;
+    }
+
+    public void setDataEntrada(LocalDateTime dataEntrada) {
+        this.dataEntrada = dataEntrada;
+    }
+
+    public LocalDateTime getDataSaida() {
+        return dataSaida;
+    }
+
+    public void setDataSaida(LocalDateTime dataSaida) {
+        this.dataSaida = dataSaida;
     }
 }
 
