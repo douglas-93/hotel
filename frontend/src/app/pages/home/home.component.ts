@@ -18,6 +18,7 @@ export class HomeComponent {
 	quartoSelecionado: any = null;
 	checkInPopupVisible: boolean = false;
 	consumoPopupVisible: boolean = false;
+	checkOutPopupVisible: boolean = false;
 
 	constructor(private quartoService: QuartoService,
 				private reservaService: ReservaService) {
@@ -40,7 +41,8 @@ export class HomeComponent {
 			let hoje = new Date();
 
 			_.forEach(reservasResp, r => {
-				let quarto = this.quartosAExibir.find(q => r.quarto.id === q.quarto.id && r.dataEntrada <= hoje && r.dataSaida >= hoje);
+				let quarto = this.quartosAExibir.find(q =>
+					r.quarto.id === q.quarto.id && r.dataEntrada <= hoje && r.dataSaida >= hoje && !r.checkedOut && !r.cancelada);
 				if (quarto) {
 					quarto.reserva = r;
 				}
@@ -87,7 +89,7 @@ export class HomeComponent {
 			notify('Check-in ainda não realizado para essa reserva', 'warning', 3000);
 			return;
 		}
-		console.log('Realizar Check-Out:', this.quartoSelecionado);
+		this.checkOutPopupVisible = true
 	}
 
 	gerenciarConsumo() {
@@ -129,5 +131,10 @@ export class HomeComponent {
 
 	closePopUpEvent(e: any) {
 		this.consumoPopupVisible = e.value
+	}
+
+	closePopUpCheckOutEvent(e: any) {
+		this.checkOutPopupVisible = e.value
+		this.buscaQuartosEReservas();
 	}
 }

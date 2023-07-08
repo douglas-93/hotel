@@ -1,10 +1,13 @@
-import {Component, NgModule, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, NgModule, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {
 	DxButtonModule,
 	DxDataGridModule,
-	DxLoadPanelModule, DxRadioGroupComponent, DxRadioGroupModule,
+	DxLoadPanelModule,
+	DxRadioGroupComponent,
+	DxRadioGroupModule,
 	DxSelectBoxComponent,
-	DxSelectBoxModule, DxTextBoxModule
+	DxSelectBoxModule,
+	DxTextBoxModule
 } from "devextreme-angular";
 import {ToolbarModule} from "../toolbar/toolbar.component";
 import {CurrencyPipe, NgIf} from "@angular/common";
@@ -16,8 +19,6 @@ import {ProdutoService} from "../../services/produto.service";
 import {ConsumoService} from "../../services/consumo.service";
 import {ConsumoModel} from "../../models/consumo.model";
 import notify from "devextreme/ui/notify";
-import DevExpress from "devextreme";
-import data = DevExpress.data;
 import {CupomConsumoService} from "../../services/cupomConsumo.service";
 
 @Component({
@@ -30,9 +31,14 @@ export class NotaFormComponent {
 	@ViewChild('reserva') reservaSelectBox: DxSelectBoxComponent;
 	@ViewChild('tipoDesconto') tipoDesconto: DxRadioGroupComponent;
 
+	@Input() reservaSelecionadaPopUp: number;
+	@Output() closePopUpCheckOutEvent = new EventEmitter();
+
 	loadingVisible: boolean = false;
 	gerarVisible: boolean = false;
 	temDesconto: boolean = false;
+	calculado: boolean = false;
+
 	gridData: { produto: ProdutoModel, quantidade: number, dataConsumo: Date, valor: number }[];
 	reservas: ReservaModel[];
 	produtos: ProdutoModel[];
@@ -55,22 +61,38 @@ export class NotaFormComponent {
 			.subscribe(([resR, resP, resC]) => {
 				this.reservas = resR.filter(r => !resC.some(c => c.reservaId === r.id))
 				this.produtos = resP.body!
-				this.loadingVisible = false
 
-				/*if (this.reservaSelecionadaPopUp) {
-					let r: ReservaModel = this.reservas.filter(e => e.id === this.reservaSelecionadaPopUp)[0]
-					this.reserva.instance.option('value', r)
-					this.reserva.readOnly = true
-					this.toolBar.disableCloseButton = true
-				}*/
+				if (this.reservaSelecionadaPopUp) {
+					this.reservaSelectBox.value = this.reservas.find(r => r.id === this.reservaSelecionadaPopUp)
+					this.reservaSelectBox.readOnly = true
+				}
+
+				this.loadingVisible = false
 			});
 	}
 
+	ngOnChanges(changes: SimpleChanges) {
+		if (changes['reservaSelecionadaPopUp'] && changes['reservaSelecionadaPopUp'].currentValue && !changes['reservaSelecionadaPopUp'].firstChange) {
+			this.reservaSelecionadaPopUp = changes['reservaSelecionadaPopUp'].currentValue
+			if (this.reservaSelectBox.readOnly) {
+				this.reservaSelectBox.readOnly = false
+			}
+			this.reservaSelectBox.value = this.reservas.find(r => r.id === this.reservaSelecionadaPopUp)
+			this.reservaSelectBox.readOnly = true
+		}
+	}
+
 	salvarNota() {
-		console.log(this.gridData)
-		console.log(this.datasDaReserva)
-		console.log(this.totalDaNota)
-		console.log(this.totalDaNotaComDesconto)
+		if (this.calculado) {
+			this.cupomService.createCupom(this.reservaSelectBox.selectedItem.id).subscribe(res => {
+				if (res) {
+					notify('Operação realizada com sucesso', 'success', 3000)
+					this.closePopUpCheckOutEvent.emit(false)
+				}
+			})
+		} else {
+			notify('Você deve gerar o cupom primeiro', 'warning', 3000)
+		}
 	}
 
 	calculaConsumo() {
@@ -111,6 +133,7 @@ export class NotaFormComponent {
 			this.datasDaReserva.push({data: d, valor: reservaSelecionada.quarto.valor})
 			this.totalDaNota += reservaSelecionada.quarto.valor
 		});
+		this.calculado = true
 	}
 
 	geraDiasDiarias(dataInicial: Date, dataFinal: Date): Date[] {

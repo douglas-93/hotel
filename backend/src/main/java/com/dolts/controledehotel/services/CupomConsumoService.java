@@ -73,6 +73,9 @@ public class CupomConsumoService {
         cupom.setProdutosConsumidos(produtosConsumidos);
         cupom.setFechado(true);
 
+        reserva.setCheckOut(true);
+        reservaService.update(reserva.getId(), reserva);
+
         return cupomConsumoRepository.save(cupom);
 //        return cupom;
     }

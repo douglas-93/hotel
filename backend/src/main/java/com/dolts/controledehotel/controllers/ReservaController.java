@@ -72,6 +72,9 @@ public class ReservaController {
         Date saida = novaReserva.getDataSaida();
 
         List<ReservaModel> reservas = reservaService.findByQuartoAndData(quarto, entrada, saida);
+        List<ReservaModel> resCanOut = reservas.stream().filter(r -> r.isCancelada() || r.isCheckedOut()).toList();
+
+        reservas.removeAll(resCanOut);
 
         if (!reservas.isEmpty()) {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -105,6 +108,9 @@ public class ReservaController {
         observacao.ifPresent(reserva::setObservacao);
 
         List<ReservaModel> reservas = reservaService.findByQuartoAndData(quarto, entrada, reserva.getDataSaida());
+        List<ReservaModel> resCanOut = reservas.stream().filter(r -> r.isCancelada() || r.isCheckedOut()).toList();
+
+        reservas.removeAll(resCanOut);
 
         if (!reservas.isEmpty() && reservas.size() > 1) {
             reservas.forEach(r -> {
@@ -123,22 +129,6 @@ public class ReservaController {
             }
             if (e.getMessage().contains("fez check-in")) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Check-in já realizado");
-            }
-        }
-        return ResponseEntity.badRequest().build();
-    }
-
-    @PostMapping("/{id}/checkout")
-    public ResponseEntity<Void> fazerCheckOut(@PathVariable("id") Long reservaId) {
-        try {
-            reservaService.fazerCheckOut(reservaId);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            if (e.getMessage().contains("não encontrada")) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva não encontrada");
-            }
-            if (e.getMessage().contains("fez check-in")) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Reserva não fez check-in ou já fez check-out");
             }
         }
         return ResponseEntity.badRequest().build();

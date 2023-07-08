@@ -23,19 +23,19 @@
 		<div style="display: flex">
 			<dx-select-box
 				#reserva
-				[dataSource]="reservas"
 				(onValueChanged)="limparConsumoGerado()"
+				[dataSource]="reservas"
 				displayExpr="quarto.nome"
-				style="margin: 5px"
 				label="Quarto"
 				labelMode="floating"
+				style="margin: 5px"
 				width="20vw">
 			</dx-select-box>
 			<dx-button
 				(onClick)="calculaConsumo()"
+				icon="doc"
 				style="margin: 5px"
-				text="Gerar"
-				icon="doc">
+				text="Gerar">
 			</dx-button>
 		</div>
 
@@ -51,7 +51,7 @@
 							format="dd/MM/yyyy HH:mm"></dxi-column>
 				<dxi-column caption="Produto" cellTemplate="produtoTemplate" dataField="produto"></dxi-column>
 				<dxi-column caption="Quantidade" dataField="quantidade"></dxi-column>
-				<dxi-column caption="Valor R$" dataField="valor" cellTemplate="valorTemplate"></dxi-column>
+				<dxi-column caption="Valor R$" cellTemplate="valorTemplate" dataField="valor"></dxi-column>
 				<!--		TEMPLATES-->
 				<div *dxTemplate="let data of 'produtoTemplate'">
 					{{data.data.produto.nome}}
@@ -64,8 +64,8 @@
 				<dxo-summary>
 					<dxi-total-item
 						column="valor"
-						summaryType="sum"
 						displayFormat="Total: R$ {0}"
+						summaryType="sum"
 						valueFormat="##,##0.00"
 					>
 					</dxi-total-item>
@@ -79,7 +79,7 @@
 				[dataSource]="datasDaReserva">
 
 				<dxi-column caption="Estadia" dataField="data" dataType="date" format="dd/MM/yyyy"></dxi-column>
-				<dxi-column caption="Valor R$" dataField="valor" cellTemplate="valorTemplate"></dxi-column>
+				<dxi-column caption="Valor R$" cellTemplate="valorTemplate" dataField="valor"></dxi-column>
 				<!--		TEMPLATES-->
 				<div *dxTemplate="let data of 'valorTemplate'">
 					{{data.data.valor | currency: 'BRL'}}
@@ -88,15 +88,15 @@
 				<dxo-summary>
 					<dxi-total-item
 						column="data"
-						summaryType="count"
 						displayFormat="Total de Dias: {0}"
+						summaryType="count"
 					>
 					</dxi-total-item>
 
 					<dxi-total-item
 						column="valor"
-						summaryType="sum"
 						displayFormat="Total: R$ {0}"
+						summaryType="sum"
 						valueFormat="##,##0.00"
 					>
 					</dxi-total-item>
@@ -112,14 +112,14 @@
 				</dx-radio-group>
 				<div>
 					<dx-text-box
+						[(value)]="valorDesconto"
 						label="Desconto"
-						labelMode="floating"
-						[(value)]="valorDesconto">
+						labelMode="floating">
 					</dx-text-box>
 					<dx-button
+						(onClick)="aplicaDesconto()"
 						icon="money"
-						text="Aplicar Desconto"
-						(onClick)="aplicaDesconto()">
+						text="Aplicar Desconto">
 					</dx-button>
 				</div>
 			</div>

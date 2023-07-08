@@ -69,6 +69,24 @@
 			</div>
 		</dx-popup>
 
+		<dx-popup
+			[width]="660"
+			[height]="600"
+			[showTitle]="true"
+			[title]="'Check-Out'"
+			[dragEnabled]="false"
+			[hideOnOutsideClick]="true"
+			[(visible)]="checkOutPopupVisible"
+		>
+			<div *dxTemplate="let data of 'content'"
+				 style="overflow: auto">
+				<app-nota-form
+					(closePopUpCheckOutEvent)="closePopUpCheckOutEvent($event)"
+					[reservaSelecionadaPopUp]="quartoSelecionado.reserva.id">
+				</app-nota-form>
+			</div>
+		</dx-popup>
+
 
 		<dx-popup
 			[(visible)]="checkInPopupVisible"

@@ -121,6 +121,14 @@ public class ReservaModel implements Serializable {
         this.observacao = observacao;
     }
 
+    public boolean isCheckIn() {
+        return checkIn;
+    }
+
+    public boolean isCheckOut() {
+        return checkOut;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

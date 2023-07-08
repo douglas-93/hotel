@@ -49,7 +49,7 @@ import {NotaComponent} from './pages/nota/nota.component';
 import {ProdutoFormComponent} from "./shared/components/produto-form/produto-form.component";
 import {EntradaFormComponent} from "./shared/components/entrada-form/entrada-form.component";
 import {ConsumoFormComponent, ConsumoFormModule} from "./shared/components/consumo-form/consumo-form.component";
-import {NotaFormComponent} from "./shared/components/nota-form/nota-form.component";
+import {NotaFormComponent, NotaFormModule} from "./shared/components/nota-form/nota-form.component";
 import {EntradaEditFormComponent} from "./shared/components/entrada-edit-form/entrada-edit-form.component";
 
 const routes: Routes = [
@@ -205,7 +205,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule, NgIf, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxLoadPanelModule, DxAutocompleteModule, DxTabPanelModule, DxCheckBoxModule, NgForOf, CurrencyPipe, DxContextMenuModule, NgClass, DatePipe, ConsumoFormModule],
+    imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, DxLoadIndicatorModule, DxButtonModule, DxPopupModule, DxScrollViewModule, DxBoxModule, DxDateBoxModule, DxTextAreaModule, DxTextBoxModule, FormsModule, DxNumberBoxModule, DxMenuModule, ToolbarModule, NgIf, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxLoadPanelModule, DxAutocompleteModule, DxTabPanelModule, DxCheckBoxModule, NgForOf, CurrencyPipe, DxContextMenuModule, NgClass, DatePipe, ConsumoFormModule, NotaFormModule],
 	providers: [AuthGuardService],
 	exports: [RouterModule],
 	declarations: [
