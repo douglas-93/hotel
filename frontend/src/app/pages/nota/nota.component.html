@@ -23,7 +23,7 @@
 				  (onRowDblClick)="editar($event)"
 				  (onSelectionChanged)="selecionaNota($event)"
 				  [columnAutoWidth]="true"
-				  [dataSource]="notas">
+				  [dataSource]="cupons">
 
 		<dxo-filter-row [visible]="true"></dxo-filter-row>
 		<dxo-search-panel [visible]="true" placeholder="Pesquisar"></dxo-search-panel>
@@ -39,17 +39,17 @@
 			[showPageSizeSelector]="true">
 		</dxo-pager>
 
-		<dxi-column caption="ID" dataField="id"></dxi-column>
+		<!--<dxi-column caption="ID" dataField="id"></dxi-column>
 		<dxi-column dataField="hospede"></dxi-column>
 		<dxi-column dataField="quarto"></dxi-column>
 		<dxi-column dataField="dataEmissao"></dxi-column>
 		<dxi-column cellTemplate="valorTemplate" dataField="valor"></dxi-column>
 		<dxi-column [visible]="false" dataField="produtos"></dxi-column>
 
-		<!--		TEMPLATES-->
+		&lt;!&ndash;		TEMPLATES&ndash;&gt;
 		<div *dxTemplate="let data of 'valorTemplate'">
 			{{data.data.valor | currency: 'BRL'}}
-		</div>
+		</div>-->
 	</dx-data-grid>
 
 

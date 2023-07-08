@@ -19,13 +19,9 @@ public class CupomConsumoController {
         this.cupomConsumoService = cupomConsumoService;
     }
 
-    @PostMapping
-    public ResponseEntity<CupomConsumoModel> gerarCupomConsumo(@RequestBody CupomConsumoRequest cupomConsumoRequest) {
-        double valorDiariaHospede = cupomConsumoRequest.getValorDiariaHospede();
-        List<Long> produtosIds = cupomConsumoRequest.getProdutosIds();
-        List<Integer> quantidades = cupomConsumoRequest.getQuantidades();
-
-        CupomConsumoModel cupomConsumo = cupomConsumoService.gerarCupomConsumo(valorDiariaHospede, produtosIds, quantidades);
+    @PostMapping("/{reservaId}")
+    public ResponseEntity<CupomConsumoModel> gerarCupomConsumo(@PathVariable Long reservaId) {
+        CupomConsumoModel cupomConsumo = cupomConsumoService.gerarCupomConsumo(reservaId);
         return ResponseEntity.status(HttpStatus.CREATED).body(cupomConsumo);
     }
 
@@ -33,6 +29,12 @@ public class CupomConsumoController {
     public ResponseEntity<CupomConsumoModel> obterCupomConsumo(@PathVariable Long id) {
         CupomConsumoModel cupomConsumo = cupomConsumoService.obterCupomConsumo(id);
         return ResponseEntity.ok(cupomConsumo);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CupomConsumoModel>> obterCuponsConsumo() {
+        List<CupomConsumoModel> cuponsConsumo = cupomConsumoService.obterCuponsConsumo();
+        return ResponseEntity.ok(cuponsConsumo);
     }
 
 }

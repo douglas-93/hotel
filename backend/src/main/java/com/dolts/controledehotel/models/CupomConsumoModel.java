@@ -12,9 +12,11 @@ public class CupomConsumoModel {
     private Long id;
 
     private double valorDiariaHospede;
+    private Long reservaId;
     private LocalDateTime dataEmissao;
     private LocalDateTime dataEntrada;
     private LocalDateTime dataSaida;
+    private Boolean fechado = false;
 
     @OneToMany(mappedBy = "cupomConsumo", cascade = CascadeType.ALL)
     private List<ProdutoConsumidoModel> produtosConsumidos;
@@ -68,6 +70,22 @@ public class CupomConsumoModel {
 
     public void setDataSaida(LocalDateTime dataSaida) {
         this.dataSaida = dataSaida;
+    }
+
+    public Boolean getFechado() {
+        return fechado;
+    }
+
+    public void setFechado(Boolean fechado) {
+        this.fechado = fechado;
+    }
+
+    public Long getReservaId() {
+        return reservaId;
+    }
+
+    public void setReservaId(Long reservaId) {
+        this.reservaId = reservaId;
     }
 }
 

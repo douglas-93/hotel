@@ -18,6 +18,7 @@ import {ConsumoModel} from "../../models/consumo.model";
 import notify from "devextreme/ui/notify";
 import DevExpress from "devextreme";
 import data = DevExpress.data;
+import {CupomConsumoService} from "../../services/cupomConsumo.service";
 
 @Component({
 	selector: 'app-nota-form',
@@ -44,14 +45,15 @@ export class NotaFormComponent {
 
 	constructor(private reservaService: ReservaService,
 				private produtoService: ProdutoService,
-				private consumoService: ConsumoService) {
+				private consumoService: ConsumoService,
+				private cupomService: CupomConsumoService) {
 	}
 
 	ngOnInit(): void {
 		this.loadingVisible = true
-		forkJoin([this.reservaService.getReservasHoje(), this.produtoService.getAll()])
-			.subscribe(([resR, resP]) => {
-				this.reservas = resR
+		forkJoin([this.reservaService.getReservasHoje(), this.produtoService.getAll(), this.cupomService.getCupons()])
+			.subscribe(([resR, resP, resC]) => {
+				this.reservas = resR.filter(r => !resC.some(c => c.reservaId === r.id))
 				this.produtos = resP.body!
 				this.loadingVisible = false
 

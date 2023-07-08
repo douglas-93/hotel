@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {CupomConsumoService} from "../../shared/services/cupomConsumo.service";
+import {CupomConsumoModel} from "../../shared/models/cupomConsumo.model";
 
 @Component({
 	selector: 'app-nota',
@@ -7,13 +9,15 @@ import {Router} from "@angular/router";
 	styleUrls: ['./nota.component.scss']
 })
 export class NotaComponent implements OnInit {
-	notas: any;
+	cupons: CupomConsumoModel[];
 	loadingVisible: boolean;
 
-	constructor(private router: Router) {
+	constructor(private router: Router,
+				private cupomService: CupomConsumoService) {
 	}
 
 	ngOnInit(): void {
+		this.cupons = []
 	}
 
 	selecionaNota(e: any) {
@@ -29,6 +33,8 @@ export class NotaComponent implements OnInit {
 	}
 
 	buscaNotas() {
-
+		this.cupomService.getCupons().subscribe(res => {
+			this.cupons = res
+		})
 	}
 }
