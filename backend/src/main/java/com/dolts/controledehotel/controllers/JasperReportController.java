@@ -32,8 +32,6 @@ public class JasperReportController {
 
         List<HospedeModel> dadosDoRelatorio = hospedeService.findAll();
 
-        dadosDoRelatorio.forEach(h -> System.out.println(h.getNome() + h.getId()));
-
         byte[] relatorio = reportService.generateReport("Clientes", parametros, dadosDoRelatorio);
 
         HttpHeaders headers = new HttpHeaders();

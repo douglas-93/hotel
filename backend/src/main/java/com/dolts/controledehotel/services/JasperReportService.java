@@ -28,7 +28,6 @@ public class JasperReportService {
 
             JasperReport jasperReport = (JasperReport) net.sf.jasperreports.engine.util.JRLoader.loadObject(reportStream);
 
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JRBeanCollectionDataSource(Collections.singletonList(dataSource)));
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JRBeanCollectionDataSource(dataSource));
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
