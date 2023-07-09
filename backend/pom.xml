@@ -57,6 +57,14 @@
             <version>1.5</version>
         </dependency>
 
+
+        <!-- JasperReports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.17.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
