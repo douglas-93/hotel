@@ -57,5 +57,10 @@ export const navigation = [
 		text: 'Nota',
 		path: '/pages/notas',
 		icon: 'money'
-	}
+	},
+  {
+    text: 'Relatorios',
+    path: '/pages/relatorios',
+    icon: 'file'
+  }
 ];

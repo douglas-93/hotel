@@ -1,0 +1,32 @@
+<h2 class="content-block">Relatorios</h2>
+<div class="content-block" #main>
+
+	<dx-load-panel
+		[(visible)]="loadingVisible"
+		[hideOnOutsideClick]="false"
+		[position]="{ of: '#main' }"
+		[shading]="true"
+		[showIndicator]="true"
+		[showPane]="true"
+		shadingColor="rgba(0,0,0,0.4)"
+		message="Gerando ...">
+	</dx-load-panel>
+
+	<div class="dx-card responsive-paddings">
+		<div class="row">
+			<span class="margem">Relatório a Gerar: </span>
+			<dx-select-box
+				#modeloRelatorio
+				[dataSource]="modelosRelatorios"
+				class="margem"
+				width="20vw">
+			</dx-select-box>
+			<dx-button
+				(onClick)="gerar()"
+				class="margem"
+				icon="doc"
+				text="Gerar">
+			</dx-button>
+		</div>
+	</div>
+</div>

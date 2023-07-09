@@ -51,8 +51,14 @@ import {EntradaFormComponent} from "./shared/components/entrada-form/entrada-for
 import {ConsumoFormComponent, ConsumoFormModule} from "./shared/components/consumo-form/consumo-form.component";
 import {NotaFormComponent, NotaFormModule} from "./shared/components/nota-form/nota-form.component";
 import {EntradaEditFormComponent} from "./shared/components/entrada-edit-form/entrada-edit-form.component";
+import { RelatoriosComponent } from './pages/relatorios/relatorios.component';
 
 const routes: Routes = [
+  {
+    path: 'pages/relatorios',
+    component: RelatoriosComponent,
+    canActivate: [ AuthGuardService ]
+  },
 	{
 		path: 'pages/notas',
 		component: NotaComponent,
@@ -219,7 +225,8 @@ const routes: Routes = [
 		ProdutoComponent,
 		EntradaComponent,
 		ConsumoComponent,
-		NotaComponent
+		NotaComponent,
+  RelatoriosComponent
 	]
 })
 export class AppRoutingModule {
